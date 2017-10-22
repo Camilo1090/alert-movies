@@ -3,17 +3,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // modules for ui components
-import { AppCustomMaterialModule } from './modules/app-custom-material.module';
+import { AppCustomMaterialModule } from './custom-material/app-custom-material.module';
 
 // own modules
-import { AppRoutingModule } from './modules/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 // components
-import { AppComponent } from './components/app/app.component';
+import { AppComponent } from './app.component';
+import { MoviesComponent } from './movies/movies.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MoviesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

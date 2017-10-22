@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 // Modules for UI elements
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-// Material Componets
+// Material Components
 import {MatListModule} from '@angular/material';
 import {MatIconModule} from '@angular/material';
-// import {MatIconRegistry} from '@angular/material';
+import {MatIconRegistry} from '@angular/material';
 import {MatMenuModule} from '@angular/material';
 import {MatTabsModule} from '@angular/material';
 import {MatToolbarModule} from '@angular/material';
@@ -37,7 +37,6 @@ import {CovalentLoadingModule} from '@covalent/core';
     MatListModule,
     MatCardModule,
     MatIconModule,
-    // MatIconRegistry,
     MatInputModule,
     MatMenuModule,
     MatTabsModule,
@@ -60,7 +59,6 @@ import {CovalentLoadingModule} from '@covalent/core';
     MatListModule,
     MatCardModule,
     MatIconModule,
-    // MatIconRegistry,
     MatInputModule,
     MatMenuModule,
     MatTabsModule,
@@ -75,4 +73,8 @@ import {CovalentLoadingModule} from '@covalent/core';
     CovalentNotificationsModule
   ],
 })
-export class AppCustomMaterialModule { }
+export class AppCustomMaterialModule {
+  constructor(matIconRegistry: MatIconRegistry) {
+    matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
+  }
+}

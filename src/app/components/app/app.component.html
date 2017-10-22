@@ -1,30 +1,49 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <td-layout #layout>
-  <td-navigation-drawer logo="assets:covalent" sidenavTitle="Landing Page">
-    <md-nav-list>
-      <ng-template let-item let-last="last" ngFor [ngForOf]="routes">
-        <a md-list-item (click)="layout.close()"><md-icon>{{item.icon}}</md-icon>{{item.title}}</a>
-      </ng-template>
-    </md-nav-list>
-    <md-nav-list td-navigation-drawer-menu>
-      <a md-list-item (click)="logout()"><md-icon>exit_to_app</md-icon>Sign out</a>
-    </md-nav-list>
-  </td-navigation-drawer>
-  <td-layout-nav color="none" logo="assets:covalent">
-    <div td-toolbar-content layout="row" layout-align="start center" flex>
-      <span hide-gt-xs class="tc-blue-500 md-subhead">Landing</span>
-      <span hide-xs class="tc-blue-500 md-subhead">Landing Page Template</span>
-      <span flex ></span>
-    </div>
-    <md-toolbar class="pad-none">
-      <nav md-stretch-tabs md-tab-nav-bar class="pull-bottom-xl pull-top-md text-upper" flex>
-        <!--<a md-tab-link [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"-->
-           <!--[active]="ni.isActive" *ngFor="let route of routes">-->
-          <!--<span hide-xs>{{route['title']}}</span>-->
-          <!--<span hide-gt-xs><md-icon>{{route['icon']}}</md-icon></span>-->
-        <!--</a>-->
-      </nav>
-    </md-toolbar>
-    <!-- router outlet goes here -->
-    <router-outlet></router-outlet>
+  <td-navigation-drawer sidenavTitle="{{title}}">
 
+    <mat-nav-list td-navigation-drawer-menu>
+      <ng-template let-item let-last="last" ngFor [ngForOf]="routes">
+        <a mat-list-item [routerLink]="[item['route']]">
+          <mat-icon>{{item['icon']}}</mat-icon>
+          {{item['title']}}
+        </a>
+      </ng-template>
+    </mat-nav-list>
+    <mat-nav-list td-navigation-drawer-menu>
+      <a mat-list-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Sign out</a>
+    </mat-nav-list>
+
+  </td-navigation-drawer>
+
+  <td-layout-nav color="primary" class="bgc-grey-400">
+    <div td-toolbar-content layout="row" layout-align="start center" flex>
+      <div flex>
+        <span hide-gt-xs>
+          <a [routerLink]="['/']" class="tc-grey-100 md-display-1">Alert Movies</a>
+          <!--<md-icon class="md-icon-logo" svgIcon="assets:tmdb"></md-icon>-->
+        </span>
+        <span hide-xs>
+          <a [routerLink]="['/']" class="tc-grey-100 mat-display-1">Alert Movies</a>
+          <!--<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>-->
+        </span>
+        <span flex></span>
+      </div>
+      <div flex="30" hide-xs hide-sm>
+        <!--<app-search></app-search>-->
+      </div>
+    </div>
+    <mat-toolbar class="pad-none z-0 visible bgc-grey-400">
+      <nav mat-stretch-tabs mat-tab-nav-bar class="pull-top-mat text-upper" flex>
+        <a mat-tab-link [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
+           [active]="ni.isActive" *ngFor="let route of routes">
+          <span hide-xs class="bold tc-grey-900">{{route['title']}}</span>
+          <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
+        </a>
+      </nav>
+    </mat-toolbar>
+
+    <!--<router-outlet></router-outlet>-->
+
+    <!--<app-footer></app-footer>-->
+  </td-layout-nav>
+</td-layout>

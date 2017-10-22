@@ -12,12 +12,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FooterComponent } from './footer/footer.component';
+import { TrendingComponent } from './trending/trending.component';
+import { SeriesComponent } from './series/series.component';
+import { PeopleComponent } from './people/people.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MoviesComponent,
-    FooterComponent
+    FooterComponent,
+    TrendingComponent,
+    SeriesComponent,
+    PeopleComponent
   ],
   imports: [
     BrowserModule,

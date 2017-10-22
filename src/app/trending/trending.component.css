@@ -1,0 +1,11 @@
+.carousel-container {
+  height: 500px;
+  width: 500px;
+  /*margin: 0 auto;*/
+}
+
+.img-slide {
+  height: 500px;
+  width: 500px;
+  margin: 0 auto;
+}

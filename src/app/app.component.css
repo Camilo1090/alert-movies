@@ -7,6 +7,41 @@
   /*opacity: 1;*/
 /*}*/
 
+.logo {
+  width: 46px;
+  height: 46px;
+}
+
+.branding {
+  padding: 8px 10px;
+}
+.sidenav {
+  background-color: #424242;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.sidenav-item:hover {
+  background-color: #757575;
+}
+
+mat-sidenav-container mat-sidenav a.active {
+  color: #424242 !important;
+  font-size: 16px;
+  background-color: #69f0ae;
+  font-weight: bold;
+}
+
+mat-sidenav-container mat-sidenav a.active mat-icon {
+  color: #424242 !important;
+}
+
+.title {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .toolbar-item {
   font-weight: bold;
   color: #F5F5F5;

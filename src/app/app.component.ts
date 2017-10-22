@@ -7,23 +7,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Alert Movies';
+  logo = '../assets/img/tmdb.svg';
 
   routes: Object[] = [
     {
-      title: 'Home',
-      route: '/',
-      icon: 'home',
+      title: 'Trending',
+      route: '/trending',
+      icon: 'whatshot',
     }, {
       title: 'Movies',
-      route: '/',
+      route: '/movies',
       icon: 'local_movies',
     }, {
       title: 'People',
-      route: '/',
+      route: '/people',
       icon: 'people',
     }, {
       title: 'TV Series',
-      route: '/',
+      route: '/series',
       icon: 'tv',
     },
   ];

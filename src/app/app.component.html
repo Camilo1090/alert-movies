@@ -1,29 +1,47 @@
 <td-layout #layout>
-  <td-navigation-drawer sidenavTitle="{{title}}">
-
-    <mat-nav-list td-navigation-drawer-menu>
-      <ng-template let-item let-last="last" ngFor [ngForOf]="routes">
-        <a mat-list-item [routerLink]="[item['route']]">
-          <mat-icon>{{item['icon']}}</mat-icon>
-          {{item['title']}}
-        </a>
-      </ng-template>
+  <!--<td-navigation-drawer sidenavTitle="{{title}}">-->
+    <!--<mat-nav-list td-navigation-drawer-menu>-->
+      <!--<ng-template let-item let-last="last" ngFor [ngForOf]="routes">-->
+        <!--<a mat-list-item [routerLink]="[item['route']]">-->
+          <!--<mat-icon>{{item['icon']}}</mat-icon>-->
+          <!--{{item['title']}}-->
+        <!--</a>-->
+      <!--</ng-template>-->
+    <!--</mat-nav-list>-->
+    <!--<mat-nav-list td-navigation-drawer-menu>-->
+      <!--<a mat-list-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Sign out</a>-->
+    <!--</mat-nav-list>-->
+  <!--</td-navigation-drawer>-->
+  <mat-sidenav-container>
+  <mat-sidenav class="sidenav" #sidenav mode="push">
+    <div class="branding"><img class="logo" [src]="logo"/> <span class="tc-grey-100">{{title}}</span></div>
+    <mat-nav-list>
+      <a mat-list-item class="sidenav-item tc-grey-100" *ngFor="let route of routes" (click)="sidenav.close()"
+         [routerLink]="[route['route']]" routerLinkActive="active">
+        <mat-icon class="tc-grey-100">{{route['icon']}}</mat-icon>
+        {{route['title']}}
+      </a>
     </mat-nav-list>
-    <mat-nav-list td-navigation-drawer-menu>
-      <a mat-list-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Sign out</a>
-    </mat-nav-list>
-
-  </td-navigation-drawer>
+  </mat-sidenav>
 
   <td-layout-nav color="primary" class="content">
     <div td-toolbar-content layout="row" layout-align="start center" flex>
       <div flex>
+        <button mat-icon-button class="hidden-md-up" (click)="sidenav.open()">
+          <mat-icon>menu</mat-icon>
+        </button>
         <span hide-gt-xs>
-          <a [routerLink]="['/']" class="tc-grey-100 md-display-1">Alert Movies</a>
+          <a [routerLink]="['/']" class="title tc-grey-100">
+            <img class="logo" [src]="logo" />
+            <span hide-gt-xs>{{[title]}}</span>
+          </a>
           <!--<md-icon class="md-icon-logo" svgIcon="assets:tmdb"></md-icon>-->
         </span>
         <span hide-xs>
-          <a [routerLink]="['/']" class="tc-grey-100 mat-display-1">Alert Movies</a>
+          <a [routerLink]="['/']" class="title tc-grey-100" >
+            <img class="logo" [src]="logo" />
+            <span hide-xs>{{[title]}}</span>
+          </a>
           <!--<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>-->
         </span>
         <span flex></span>
@@ -45,8 +63,9 @@
     </div>
     <!--</mat-toolbar>-->
 
-    <!--<router-outlet></router-outlet>-->
+    <router-outlet></router-outlet>
 
     <app-footer></app-footer>
   </td-layout-nav>
+  </mat-sidenav-container>
 </td-layout>

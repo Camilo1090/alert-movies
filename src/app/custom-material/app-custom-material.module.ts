@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 // Modules for UI elements
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+// ngx bootstrap components
+import { CarouselModule } from 'ngx-bootstrap';
+// import { CarouselModule } from 'angular4-carousel';
+
 // Material Components
 import {MatListModule} from '@angular/material';
 import {MatIconModule} from '@angular/material';
@@ -30,6 +34,7 @@ import {CovalentLoadingModule} from '@covalent/core';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
+    CarouselModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,
@@ -52,6 +57,7 @@ import {CovalentLoadingModule} from '@covalent/core';
   ],
   exports: [
     BrowserAnimationsModule,
+    CarouselModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,

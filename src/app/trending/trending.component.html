@@ -1,0 +1,42 @@
+<!--<div class="carousel-container col-sm-6 col-sm-offset-3 text-center">-->
+  <!--<carousel [sources]="imageSources" [config]="config"></carousel>-->
+<!--</div>-->
+<section class="tc-white"  tdMediaToggle="gt-xs" [mediaClasses]="['pad-bottom-xl']">
+  <div layout-gt-xs="row">
+    <div flex class="pad" tdMediaToggle="gt-xs">
+      <div class="push-top-xl" hide-xs></div>
+      <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']">
+        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Movies</h1>
+        <carousel class="text-center">
+          <slide>
+            <img class="img-slide" [src]="imageSources[0]" alt="First slide">
+            <div class="carousel-caption">
+              <h3>First slide label</h3>
+              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </div>
+          </slide>
+          <slide>
+            <img class="img-slide" [src]="imageSources[1]" alt="Second slide">
+            <div class="carousel-caption">
+              <h3>Second slide label</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+          </slide>
+          <slide>
+            <img class="img-slide" [src]="imageSources[2]" alt="Third slide">
+            <div class="carousel-caption">
+              <h3>Third slide label</h3>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+          </slide>
+        </carousel>
+        <!--<h2 class="md-headline tc-grey-800 push-top-xs push-bottom-sm">Supporting Secondary Text</h2>-->
+        <!--<p class="md-subhead tc-grey-600">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>-->
+        <!--<button mat-raised-button color="accent" class="push-bottom mat-button-lg text-upper">Call to Action</button>-->
+      </div>
+      <div class="push-bottom-xl" hide-xs></div>
+    </div>
+    <!--<div flex="40" layout="row" layout-align="center center" >      -->
+    <!--</div>-->
+  </div>
+</section>

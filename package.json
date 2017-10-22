@@ -28,6 +28,7 @@
     "@covalent/highlight": "^1.0.0-beta.8-1",
     "@covalent/http": "^1.0.0-beta.8-1",
     "@covalent/markdown": "^1.0.0-beta.8-1",
+    "angular4-carousel": "^3.1.8",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",

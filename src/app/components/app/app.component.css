@@ -3,6 +3,23 @@
   z-index: 0;
 }
 
-.bold {
+/*.mat-tab-link {*/
+  /*opacity: 1;*/
+/*}*/
+
+.toolbar-item {
   font-weight: bold;
+  color: #F5F5F5;
+}
+.toolbar-item:hover {
+  color: #69f0ae;
+}
+
+.toolbar {
+  background-color: #303030;
+  border-bottom: 1px solid hsla(0,0%,100%,.12);
+}
+
+.content {
+  background-color: #303030;
 }

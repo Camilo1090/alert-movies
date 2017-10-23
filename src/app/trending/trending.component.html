@@ -1,42 +1,63 @@
-<!--<div class="carousel-container col-sm-6 col-sm-offset-3 text-center">-->
-  <!--<carousel [sources]="imageSources" [config]="config"></carousel>-->
-<!--</div>-->
+
 <section class="tc-white"  tdMediaToggle="gt-xs" [mediaClasses]="['pad-bottom-xl']">
   <div layout-gt-xs="row">
-    <div flex class="pad" tdMediaToggle="gt-xs">
+    <div flex class="pad" tdMediaToggle="gt-xs" *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'primary'">
       <div class="push-top-xl" hide-xs></div>
-      <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']">
-        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Movies</h1>
-        <carousel class="text-center">
-          <slide>
-            <img class="img-slide" [src]="imageSources[0]" alt="First slide">
-            <div class="carousel-caption">
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </div>
-          </slide>
-          <slide>
-            <img class="img-slide" [src]="imageSources[1]" alt="Second slide">
-            <div class="carousel-caption">
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </slide>
-          <slide>
-            <img class="img-slide" [src]="imageSources[2]" alt="Third slide">
-            <div class="carousel-caption">
-              <h3>Third slide label</h3>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-            </div>
-          </slide>
-        </carousel>
-        <!--<h2 class="md-headline tc-grey-800 push-top-xs push-bottom-sm">Supporting Secondary Text</h2>-->
-        <!--<p class="md-subhead tc-grey-600">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>-->
-        <!--<button mat-raised-button color="accent" class="push-bottom mat-button-lg text-upper">Call to Action</button>-->
+      <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']" class="text-center">
+        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending Movies</h1>
+        <div class="center-block carousel-container">
+          <carousel class="text-center">
+              <slide *ngFor="let movie of movies">
+                <a [routerLink]="['/movie', movie.id]">
+                  <img src="{{apiImg + movie['backdrop_path']}}" class="img-slide img-responsive">
+                </a>
+                <!--<img class="img-slide" [src]="imageSources[0]" alt="First slide">-->
+                <div class="carousel-caption tc-grey-50">
+                  <h3>{{movie['original_title']}}</h3>
+                  <div class="carousel-caption-date">
+                    <mat-icon class="mat-24 fa-mat tc-grey-50" fontSet="fa" fontIcon="fa-calendar"></mat-icon>
+                    <small layout-align="center center" class="tc-grey-50">
+                      {{movie['release_date']}}
+                    </small>
+                  </div>
+                  <!--<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
+                </div>
+              </slide>
+          </carousel>
+        </div>
       </div>
-      <div class="push-bottom-xl" hide-xs></div>
     </div>
-    <!--<div flex="40" layout="row" layout-align="center center" >      -->
-    <!--</div>-->
+    <div class="push-bottom-xl" hide-xs></div>
+  </div>
+  <mat-divider class="divider"></mat-divider>
+  <div layout-gt-xs="row">
+    <div flex class="pad" tdMediaToggle="gt-xs" *tdLoading="'series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'primary'">
+      <div class="push-top-xl" hide-xs></div>
+      <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']" class="text-center">
+        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending TV Series</h1>
+        <div class="center-block carousel-container">
+          <carousel class="text-center">
+            <slide *ngFor="let serie of series">
+              <a [routerLink]="['/serie', serie.id]">
+                <img src="{{apiImg + serie['backdrop_path']}}" class="img-slide img-responsive">
+              </a>
+              <!--<img class="img-slide" [src]="imageSources[0]" alt="First slide">-->
+              <div class="carousel-caption tc-grey-50">
+                <h3>{{serie['name']}}</h3>
+                <!--<div class="carousel-caption-date">-->
+                  <!--<mat-icon class="mat-24 fa-mat tc-grey-50" fontSet="fa" fontIcon="fa-calendar"></mat-icon>-->
+                  <!--<small layout-align="center center" class="tc-grey-50">-->
+                    <!--{{serie['release_date']}}-->
+                  <!--</small>-->
+                <!--</div>-->
+                <!--<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
+              </div>
+            </slide>
+          </carousel>
+        </div>
+      </div>
+    </div>
+    <div class="push-bottom-xl" hide-xs></div>
   </div>
 </section>
+

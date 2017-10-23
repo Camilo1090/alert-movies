@@ -1,11 +1,26 @@
 .carousel-container {
-  height: 500px;
-  width: 500px;
-  /*margin: 0 auto;*/
+  max-height: 576px;
+  max-width: 1024px;
+  margin: auto;
 }
 
 .img-slide {
-  height: 500px;
-  width: 500px;
-  margin: 0 auto;
+  margin: auto;
+}
+
+.carousel-caption {
+  /*background-color: hsla(0, 0%, 100%, 0.6);*/
+}
+
+.carousel-caption h3 {
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.carousel-caption-date {
+  padding-bottom: 5px;
+}
+
+.divider {
+  border-top-color: hsla(0, 0%, 40%, 1);
 }

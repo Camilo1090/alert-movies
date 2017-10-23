@@ -12,6 +12,7 @@ import { API } from '../static/api';
 @Injectable()
 export class TrendingService {
   moviesUrl = API.apiUrl + '/3/movie';
+  seriesUrl = API.apiUrl + '/3/tv';
 
   constructor(private http: Http) {  }
 
@@ -44,6 +45,17 @@ export class TrendingService {
   }
 
   /**
+   * https://developers.themoviedb.org/3/movies/get-popular-movies
+   * @param page: This specified the number of the page for the search
+   * @returns {Observable<any>}
+   */
+  getPopularSeries(page: number): Observable<Array<any>> {
+    const url = this.seriesUrl + '/popular';
+    const args = '&page=' + page;
+    return this.sendRequest(url, args);
+  }
+
+  /**
    * https://developers.themoviedb.org/3/movies/get-top-rated-movies
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
@@ -64,5 +76,4 @@ export class TrendingService {
     const args = '&page=' + page;
     return this.sendRequest(url, args);
   }
-
 }

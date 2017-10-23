@@ -42,12 +42,10 @@ export class TrendingComponent implements OnInit, OnDestroy {
   pageSizeAll = false;
   pageLinkCount = 5;
 
-  page: number;
-  total_pages: number;
-  total_results: number;
   response = [];
   movies = [];
-  apiImg = API.apiImg + 'w500';
+  series = [];
+  apiImg = API.apiImg + 'w1280';
 
   constructor(private trendingService: TrendingService,
               private _mediaService: TdMediaService,
@@ -59,6 +57,7 @@ export class TrendingComponent implements OnInit, OnDestroy {
     this.registerLoading();
 
     this.updateMovies(1);
+    this.updateSeries(1);
 
     this.checkScreen();
     this.watchScreen();
@@ -67,11 +66,16 @@ export class TrendingComponent implements OnInit, OnDestroy {
   updateMovies(page: number): void {
     this.trendingService.getPopularMovies(page).subscribe(movies => {
       this.response = movies;
-      this.movies = movies['results'];
-      this.page = movies['page'];
-      this.total_pages = movies['total_pages'];
-      this.total_results = movies['total_results'];
-      this.resolveLoading();
+      this.movies = movies['results'].slice(0, 5);
+      this.resolveMoviesLoading();
+    });
+  }
+
+  updateSeries(page: number): void {
+    this.trendingService.getPopularSeries(page).subscribe(series => {
+      this.response = series;
+      this.series = series['results'].slice(0, 5);
+      this.resolveSeriesLoading();
     });
   }
 
@@ -141,10 +145,15 @@ export class TrendingComponent implements OnInit, OnDestroy {
   // Methods for the loading
   registerLoading(): void {
     this._loadingService.register('movies');
+    this._loadingService.register('series');
   }
 
-  resolveLoading(): void {
+  resolveMoviesLoading(): void {
     this._loadingService.resolve('movies');
+  }
+
+  resolveSeriesLoading(): void {
+    this._loadingService.resolve('series');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.

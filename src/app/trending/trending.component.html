@@ -1,10 +1,10 @@
 
 <section class="tc-white"  tdMediaToggle="gt-xs" [mediaClasses]="['pad-bottom-xl']">
-  <div layout-gt-xs="row">
+  <div layout-gt-xs="row" class="bgc-grey-800">
     <div flex class="pad" tdMediaToggle="gt-xs" *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'primary'">
       <div class="push-top-xl" hide-xs></div>
       <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']" class="text-center">
-        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending Movies</h1>
+        <h1 class="title mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending Movies</h1>
         <div class="center-block carousel-container">
           <carousel class="text-center">
               <slide *ngFor="let movie of movies">
@@ -34,7 +34,7 @@
     <div flex class="pad" tdMediaToggle="gt-xs" *tdLoading="'series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'primary'">
       <div class="push-top-xl" hide-xs></div>
       <div tdMediaToggle="gt-sm" [mediaClasses]="['push-lg']" class="text-center">
-        <h1 class="mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending TV Series</h1>
+        <h1 class="title mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending TV Series</h1>
         <div class="center-block carousel-container">
           <carousel class="text-center">
             <slide *ngFor="let serie of series">

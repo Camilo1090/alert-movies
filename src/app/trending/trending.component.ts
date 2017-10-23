@@ -14,13 +14,15 @@ import { API} from '../static/api';
 import { GENRES } from '../static/genres';
 
 // service
-import { TrendingService } from './trending.service';
+import { MoviesService } from '../movies/movies.service';
+import { SeriesService } from '../series/series.service';
 
 @Component({
   selector: 'app-trending',
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css'],
-  providers: [TrendingService,
+  providers: [ MoviesService,
+    SeriesService,
     { provide: CarouselConfig, useValue: { interval: 3000, noPause: true } },
   ]
 })
@@ -47,7 +49,8 @@ export class TrendingComponent implements OnInit, OnDestroy {
   series = [];
   apiImg = API.apiImg + 'w1280';
 
-  constructor(private trendingService: TrendingService,
+  constructor(private moviesService: MoviesService,
+              private seriesService: SeriesService,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -64,7 +67,7 @@ export class TrendingComponent implements OnInit, OnDestroy {
   }
 
   updateMovies(page: number): void {
-    this.trendingService.getPopularMovies(page).subscribe(movies => {
+    this.moviesService.getPopularMovies(page).subscribe(movies => {
       this.response = movies;
       this.movies = movies['results'].slice(0, 5);
       this.resolveMoviesLoading();
@@ -72,7 +75,7 @@ export class TrendingComponent implements OnInit, OnDestroy {
   }
 
   updateSeries(page: number): void {
-    this.trendingService.getPopularSeries(page).subscribe(series => {
+    this.seriesService.getPopularSeries(page).subscribe(series => {
       this.response = series;
       this.series = series['results'].slice(0, 5);
       this.resolveSeriesLoading();

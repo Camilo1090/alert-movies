@@ -1,3 +1,67 @@
-<p>
-  movies works!
-</p>
+<section>
+  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-xl']">
+    <div class="row">
+      <h1 class="title push-bottom-sm text-center tc-teal-A400" tdMediaToggle="xs">Movies</h1>
+      <!--<h3 class="push-left-mat">Backdropsd</h3>-->
+      <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+        <div class="push-top-xl" hide-xs></div>
+        <div *ngFor="let movie of movies" class="col-md-3">
+          <mat-card class="card">
+            <a [routerLink]="['/movie', movie.id]">
+              <!--<div class="image">-->
+                <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                <!--<div class="image-title bgc-grey-900">-->
+                  <!--<p class="image-text tc-grey-200 push-top-none push-bottom-none">{{movie['original_title']}}</p>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<p class="tc-grey-200 push-top-none push-bottom-none">-->
+                <!--{{movie['original_title']}}</p>-->
+            </a>
+            <!--<div tdMediaToggle="gt-xs" [mediaClasses]="['pad-sm']"></div>-->
+            <mat-card-content class="bgc-grey-900">
+              <div flex layout="column">
+                <div layout="row">
+                  <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                  {{movie['title']}}</p>
+                <!--</div>-->
+                <!--<div layout="row">-->
+                  <!--<i flex class="text-micro tc-grey-600">{{'Size: ' + movie['width'] + 'x' + movie['height']}}</i>-->
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <!--<div class="push-bottom-xl"></div>-->
+        </div>
+      </div>
+    </div>
+    <!--<div class="row">-->
+      <!--<h3 class="push-left-mat">Posters</h3>-->
+      <!--<div *ngFor="let image of posters | slice:0:10" class="col-mat-3">-->
+        <!--<mat-card>-->
+          <!--<a href="{{apiImgOrig + image['file_path']}}">-->
+            <!--<img mat-card-image [src]="apiImg + image['file_path']">-->
+          <!--</a>-->
+          <!--<mat-card-content>-->
+            <!--<div flex layout="column">-->
+              <!--<div layout="row">-->
+                <!--&lt;!&ndash;<h3 class="mat-subhead tc-grey-800 push-top-none push-bottom-none">&ndash;&gt;-->
+                <!--&lt;!&ndash;{{image['name']}}</h3>&ndash;&gt;-->
+              <!--</div>-->
+              <!--<div layout="row">-->
+                <!--<i flex class="text-micro tc-grey-600">{{'Size: ' + image['width'] + 'x' + image['height']}}</i>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</mat-card-content>-->
+        <!--</mat-card>-->
+      <!--</div>-->
+    <!--</div>-->
+    <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
+                   [firstLast]="firstLast" [total]="10000" (change)="change($event)" class="tc-grey-200">
+      <div *ngIf="isDesktop">
+        <span td-paging-bar-label hide-xs>Displaying </span>
+        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+      </div>
+    </td-paging-bar>
+    <div class="push-bottom-xl" hide-xs></div>
+  </div>
+</section>

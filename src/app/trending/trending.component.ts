@@ -7,13 +7,15 @@ import { Subscription } from 'rxjs/Subscription';
 
 // Load service
 import { TdLoadingService } from '@covalent/core';
+
+// carousel config
 import { CarouselConfig } from 'ngx-bootstrap';
 
 // api
 import { API} from '../static/api';
 import { GENRES } from '../static/genres';
 
-// service
+// services
 import { MoviesService } from '../movies/movies.service';
 import { SeriesService } from '../series/series.service';
 

@@ -72,7 +72,7 @@ export class MoviesService {
    * @returns {Observable<R>}: Results with the detail of a movie
    */
   getMovieDetails(id: number): Observable<Array<any>> {
-    const url = this.moviesUrl + id;
+    const url = this.moviesUrl + '/' + id;
     return this.sendRequest(url);
   }
 
@@ -83,7 +83,7 @@ export class MoviesService {
    * @returns {Observable<R>}: Results with the credits of a specific movie
    */
   getMovieCredits(id: number): Observable<Array<any>> {
-    const url = this.moviesUrl + id + '/credits';
+    const url = this.moviesUrl + '/' + id + '/credits';
     return this.sendRequest(url);
   }
 
@@ -94,7 +94,7 @@ export class MoviesService {
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
   getVideos(id: number): Observable<Array<any>> {
-    const url = this.moviesUrl + id + '/videos';
+    const url = this.moviesUrl + '/' + id + '/videos';
     return this.sendRequest(url);
   }
 
@@ -105,7 +105,7 @@ export class MoviesService {
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
   getMovieImages(id: number): Observable<Array<any>> {
-    const url = this.moviesUrl + id + '/images';
+    const url = this.moviesUrl + '/' + id + '/images';
     return this.sendRequest(url);
   }
 
@@ -116,7 +116,7 @@ export class MoviesService {
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
   getMovieRecommendations(id: number): Observable<Array<any>> {
-    const url = this.moviesUrl + id + '/recommendations';
+    const url = this.moviesUrl + '/' + id + '/recommendations';
     return this.sendRequest(url);
   }
 }

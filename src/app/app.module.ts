@@ -10,20 +10,22 @@ import { AppRoutingModule } from './app-routing.module';
 
 // components
 import { AppComponent } from './app.component';
-import { MoviesComponent } from './movies/movies.component';
-import { FooterComponent } from './footer/footer.component';
 import { TrendingComponent } from './trending/trending.component';
-import { SeriesComponent } from './series/series.component';
+import { ListMoviesComponent } from './movies/list-movies/list-movies.component';
+import { MovieDetailsComponent } from './movies/movie-details/movie-details.component';
 import { PeopleComponent } from './people/people.component';
+import { ListSeriesComponent } from './series/list-series/list-series.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MoviesComponent,
+    ListMoviesComponent,
     FooterComponent,
     TrendingComponent,
-    SeriesComponent,
-    PeopleComponent
+    ListSeriesComponent,
+    PeopleComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,

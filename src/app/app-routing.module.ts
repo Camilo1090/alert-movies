@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { MoviesComponent } from './movies/movies.component';
+import { ListMoviesComponent } from './movies/list-movies/list-movies.component';
 import { TrendingComponent } from './trending/trending.component';
 import { PeopleComponent} from './people/people.component';
-import { SeriesComponent} from './series/series.component';
+import { ListSeriesComponent} from './series/list-series/list-series.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/trending', pathMatch: 'full' },
   { path: 'trending',  component: TrendingComponent },
-  { path: 'movies', component: MoviesComponent },
+  { path: 'list-movies', component: ListMoviesComponent },
   { path: 'people', component: PeopleComponent },
-  { path: 'series', component: SeriesComponent }
+  { path: 'list-series', component: ListSeriesComponent }
 ];
 
 @NgModule({

@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material';
 import {MatSidenavModule} from '@angular/material';
 import {MatTooltipModule} from '@angular/material';
 import {MatDialogModule} from '@angular/material';
+import {MatGridListModule} from '@angular/material';
 
 // Covalent Components
 import {CovalentLayoutModule} from '@covalent/core';
@@ -46,6 +47,7 @@ import {CovalentLoadingModule} from '@covalent/core';
     MatMenuModule,
     MatTabsModule,
     MatToolbarModule,
+    MatGridListModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,
@@ -69,6 +71,7 @@ import {CovalentLoadingModule} from '@covalent/core';
     MatMenuModule,
     MatTabsModule,
     MatToolbarModule,
+    MatGridListModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,

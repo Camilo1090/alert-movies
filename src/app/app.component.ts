@@ -16,7 +16,7 @@ export class AppComponent {
       icon: 'whatshot',
     }, {
       title: 'Movies',
-      route: '/movies',
+      route: '/list-movies',
       icon: 'local_movies',
     }, {
       title: 'People',
@@ -24,7 +24,7 @@ export class AppComponent {
       icon: 'people',
     }, {
       title: 'TV Series',
-      route: '/series',
+      route: '/list-series',
       icon: 'tv',
     },
   ];

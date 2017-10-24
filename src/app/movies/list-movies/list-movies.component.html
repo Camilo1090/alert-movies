@@ -5,33 +5,25 @@
       <!--<h3 class="push-left-mat">Backdropsd</h3>-->
       <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <div class="push-top-xl" hide-xs></div>
-        <div *ngFor="let movie of movies" class="col-md-3">
-          <mat-card class="card">
-            <a [routerLink]="['/movie', movie.id]">
-              <!--<div class="image">-->
-                <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
-                <!--<div class="image-title bgc-grey-900">-->
-                  <!--<p class="image-text tc-grey-200 push-top-none push-bottom-none">{{movie['original_title']}}</p>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<p class="tc-grey-200 push-top-none push-bottom-none">-->
-                <!--{{movie['original_title']}}</p>-->
-            </a>
-            <!--<div tdMediaToggle="gt-xs" [mediaClasses]="['pad-sm']"></div>-->
-            <mat-card-content class="bgc-grey-900">
-              <div flex layout="column">
-                <div layout="row">
-                  <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                  {{movie['title']}}</p>
-                <!--</div>-->
-                <!--<div layout="row">-->
-                  <!--<i flex class="text-micro tc-grey-600">{{'Size: ' + movie['width'] + 'x' + movie['height']}}</i>-->
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+          <mat-grid-list cols="{{columns}}" rowHeight="5:4">
+            <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
+              <mat-card class="card">
+                <a [routerLink]="['/movie', movie.id]">
+                  <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                </a>
+                <mat-card-content class="bgc-grey-900">
+                  <div flex layout="column">
+                    <div layout="row">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{movie['title']}}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
           <!--<div class="push-bottom-xl"></div>-->
-        </div>
+        <!--</div>-->
       </div>
     </div>
     <!--<div class="row">-->

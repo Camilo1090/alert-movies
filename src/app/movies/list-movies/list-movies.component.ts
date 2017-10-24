@@ -9,23 +9,23 @@ import { Subscription } from 'rxjs/Subscription';
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../static/api';
-import { GENRES } from '../static/genres';
+import { API} from '../../static/api';
+import { GENRES } from '../../static/genres';
 
 // services
-import { SeriesService } from './series.service';
+import { MoviesService } from '../movies.service';
 
 @Component({
-  selector: 'app-series',
-  templateUrl: './series.component.html',
-  styleUrls: ['./series.component.css'],
-  providers: [ SeriesService ]
+  selector: 'app-list-movies',
+  templateUrl: './list-movies.component.html',
+  styleUrls: ['./list-movies.component.css'],
+  providers: [ MoviesService ]
 })
-export class SeriesComponent implements OnInit, OnDestroy {
+export class ListMoviesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = false;
-  querySize = 'gt-xs';
+  columns: number;
   private _querySubscription: Subscription;
 
   // Used for the pagination
@@ -36,11 +36,11 @@ export class SeriesComponent implements OnInit, OnDestroy {
   totalPages: number;
 
   response = [];
-  series = [];
+  movies = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  constructor(private seriesService: SeriesService,
+  constructor(private moviesService: MoviesService,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -49,17 +49,17 @@ export class SeriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updateSeries(1);
+    this.updateMovies(1);
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateSeries(page: number): void {
-    this.seriesService.getPopularSeries(page).subscribe(series => {
-      this.response = series;
-      this.series = series['results'];
-      this.totalPages = series['total_pages'];
+  updateMovies(page: number): void {
+    this.moviesService.getPopularMovies(page).subscribe(movies => {
+      this.response = movies;
+      this.movies = movies['results'];
+      this.totalPages = movies['total_pages'];
       this.resolveMoviesLoading();
     });
   }
@@ -73,11 +73,24 @@ export class SeriesComponent implements OnInit, OnDestroy {
    */
   checkScreen(): void {
     this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query(this.querySize);
-      if (this.isDesktop) {
-        this.pageLinkCount = 3;
-      } else {
-        this.pageLinkCount = 0;
+      this.isDesktop = !this._mediaService.query('xs');
+      if (this._mediaService.query('xs')) {
+        this.columns = 1;
+      }
+    });
+    this._ngZone.run(() => {
+      if (this._mediaService.query('sm')) {
+        this.columns = 2;
+      }
+    });
+    this._ngZone.run(() => {
+      if (this._mediaService.query('md')) {
+        this.columns = 3;
+      }
+    });
+    this._ngZone.run(() => {
+      if (this._mediaService.query('lg')) {
+        this.columns = 4;
       }
     });
   }
@@ -86,13 +99,32 @@ export class SeriesComponent implements OnInit, OnDestroy {
    * This method subscribes with the service 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery(this.querySize).subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('xs').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
-        this.isDesktop = matches;
-        if (this.isDesktop) {
-          this.pageLinkCount = 3;
-        } else {
-          this.pageLinkCount = 0;
+        this.isDesktop = !matches;
+        if (matches) {
+          this.columns = 1;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('sm').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 2;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('md').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 3;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('lg').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 4;
         }
       });
     });
@@ -124,19 +156,19 @@ export class SeriesComponent implements OnInit, OnDestroy {
   change(event: IPageChangeEvent): void {
     this.event = event;
     this.registerLoading();
-    this.updateSeries(event.page);
+    this.updateMovies(event.page);
   }
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('series');
+    this._loadingService.register('movies');
   }
 
   resolveMoviesLoading(): void {
-    this._loadingService.resolve('series');
+    this._loadingService.resolve('movies');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('series', value);
+    this._loadingService.setValue('movies', value);
   }
 }

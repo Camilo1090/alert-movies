@@ -13,16 +13,16 @@
                 </a>
                 <mat-card-content class="bgc-grey-900">
                   <div layout="row">
-                    <div class="col-xs-9">
+                    <div class="col-xs-10">
                       <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                         {{movie['title']}}</p>
                     </div>
-                    <div class="col-xs-offset-2">
-                      <div layout="row">
+                    <div class="col-xs-offset-1">
+                      <div layout="row" class="rating">
                         <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                           {{movie['vote_average']}}
                         </p>
-                        <mat-icon class="tc-amber-300" aria-hidden="true">star</mat-icon>
+                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
                       </div>
                     </div>
                   </div>

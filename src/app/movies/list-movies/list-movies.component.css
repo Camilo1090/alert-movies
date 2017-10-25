@@ -53,3 +53,12 @@
   color: #69f0ae !important;
   font-weight: bold;
 }
+
+.rating {
+  padding-right: 10px;
+}
+
+.star {
+  font-size: 19px;
+  padding-left: 5px;
+}

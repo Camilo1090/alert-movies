@@ -12,16 +12,17 @@
                   <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
                 </a>
                 <mat-card-content class="bgc-grey-900">
-                  <div flex layout="row">
-                    <div class="col-xs-8">
+                  <div layout="row">
+                    <div class="col-xs-9">
                       <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                         {{movie['title']}}</p>
                     </div>
                     <div class="col-xs-offset-2">
-                      <div>
-                        <span class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{movie['vote_average']}}<mat-icon class="tc-amber-300">star</mat-icon>
-                        </span>
+                      <div layout="row">
+                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                          {{movie['vote_average']}}
+                        </p>
+                        <mat-icon class="tc-amber-300" aria-hidden="true">star</mat-icon>
                       </div>
                     </div>
                   </div>

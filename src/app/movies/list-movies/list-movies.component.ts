@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IPageChangeEvent } from '@covalent/core';
 
 // pagination
@@ -19,7 +19,8 @@ import { MoviesService } from '../movies.service';
   selector: 'app-list-movies',
   templateUrl: './list-movies.component.html',
   styleUrls: ['./list-movies.component.css'],
-  providers: [ MoviesService ]
+  providers: [ MoviesService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class ListMoviesComponent implements OnInit, OnDestroy {
 
@@ -37,7 +38,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     },
     {
       value: 'now',
-      viewValue: 'Now Playing'
+      viewValue: 'Playing Now'
     },
     {
       value: 'upcoming',
@@ -76,13 +77,50 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  onCategoryChanged(newValue: string): void {
+    this.selectedCategorie = newValue;
+    this.updateMovies(1);
+  }
+
   updateMovies(page: number): void {
-    this.moviesService.getPopularMovies(page).subscribe(movies => {
-      this.response = movies;
-      this.movies = movies['results'];
-      this.totalPages = movies['total_pages'];
-      this.resolveMoviesLoading();
-    });
+    switch (this.selectedCategorie) {
+      case 'popular': {
+        this.moviesService.getPopularMovies(page).subscribe(movies => {
+          this.response = movies;
+          this.movies = movies['results'];
+          this.totalPages = movies['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'now': {
+        this.moviesService.getPlayingNowMovies(page).subscribe(movies => {
+          this.response = movies;
+          this.movies = movies['results'];
+          this.totalPages = movies['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'upcoming': {
+        this.moviesService.getUpcomingMovies(page).subscribe(movies => {
+          this.response = movies;
+          this.movies = movies['results'];
+          this.totalPages = movies['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'top': {
+        this.moviesService.getTopRatedMovies(page).subscribe(movies => {
+          this.response = movies;
+          this.movies = movies['results'];
+          this.totalPages = movies['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+    }
   }
 
   ngOnDestroy(): void {

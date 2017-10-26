@@ -26,7 +26,7 @@ export class MoviesService {
    * @param page: specifies the number of the page for the search
    * @returns {Observable<any>}
    */
-  getPlayingNow(page: number): Observable<Array<any>> {
+  getPlayingNowMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/now_playing';
     const args = '&page=' + page;
     return this.sendRequest(url, args);
@@ -48,7 +48,7 @@ export class MoviesService {
    * @param page: specifies the number of the page for the search
    * @returns {Observable<any>}
    */
-  getRatedMovies(page: number): Observable<Array<any>> {
+  getTopRatedMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/top_rated';
     const args = '&page=' + page;
     return this.sendRequest(url, args);
@@ -59,7 +59,7 @@ export class MoviesService {
    * @param page: specifies the number of the page for the search
    * @returns {Observable<any>}
    */
-  getRatedUpcoming(page: number): Observable<Array<any>> {
+  getUpcomingMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/upcoming';
     const args = '&page=' + page;
     return this.sendRequest(url, args);

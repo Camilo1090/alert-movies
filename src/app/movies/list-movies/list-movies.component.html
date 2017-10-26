@@ -2,8 +2,10 @@
   <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
     <div class="row">
       <mat-form-field>
-        <mat-select [(ngModel)]="selectedCategorie">
-          <mat-option *ngFor="let categorie of categories" [value]="categorie['value']">{{ categorie['viewValue'] }}</mat-option>
+        <mat-select [ngModel]="selectedCategorie" (ngModelChange)="onCategoryChanged($event)">
+          <mat-option *ngFor="let categorie of categories" [value]="categorie['value']">
+            {{ categorie['viewValue'] }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

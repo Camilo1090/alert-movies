@@ -5,6 +5,23 @@
   margin-bottom: 30px;
 }
 
+mat-form-field {
+  padding-left: 20px;
+}
+
+.mat-input-underline {
+  background-color: #F5F5F5 !important;
+}
+
+/* to change selected item color in the select list */
+.mat-select-arrow {
+  color: #F5F5F5 !important;
+}
+
+.mat-select-value {
+  color: #69f0ae !important;
+}
+
 .paging-bar {
   font-size: 34px;
 }

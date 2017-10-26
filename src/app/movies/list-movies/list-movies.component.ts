@@ -28,6 +28,27 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   columns: number;
   private _querySubscription: Subscription;
 
+  // categories
+  selectedCategorie = 'popular';
+  categories = [
+    {
+      value: 'popular',
+      viewValue: 'Popular'
+    },
+    {
+      value: 'now',
+      viewValue: 'Now Playing'
+    },
+    {
+      value: 'upcoming',
+      viewValue: 'Upcoming'
+    },
+    {
+      value: 'top',
+      viewValue: 'Top Rated'
+    },
+  ];
+
   // Used for the pagination
   event: IPageChangeEvent;
   firstLast = true;

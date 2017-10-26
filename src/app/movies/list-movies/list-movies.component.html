@@ -1,10 +1,18 @@
 <section>
-  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-xl']">
+  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
     <div class="row">
-      <h1 class="title push-bottom-sm text-center tc-teal-A400" tdMediaToggle="xs">Movies</h1>
+      <mat-form-field>
+        <mat-select [(ngModel)]="selectedCategorie">
+          <mat-option *ngFor="let categorie of categories" [value]="categorie['value']">{{ categorie['viewValue'] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <hr>
+    <div class="row">
+      <!--<h1 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Movies</h1>-->
       <!--<h3 class="push-left-mat">Backdropsd</h3>-->
       <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <div class="push-top-xl" hide-xs></div>
+        <!--<div class="push-top-xl" hide-xs></div>-->
           <mat-grid-list cols="{{columns}}" rowHeight="5:4">
             <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
               <mat-card class="card">

@@ -1,10 +1,11 @@
 <section>
   <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
-    <div class="row">
+    <div layout="row">
+      <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Categories: </h3>
       <mat-form-field>
-        <mat-select [ngModel]="selectedCategorie" (ngModelChange)="onCategoryChanged($event)">
-          <mat-option *ngFor="let categorie of categories" [value]="categorie['value']">
-            {{ categorie['viewValue'] }}
+        <mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
+          <mat-option *ngFor="let category of categories" [value]="category['value']">
+            {{ category['viewValue'] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -19,7 +20,8 @@
             <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
               <mat-card class="card">
                 <a [routerLink]="['/movie', movie.id]">
-                  <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                  <img [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                  <!--<img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />-->
                 </a>
                 <mat-card-content class="bgc-grey-900">
                   <div layout="row">
@@ -66,7 +68,7 @@
       <!--</div>-->
     <!--</div>-->
     <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="10000" (change)="change($event)" class="tc-grey-200">
+                   [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">
       <div *ngIf="isDesktop">
         <span td-paging-bar-label hide-xs>Displaying </span>
         {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>

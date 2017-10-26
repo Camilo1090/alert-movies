@@ -16,7 +16,7 @@ import { GENRES } from '../../static/genres';
 import { SeriesService } from '../series.service';
 
 @Component({
-  selector: 'app-series',
+  selector: 'app-list-series',
   templateUrl: './list-series.component.html',
   styleUrls: ['./list-series.component.css'],
   providers: [ SeriesService ]
@@ -27,6 +27,27 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
   isDesktop = false;
   columns: number;
   private _querySubscription: Subscription;
+
+  // categories
+  selectedCategory = 'popular';
+  categories = [
+    {
+      value: 'popular',
+      viewValue: 'Popular'
+    },
+    {
+      value: 'air',
+      viewValue: 'On The Air'
+    },
+    {
+      value: 'latest',
+      viewValue: 'Latest'
+    },
+    {
+      value: 'top',
+      viewValue: 'Top Rated'
+    },
+  ];
 
   // Used for the pagination
   event: IPageChangeEvent;
@@ -55,13 +76,50 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  onCategoryChanged(newValue: string): void {
+    this.selectedCategory = newValue;
+    this.updateSeries(1);
+  }
+
   updateSeries(page: number): void {
-    this.seriesService.getPopularSeries(page).subscribe(series => {
-      this.response = series;
-      this.series = series['results'];
-      this.totalPages = series['total_pages'];
-      this.resolveMoviesLoading();
-    });
+    switch (this.selectedCategory) {
+      case 'popular': {
+        this.seriesService.getPopularSeries(page).subscribe(series => {
+          this.response = series;
+          this.series = series['results'];
+          this.totalPages = series['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'air': {
+        this.seriesService.getOnTheAirSeries(page).subscribe(series => {
+          this.response = series;
+          this.series = series['results'];
+          this.totalPages = series['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'latest': {
+        this.seriesService.getLatestSeries(page).subscribe(series => {
+          this.response = series;
+          this.series = series['results'];
+          this.totalPages = series['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+      case 'top': {
+        this.seriesService.getTopRatedSeries(page).subscribe(series => {
+          this.response = series;
+          this.series = series['results'];
+          this.totalPages = series['total_pages'];
+          this.resolveMoviesLoading();
+        });
+        break;
+      }
+    }
   }
 
   ngOnDestroy(): void {

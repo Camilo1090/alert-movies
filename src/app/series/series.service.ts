@@ -26,19 +26,41 @@ export class SeriesService {
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
-  getOnTheAir(page: number): Observable<Array<any>> {
+  getOnTheAirSeries(page: number): Observable<Array<any>> {
     const url = this.seriesUrl + '/on_the_air';
     const args = '&page=' + page;
     return this.sendRequest(url, args);
   }
 
   /**
-   * https://developers.themoviedb.org/3/movies/get-popular-movies
+   * https://developers.themoviedb.org/3/tv/get-popular-tv-shows
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
   getPopularSeries(page: number): Observable<Array<any>> {
     const url = this.seriesUrl + '/popular';
+    const args = '&page=' + page;
+    return this.sendRequest(url, args);
+  }
+
+  /**
+   * https://developers.themoviedb.org/3/movies/get-top-rated-tv
+   * @param page: This specified the number of the page for the search
+   * @returns {Observable<any>}
+   */
+  getTopRatedSeries(page: number): Observable<Array<any>> {
+    const url = this.seriesUrl + '/top_rated';
+    const args = '&page=' + page;
+    return this.sendRequest(url, args);
+  }
+
+  /**
+   * https://developers.themoviedb.org/3/movies/get-latest-tv
+   * @param page: This specified the number of the page for the search
+   * @returns {Observable<any>}
+   */
+  getLatestSeries(page: number): Observable<Array<any>> {
+    const url = this.seriesUrl + '/latest';
     const args = '&page=' + page;
     return this.sendRequest(url, args);
   }

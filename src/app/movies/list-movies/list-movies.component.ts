@@ -30,7 +30,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   private _querySubscription: Subscription;
 
   // categories
-  selectedCategorie = 'popular';
+  selectedCategory = 'popular';
   categories = [
     {
       value: 'popular',
@@ -78,12 +78,12 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChanged(newValue: string): void {
-    this.selectedCategorie = newValue;
+    this.selectedCategory = newValue;
     this.updateMovies(1);
   }
 
   updateMovies(page: number): void {
-    switch (this.selectedCategorie) {
+    switch (this.selectedCategory) {
       case 'popular': {
         this.moviesService.getPopularMovies(page).subscribe(movies => {
           this.response = movies;
@@ -214,7 +214,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
    * In charge to manage the behavior of the pagination
    * @param event: Event of change the page
    */
-  change(event: IPageChangeEvent): void {
+  changePage(event: IPageChangeEvent): void {
     this.event = event;
     this.registerLoading();
     this.updateMovies(event.page);

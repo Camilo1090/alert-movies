@@ -1,15 +1,24 @@
 <section>
-  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-xl']">
+  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
+    <div layout="row">
+      <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Categories: </h3>
+      <mat-form-field>
+        <mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
+          <mat-option *ngFor="let category of categories" [value]="category['value']">
+            {{ category['viewValue'] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <hr>
     <div class="row">
-      <h1 class="title push-bottom-sm text-center tc-teal-A400" tdMediaToggle="xs">TV Series</h1>
       <!--<h3 class="push-left-mat">Backdropsd</h3>-->
       <div flex *tdLoading="'series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <div class="push-top-xl" hide-xs></div>
         <mat-grid-list cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let serie of series" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
-              <a [routerLink]="['/movie', serie.id]">
-                <div *ngIf="serie['backdrop_path'] != null; else elseBlock">
+              <a [routerLink]="['/serie', serie.id]">
+                <div *ngIf="serie['backdrop_path']; else elseBlock">
                   <img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />
                 </div>
                 <ng-template #elseBlock>
@@ -17,10 +26,18 @@
                 </ng-template>
               </a>
               <mat-card-content class="bgc-grey-900">
-                <div flex layout="column">
-                  <div layout="row">
+                <div layout="row">
+                  <div class="col-xs-10">
                     <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                       {{serie['name']}}</p>
+                  </div>
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{serie['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                    </div>
                   </div>
                 </div>
               </mat-card-content>

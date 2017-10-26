@@ -7,9 +7,19 @@
 
 mat-form-field {
   padding-left: 20px;
+  padding-top: 5px;
+  margin-bottom: 5px;
+}
+
+.mat-select-content {
+  background-color: #6f6f6f;
 }
 
 .mat-input-underline {
+  background-color: #F5F5F5 !important;
+}
+
+.mat-input-ripple {
   background-color: #F5F5F5 !important;
 }
 
@@ -19,6 +29,10 @@ mat-form-field {
 }
 
 .mat-select-value {
+  color: #69f0ae !important;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: #69f0ae !important;
 }
 

@@ -1,29 +1,25 @@
 <section>
-  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
-    <div layout="row">
-      <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Categories: </h3>
-      <mat-form-field>
-        <mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
-          <mat-option *ngFor="let category of categories" [value]="category['value']">
-            {{ category['viewValue'] }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+  <div layout="row" tdMediaToggle="gt-xs"
+       [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
+    <div *ngIf="isDesktop" layout="column" class="filters">
+      <aside>
+        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
+        <mat-form-field>
+          <mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
+            <mat-option *ngFor="let category of categories" [value]="category['value']">
+              {{ category['viewValue'] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </aside>
     </div>
-    <hr>
-    <div class="row">
-      <!--<h3 class="push-left-mat">Backdropsd</h3>-->
-      <div flex *tdLoading="'series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+    <div flex layout="column" tdMediaToggle="gt-xs" [mediaClasses]="['results']">
+      <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <mat-grid-list cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let serie of series" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
               <a [routerLink]="['/serie', serie.id]">
-                <div *ngIf="serie['backdrop_path']; else elseBlock">
-                  <img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />
-                </div>
-                <ng-template #elseBlock>
-                  <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
-                </ng-template>
+                <img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />
               </a>
               <mat-card-content class="bgc-grey-900">
                 <div layout="row">
@@ -45,14 +41,13 @@
           </mat-grid-tile>
         </mat-grid-list>
       </div>
+      <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
+                     [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">
+        <div *ngIf="isDesktop">
+          <span td-paging-bar-label hide-xs>Displaying </span>
+          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+        </div>
+      </td-paging-bar>
     </div>
-    <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="10000" (change)="change($event)" class="tc-grey-200">
-      <div *ngIf="isDesktop">
-        <span td-paging-bar-label hide-xs>Displaying </span>
-        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-      </div>
-    </td-paging-bar>
-    <div class="push-bottom-xl" hide-xs></div>
   </div>
 </section>

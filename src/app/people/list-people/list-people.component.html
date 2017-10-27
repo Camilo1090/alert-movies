@@ -1,37 +1,27 @@
 <section>
-  <div tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-xl', 'pad-right-xl']">
-    <aside class="filter">
-      <div layout="row">
-        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">People </h3>
-      </div>
-    </aside>
-    <div class="row">
-      <!--<h1 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Movies</h1>-->
-      <!--<h3 class="push-left-mat">Backdropsd</h3>-->
+  <div layout="row" tdMediaToggle="gt-xs"
+       [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
+    <div *ngIf="isDesktop" layout="column" class="filters">
+      <aside>
+        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
+        <!--<mat-form-field>-->
+          <!--<mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">-->
+            <!--<mat-option *ngFor="let category of categories" [value]="category['value']">-->
+              <!--{{ category['viewValue'] }}-->
+            <!--</mat-option>-->
+          <!--</mat-select>-->
+        <!--</mat-form-field>-->
+      </aside>
+    </div>
+    <div flex layout="column" tdMediaToggle="gt-xs" [mediaClasses]="['results']">
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <!--<div class="push-top-xl" hide-xs></div>-->
         <mat-grid-list cols="{{columns}}" rowHeight="0.2:0.35">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
               <a [routerLink]="['/person', person.id]">
                 <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
-                <!--<img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />-->
               </a>
               <mat-card-content class="bgc-grey-900">
-                <!--<div layout="row">-->
-                  <!--<div class="col-xs-10">-->
-                    <!--<p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">-->
-                      <!--{{person['name']}}</p>-->
-                  <!--</div>-->
-                  <!--<div class="col-xs-offset-1">-->
-                    <!--<div layout="row" class="rating">-->
-                      <!--<p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">-->
-                        <!--{{person['popularity']}}-->
-                      <!--</p>-->
-                      <!--<mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
                 <div flex layout="column">
                   <div layout="row">
                     <a flex [routerLink]="['/person', person['id']]">
@@ -47,38 +37,16 @@
             </mat-card>
           </mat-grid-tile>
         </mat-grid-list>
-        <!--<div class="push-bottom-xl"></div>-->
-        <!--</div>-->
       </div>
+      <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
+                     [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">
+        <div *ngIf="isDesktop">
+          <span td-paging-bar-label hide-xs>Displaying </span>
+          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+        </div>
+      </td-paging-bar>
     </div>
-    <!--<div class="row">-->
-    <!--<h3 class="push-left-mat">Posters</h3>-->
-    <!--<div *ngFor="let image of posters | slice:0:10" class="col-mat-3">-->
-    <!--<mat-card>-->
-    <!--<a href="{{apiImgOrig + image['file_path']}}">-->
-    <!--<img mat-card-image [src]="apiImg + image['file_path']">-->
-    <!--</a>-->
-    <!--<mat-card-content>-->
-    <!--<div flex layout="column">-->
-    <!--<div layout="row">-->
-    <!--&lt;!&ndash;<h3 class="mat-subhead tc-grey-800 push-top-none push-bottom-none">&ndash;&gt;-->
-    <!--&lt;!&ndash;{{image['name']}}</h3>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div layout="row">-->
-    <!--<i flex class="text-micro tc-grey-600">{{'Size: ' + image['width'] + 'x' + image['height']}}</i>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</mat-card-content>-->
-    <!--</mat-card>-->
-    <!--</div>-->
-    <!--</div>-->
-    <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">
-      <div *ngIf="isDesktop">
-        <span td-paging-bar-label hide-xs>Displaying </span>
-        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-      </div>
-    </td-paging-bar>
-    <div class="push-bottom-xl" hide-xs></div>
   </div>
 </section>
+
+

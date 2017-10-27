@@ -73,31 +73,32 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
    * Check the size of the screen
    */
   checkScreen(): void {
-    this.columns = 5;
+    // this.columns = 5;
     this._ngZone.run(() => {
-      this.isDesktop = !this._mediaService.query('xs');
-      if (this._mediaService.query('xs')) {
-        this.columns = 1;
-      }
-    });
-    this._ngZone.run(() => {
-      if (this._mediaService.query('sm')) {
+      if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 2;
+        this.isDesktop = false;
+        this.pageLinkCount = 1;
       }
-    });
-    this._ngZone.run(() => {
-      if (this._mediaService.query('md')) {
+      if (this._mediaService.query('(max-width: 375px)')) {
+        this.columns = 1;
+        this.isDesktop = false;
+        this.pageLinkCount = 1;
+      }
+      if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
+        this.isDesktop = true;
+        this.pageLinkCount = 1;
       }
-    });
-    this._ngZone.run(() => {
-      if (this._mediaService.query('lg')) {
+      if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
+        this.isDesktop = true;
+        this.pageLinkCount = 5;
       }
-    });
-    this._ngZone.run(() => {
-      if (this._mediaService.query('gt-lg')) {
+      if (this._mediaService.query('gt-md')) {
         this.columns = 5;
+        this.isDesktop = true;
+        this.pageLinkCount = 5;
       }
     });
   }
@@ -106,40 +107,50 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
    * This method subscribes with the service 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    this.columns = 5;
-    this._querySubscription = this._mediaService.registerQuery('xs').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        this.isDesktop = !matches;
-        if (matches) {
-          this.columns = 1;
-        }
-      });
-    });
-    this._querySubscription = this._mediaService.registerQuery('sm').subscribe((matches: boolean) => {
+    // this.columns = 5;
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
+          this.isDesktop = false;
+          console.log('tik');
+          this.pageLinkCount = 1;
         }
       });
     });
-    this._querySubscription = this._mediaService.registerQuery('md').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 375px)').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 1;
+          this.isDesktop = false;
+          this.pageLinkCount = 1;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('gt-xs').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
+          this.isDesktop = true;
+          this.pageLinkCount = 1;
         }
       });
     });
-    this._querySubscription = this._mediaService.registerQuery('lg').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
+          this.isDesktop = true;
+          this.pageLinkCount = 5;
         }
       });
     });
-    this._querySubscription = this._mediaService.registerQuery('gt-lg').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 5;
+          this.isDesktop = true;
+          this.pageLinkCount = 5;
         }
       });
     });

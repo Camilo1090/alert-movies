@@ -25,7 +25,7 @@ import { MoviesService } from '../movies.service';
 export class ListMoviesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
-  isDesktop = false;
+  isDesktop = true;
   columns: number;
   private _querySubscription: Subscription;
 
@@ -54,7 +54,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   event: IPageChangeEvent;
   firstLast = true;
   pageSizeAll = false;
-  pageLinkCount = 5;
+  pageLinkCount: number;
   totalPages: number;
 
   response = [];
@@ -131,26 +131,27 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
    * Check the size of the screen
    */
   checkScreen(): void {
-    this.columns = 4;
+    // this.columns = 4;
     this._ngZone.run(() => {
-      this.isDesktop = !this._mediaService.query('xs');
       if (this._mediaService.query('xs')) {
         this.columns = 1;
+        this.isDesktop = false;
+        this.pageLinkCount = 1;
       }
-    });
-    this._ngZone.run(() => {
       if (this._mediaService.query('sm')) {
         this.columns = 2;
+        this.isDesktop = true;
+        this.pageLinkCount = 1;
       }
-    });
-    this._ngZone.run(() => {
       if (this._mediaService.query('md')) {
         this.columns = 3;
+        this.isDesktop = true;
+        this.pageLinkCount = 5;
       }
-    });
-    this._ngZone.run(() => {
       if (this._mediaService.query('lg')) {
         this.columns = 4;
+        this.isDesktop = true;
+        this.pageLinkCount = 5;
       }
     });
   }
@@ -159,12 +160,13 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
    * This method subscribes with the service 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    this.columns = 4;
+    // this.columns = 4;
     this._querySubscription = this._mediaService.registerQuery('xs').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
-        this.isDesktop = !matches;
         if (matches) {
           this.columns = 1;
+          this.isDesktop = false;
+          this.pageLinkCount = 1;
         }
       });
     });
@@ -172,6 +174,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
+          this.isDesktop = true;
+          this.pageLinkCount = 1;
         }
       });
     });
@@ -179,6 +183,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
+          this.isDesktop = true;
+          this.pageLinkCount = 5;
         }
       });
     });
@@ -186,6 +192,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
+          this.isDesktop = true;
+          this.pageLinkCount = 5;
         }
       });
     });

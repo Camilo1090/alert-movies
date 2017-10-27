@@ -46,28 +46,6 @@
         </mat-grid-list>
       </div>
     </div>
-
-    <!--<div class="row">-->
-    <!--<h3 class="push-left-mat">Posters</h3>-->
-    <!--<div *ngFor="let image of posters | slice:0:10" class="col-mat-3">-->
-    <!--<mat-card>-->
-    <!--<a href="{{apiImgOrig + image['file_path']}}">-->
-    <!--<img mat-card-image [src]="apiImg + image['file_path']">-->
-    <!--</a>-->
-    <!--<mat-card-content>-->
-    <!--<div flex layout="column">-->
-    <!--<div layout="row">-->
-    <!--&lt;!&ndash;<h3 class="mat-subhead tc-grey-800 push-top-none push-bottom-none">&ndash;&gt;-->
-    <!--&lt;!&ndash;{{image['name']}}</h3>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div layout="row">-->
-    <!--<i flex class="text-micro tc-grey-600">{{'Size: ' + image['width'] + 'x' + image['height']}}</i>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</mat-card-content>-->
-    <!--</mat-card>-->
-    <!--</div>-->
-    <!--</div>-->
     <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
                    [firstLast]="firstLast" [total]="10000" (change)="change($event)" class="tc-grey-200">
       <div *ngIf="isDesktop">

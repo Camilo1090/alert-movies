@@ -20,7 +20,7 @@
             <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
               <mat-card class="card">
                 <a [routerLink]="['/movie', movie.id]">
-                  <img [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                  <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
                   <!--<img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />-->
                 </a>
                 <mat-card-content class="bgc-grey-900">

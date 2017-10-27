@@ -20,7 +20,7 @@ export class AppComponent {
       icon: 'local_movies',
     }, {
       title: 'People',
-      route: '/people',
+      route: '/list-people',
       icon: 'people',
     }, {
       title: 'TV Series',

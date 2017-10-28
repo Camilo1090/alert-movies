@@ -1,5 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 import 'rxjs/add/operator/switchMap';
 
 // pagination
@@ -17,26 +18,24 @@ import { GENRES } from '../../static/genres';
 import { MoviesService } from '../movies.service';
 
 @Component({
-  selector: 'app-movie-images',
-  templateUrl: './movie-images.component.html',
-  styleUrls: ['./movie-images.component.css'],
+  selector: 'app-movie-videos',
+  templateUrl: './movie-videos.component.html',
+  styleUrls: ['./movie-videos.component.css'],
   providers: [ MoviesService, TdMediaService ]
 })
-export class MovieImagesComponent implements OnInit, OnDestroy {
+export class MovieVideosComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = true;
   columns: number;
   private _querySubscription: Subscription;
 
-  response = [];
-  movieBackdrops = [];
-  moviePosters = [];
-  apiImg = API.apiImg + 'w500';
-  apiImgOrig = API.apiImg + 'original';
+  movieVideos = [];
+  apiVideo = API.apiVideo;
 
   constructor(private moviesService: MoviesService,
               private route: ActivatedRoute,
+              private sanitizer: DomSanitizer,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -45,19 +44,17 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updateMovieImages();
+    this.updateMovieVideos();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateMovieImages(): void {
+  updateMovieVideos(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
-      .getMovieImages(params['id']))
+      .getMovieVideos(params['id']))
       .subscribe(response => {
-        this.response = response;
-        this.movieBackdrops = response['backdrops'].slice(0, 12);
-        this.moviePosters = response['posters'].slice(0, 12);
+        this.movieVideos = response['results'].slice(0, 12);
         this.resolveLoading();
       });
   }
@@ -67,7 +64,7 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check the size of the screen
+   * checks the size of the screen
    */
   checkScreen(): void {
     // this.columns = 4;
@@ -92,7 +89,7 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method subscribes with the service 'TdMediaService' to detect changes on the size of the screen
+   * subscribes with the service 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 4;
@@ -132,7 +129,7 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get an array of genres by id and return the name of these separated by comma
+   * gets an array of genres by id and returns the name of these separated by comma
    * @param genresId: Array of genres by id
    * @returns {string}: List of genres separated by comma
    */
@@ -152,14 +149,18 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('movie-images');
+    this._loadingService.register('movie-videos');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('movie-images');
+    this._loadingService.resolve('movie-videos');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movieImages', value);
+    this._loadingService.setValue('movieVideos', value);
+  }
+
+  getUrl(key: string): any {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.apiVideo + key);
   }
 }

@@ -17,6 +17,7 @@ import { ListPeopleComponent } from './people/list-people/list-people.component'
 import { ListSeriesComponent } from './series/list-series/list-series.component';
 import { FooterComponent } from './footer/footer.component';
 import { MovieImagesComponent } from './movies/movie-images/movie-images.component';
+import { MovieVideosComponent } from './movies/movie-videos/movie-videos.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MovieImagesComponent } from './movies/movie-images/movie-images.compone
     ListPeopleComponent,
     MovieDetailsComponent,
     ListPeopleComponent,
-    MovieImagesComponent
+    MovieImagesComponent,
+    MovieVideosComponent
   ],
   imports: [
     BrowserModule,

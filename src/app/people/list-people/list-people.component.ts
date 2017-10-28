@@ -113,7 +113,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 2;
           this.isDesktop = false;
-          console.log('tik');
           this.pageLinkCount = 1;
         }
       });

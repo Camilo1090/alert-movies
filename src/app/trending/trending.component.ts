@@ -25,7 +25,7 @@ import { SeriesService } from '../series/series.service';
   styleUrls: ['./trending.component.css'],
   providers: [ MoviesService,
     SeriesService,
-    { provide: CarouselConfig, useValue: { interval: 3000, noPause: true } },
+    { provide: CarouselConfig, useValue: { interval: 3000, noPause: false } },
   ]
 })
 export class TrendingComponent implements OnInit, OnDestroy {

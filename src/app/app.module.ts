@@ -18,6 +18,7 @@ import { ListSeriesComponent } from './series/list-series/list-series.component'
 import { FooterComponent } from './footer/footer.component';
 import { MovieImagesComponent } from './movies/movie-images/movie-images.component';
 import { MovieVideosComponent } from './movies/movie-videos/movie-videos.component';
+import { MovieCastComponent } from './movies/movie-cast/movie-cast.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MovieVideosComponent } from './movies/movie-videos/movie-videos.compone
     MovieDetailsComponent,
     ListPeopleComponent,
     MovieImagesComponent,
-    MovieVideosComponent
+    MovieVideosComponent,
+    MovieCastComponent
   ],
   imports: [
     BrowserModule,

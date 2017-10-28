@@ -1,5 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { IPageChangeEvent } from '@covalent/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
@@ -13,35 +14,26 @@ import { API} from '../../static/api';
 import { GENRES } from '../../static/genres';
 
 // services
-import { PeopleService } from '../people.service';
+import { MoviesService } from '../movies.service';
 
 @Component({
-  selector: 'app-list-people',
-  templateUrl: './list-people.component.html',
-  styleUrls: ['./list-people.component.css'],
-  providers: [ PeopleService ],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-movie-cast',
+  templateUrl: './movie-cast.component.html',
+  styleUrls: ['./movie-cast.component.css'],
+  providers: [ MoviesService, TdMediaService ]
 })
-export class ListPeopleComponent implements OnInit, OnDestroy {
+export class MovieCastComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = false;
   columns: number;
   private _querySubscription: Subscription;
 
-  // Used for the pagination
-  event: IPageChangeEvent;
-  firstLast = true;
-  pageSizeAll = false;
-  pageLinkCount = 5;
-  totalPages: number;
-
-  response = [];
-  people = [];
+  movieCast = [];
   apiImg = API.apiImg + 'w500';
-  apiImgOrig = API.apiImg + 'original';
 
-  constructor(private peopleService: PeopleService,
+  constructor(private moviesService: MoviesService,
+              private route: ActivatedRoute,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -50,19 +42,19 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updatePeople(1);
+    this.updateMovieCast();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updatePeople(page: number): void {
-    this.peopleService.getPopularPeople(page).subscribe(response => {
-      this.response = response;
-      this.people = response['results'];
-      this.totalPages = response['total_pages'];
-      this.resolveLoading();
-    });
+  updateMovieCast(): void {
+    this.route.params.switchMap((params: Params) => this.moviesService
+      .getMovieCredits(params['id']))
+      .subscribe(response => {
+        this.movieCast = response['cast'];
+        this.resolveLoading();
+      });
   }
 
   ngOnDestroy(): void {
@@ -78,27 +70,22 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 2;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
         this.isDesktop = true;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 5;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
     });
   }
@@ -113,7 +100,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 2;
           this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -122,7 +108,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 1;
           this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -131,7 +116,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 3;
           this.isDesktop = true;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -140,7 +124,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 4;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -149,14 +132,13 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 5;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
   }
 
   /**
-   * Get an array of genres by id and return the name of these separated by comma
+   * gets an array of genres by id and returns the name of these separated by comma
    * @param genresId: Array of genres by id
    * @returns {string}: List of genres separated by comma
    */
@@ -174,26 +156,17 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     return genres;
   }
 
-  /**
-   * In charge to manage the behavior of the pagination
-   * @param event: Event of change the page
-   */
-  changePage(event: IPageChangeEvent): void {
-    this.event = event;
-    this.registerLoading();
-    this.updatePeople(event.page);
-  }
-
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('people');
+    this._loadingService.register('movie-cast');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('people');
+    this._loadingService.resolve('movie-cast');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
     this._loadingService.setValue('movies', value);
   }
+
 }

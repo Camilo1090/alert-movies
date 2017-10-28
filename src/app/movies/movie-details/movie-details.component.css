@@ -1,0 +1,42 @@
+
+.movie-details {
+  /*padding-left: 100px;*/
+  /*padding-right: 100px;*/
+}
+
+.movie-image {
+  max-width: 30%;
+}
+
+.date {
+  padding-top: 25px;
+}
+
+.date-title {
+  padding-left: 10px;
+  padding-right: 30px;
+}
+
+.rating {
+  padding-right: 25px;
+}
+
+a.crew {
+  text-decoration-color: #000000;
+}
+
+.movie-toolbar {
+  background-color: #303030;
+}
+
+.toolbar-item {
+  font-weight: bold;
+  color: #F5F5F5;
+}
+.toolbar-item:hover {
+  color: #69f0ae;
+}
+
+a.toolbar-item:focus {
+  color: #69f0ae;
+}

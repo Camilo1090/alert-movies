@@ -85,37 +85,37 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   updateMovies(page: number): void {
     switch (this.selectedCategory) {
       case 'popular': {
-        this.moviesService.getPopularMovies(page).subscribe(movies => {
-          this.response = movies;
-          this.movies = movies['results'];
-          this.totalPages = movies['total_pages'];
+        this.moviesService.getPopularMovies(page).subscribe(response => {
+          this.response = response;
+          this.movies = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'now': {
-        this.moviesService.getPlayingNowMovies(page).subscribe(movies => {
-          this.response = movies;
-          this.movies = movies['results'];
-          this.totalPages = movies['total_pages'];
+        this.moviesService.getPlayingNowMovies(page).subscribe(response => {
+          this.response = response;
+          this.movies = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'upcoming': {
-        this.moviesService.getUpcomingMovies(page).subscribe(movies => {
-          this.response = movies;
-          this.movies = movies['results'];
-          this.totalPages = movies['total_pages'];
+        this.moviesService.getUpcomingMovies(page).subscribe(response => {
+          this.response = response;
+          this.movies = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'top': {
-        this.moviesService.getTopRatedMovies(page).subscribe(movies => {
-          this.response = movies;
-          this.movies = movies['results'];
-          this.totalPages = movies['total_pages'];
+        this.moviesService.getTopRatedMovies(page).subscribe(response => {
+          this.response = response;
+          this.movies = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;

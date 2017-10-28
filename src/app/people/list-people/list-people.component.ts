@@ -57,10 +57,10 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   }
 
   updatePeople(page: number): void {
-    this.peopleService.getPopularPeople(page).subscribe(movies => {
-      this.response = movies;
-      this.people = movies['results'];
-      this.totalPages = movies['total_pages'];
+    this.peopleService.getPopularPeople(page).subscribe(response => {
+      this.response = response;
+      this.people = response['results'];
+      this.totalPages = response['total_pages'];
       this.resolveMoviesLoading();
     });
   }

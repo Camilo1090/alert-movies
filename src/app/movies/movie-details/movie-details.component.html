@@ -1,120 +1,226 @@
-<section flex *tdLoading="'movie'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
+<section flex class="bgc-grey-800"
+         *tdLoading="'movie'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
   <div layout="column">
-    <div layout-gt-md="row" layout-xs="column">
+    <div layout-gt-sm="row" layout-xs="column" layout-align="center"
+         tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
       <!-- *************** Image section *************** -->
-      <div *ngIf="isDesktop; then desktop else movile;"></div>
+      <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
-        <div class="push-lg push-right-none" flex-gt-md="30">
+        <div class="movie-image push-lg push-right-none" flex-gt-xs="50">
           <img *ngIf="movie['poster_path'] && isDesktop" src="{{apiImg + movie['poster_path']}}"
-               class="img-responsive img-rounded img-poster">
+               class="img-responsive img-rounded">
         </div>
       </ng-template>
-      <ng-template #movile>
+      <ng-template #mobile>
         <div class="pad-none" flex layout="row" layout-align="center center">
           <img flex *ngIf="movie['backdrop_path'] && !isDesktop"
                src="{{apiImg + movie['backdrop_path']}}" class="img-responsive">
         </div>
       </ng-template>
 
-      <!-- *************** Middle section ***************-->
-      <div flex-gt-md="50" layout class="push-lg"
-           tdMediaToggle="xs" [mediaClasses]="['push-top-sm', 'push-left-sm']">
-        <div flex class="push-right-sm">
-          <div layout="column">
-            <h1 class="push-bottom-none"
-                tdMediaToggle="xs" [mediaClasses]="['mat-title']">
-              {{movie['original_title']}}
-            </h1>
-            <i class="text-micro tc-grey-600">{{getGenre(movie['genres'])}}</i>
-          </div>
-          <div class="push-top-sm">
-            <div layout="row" layout-align="start center">
-              <span>{{movie['vote_average']}}</span>
-              <mat-icon class="tc-grey-800">star</mat-icon>
+      <div flex-gt-md="50" layout="column" class="push-lg" tdMediaToggle="gt-xs"
+           [mediaClasses]="['pad-top-xs']">
+        <div layout="row">
+          <div layout="row" layout-align="left" class="date-title col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <div class="date text-center col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
+              <span class="tc-grey-400" layout="column">{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}</span>
+              <!--<div class="back">-->
+                <!--<span aria-hidden="true" class="glyphicon glyphicon-hand-left"></span>-->
+                <!--Back!-->
+              <!--</div>-->
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+              <h1 class="tc-teal-A400"><b>{{movie['title']}} </b>({{movie['release_date'] | date:'yyyy'}})</h1>
+              <i class="tc-grey-500">{{getGenre(movie['genres'])}}</i>
             </div>
           </div>
-          <h3 class="mat-headline tc-grey-800 push-top-md push-bottom-sm">Overview</h3>
-          <span>{{movie['overview']}}</span>
-          <h3 class="mat-headline tc-grey-800 push-top-lg push-bottom-sm">Featured Crew</h3>
 
-          <div class="row push-none">
+          <div layout="row" layout-align="end center" class="rating col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <h1 class="tc-grey-300">
+              <b>{{movie['vote_average']}}</b>
+              <span aria-hidden="true" class="star tc-amber-300">
+                <i aria-hidden="true" class="fa fa-star"></i>
+              </span>
+            </h1>
+          </div>
+        </div>
+        <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+        <div layout="column">
+          <h3 class="mat-headline tc-grey-500 push-bottom-xs">Overview</h3>
+          <span class="push-left-xs tc-grey-300">{{movie['overview']}}</span>
+        </div>
+        <div layout="column">
+          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Featured Crew</h3>
+          <div class="row push-left-xs">
             <div *ngFor="let crew of credits['crew'] | slice:0:6">
-              <div layout="column" class="pad-sm col-xs-6 ">
-                <strong>{{crew['name']}}</strong>
-                <span>{{crew['job']}}</span>
+              <div layout="column" class="pad-xs col-xs-3">
+                <span class="tc-grey-300">{{crew['job']}}</span>
+                <a [routerLink]="['/person', crew.id]" class="crew">
+                  <strong class="tc-black">{{crew['name']}}</strong>
+                </a>
               </div>
             </div>
-
           </div>
         </div>
-      </div>
+        <div layout="column">
+          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Movie Facts</h3>
+          <div class="row push-left-xs">
+          <!-- ***************** Runtime *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class="tc-black">Runtime</strong>
+              <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{convertTime(movie['runtime'])}}
+              </span>
+            </div>
 
-      <!-- *************** Additional info section ***************-->
-      <div flex-gt-xs flex-gt-md="20" layout="column" class="pad-lg info" layout-align="center center">
-        <div layout="column" layout-align="center center">
-          <div>
-            <mat-icon class="fa-4x tc-grey-800 default-icon"
-                     fontSet="fa" fontIcon="fa-calendar-o"></mat-icon>
-            <div layout="row" layout-align="center center" class="date-calendar" >
-              <mat-icon class="fa-lg default-icon" fontSet="fa">
-                {{movie['release_date'] | date:'d'}}</mat-icon>
+            <!-- ***************** Budget *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class="tc-black">Budget</strong>
+              <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{convertMoney(movie['budget'])}}
+              </span>
+            </div>
+
+            <!-- ***************** Revenue *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class="tc-black">Budget</strong>
+              <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{convertMoney(movie['revenue'])}}
+              </span>
+            </div>
+
+            <!-- ***************** Homepage *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class=" tc-black">Homepage</strong>
+              <a *ngIf="movie['homepage']; else elseBlock" class="mat-body-1" href="{{movie['homepage']}}">
+                {{movie['homepage']}}
+              </a>
+            </div>
+
+            <!-- ***************** Original language *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class=" tc-black">Original Language</strong>
+              <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+                {{movie['original_language']}}
+              </span>
+            </div>
+
+            <!-- ***************** Status *******************-->
+            <div layout="column" class="pad-xs col-xs-3">
+              <strong class=" tc-black">Status</strong>
+              <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{movie['status']}}
+              </span>
             </div>
           </div>
-          <strong class="tc-grey-700 md-button">{{movie['release_date'] | date:'yyyy'}} - {{movie['release_date'] | date:'MMM'}}</strong>
-        </div>
-
-        <div layout="column" flex>
-          <h3 class="mat-headline tc-grey-800 push-top-md push-bottom-none">Additional info</h3>
-
-          <!-- ***************** Runtime *******************-->
-          <strong class="tc-grey-900 push-none push-left-sm push-top-sm">Runtime</strong>
-          <span *ngIf="movie['runtime']; else elseBlock"
-                class="mat-body-1 push-none push-left-sm">{{convertTime(movie['runtime'])}}</span>
-
-          <!-- ***************** Budget *******************-->
-          <strong class="tc-grey-900 push-none push-left-sm push-top-sm">Budget</strong>
-          <span *ngIf="movie['budget']; else elseBlock"
-                class="mat-body-1 push-none push-left-sm">{{convertMoney(movie['budget'])}}</span>
-
-          <!-- ***************** Revenue *******************-->
-          <strong class="tc-grey-900 push-none push-left-sm push-top-sm">Budget</strong>
-          <span *ngIf="movie['revenue']; else elseBlock"
-                class="mat-body-1 push-none push-left-sm">{{convertMoney(movie['revenue'])}}</span>
-
-          <!-- ***************** Homepage *******************-->
-          <strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Homepage</strong>
-          <a *ngIf="movie['homepage']; else elseBlock"
-             class="mat-body-1 push-none push-left-sm" href="{{movie['homepage']}}">{{movie['homepage']}}</a>
-
-          <!-- ***************** Original language *******************-->
-          <strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Original language</strong>
-          <span *ngIf="movie['original_language']; else elseBlock"
-                class="mat-body-1 push-none push-left-sm text-uppercase">{{movie['original_language']}}</span>
-
-          <!-- ***************** Status *******************-->
-          <strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Status</strong>
-          <span *ngIf="movie['status']; else elseBlock"
-                class="mat-body-1 push-none push-left-sm">{{movie['status']}}</span>
-
           <ng-template #elseBlock>
-            <span class="mat-body-1 push-none push-left-sm">
-              No provided
+            <span class="mat-body-1 tc-grey-300">
+              Not provided
             </span>
           </ng-template>
         </div>
       </div>
+
+      <!-- *************** Middle section ***************-->
+      <!--<div flex-gt-md="50" layout class="push-lg"-->
+           <!--tdMediaToggle="xs" [mediaClasses]="['push-top-sm', 'push-left-sm']">-->
+        <!--<div flex class="push-right-sm">-->
+          <!--<div layout="column">-->
+            <!--<h1 class="push-bottom-none"-->
+                <!--tdMediaToggle="xs" [mediaClasses]="['mat-title']">-->
+              <!--{{movie['original_title']}}-->
+            <!--</h1>-->
+            <!--<i class="text-micro tc-grey-600">{{getGenre(movie['genres'])}}</i>-->
+          <!--</div>-->
+          <!--<div class="push-top-sm">-->
+            <!--<div layout="row" layout-align="start center">-->
+              <!--<span>{{movie['vote_average']}}</span>-->
+              <!--<mat-icon class="tc-grey-800">star</mat-icon>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<h3 class="mat-headline tc-grey-800 push-top-md push-bottom-sm">Overview</h3>-->
+          <!--<span>{{movie['overview']}}</span>-->
+          <!--<h3 class="mat-headline tc-grey-800 push-top-lg push-bottom-sm">Featured Crew</h3>-->
+
+          <!--<div class="row push-none">-->
+            <!--<div *ngFor="let crew of credits['crew'] | slice:0:6">-->
+              <!--<div layout="column" class="pad-sm col-xs-6 ">-->
+                <!--<strong>{{crew['name']}}</strong>-->
+                <!--<span>{{crew['job']}}</span>-->
+              <!--</div>-->
+            <!--</div>-->
+
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!-- *************** Additional info section ***************-->
+      <!--<div flex-gt-xs flex-gt-md="20" layout="column" class="pad-lg info" layout-align="center center">-->
+        <!--<div layout="column" layout-align="center center">-->
+          <!--<div>-->
+            <!--<mat-icon class="fa-4x tc-grey-800 default-icon"-->
+                     <!--fontSet="fa" fontIcon="fa-calendar-o"></mat-icon>-->
+            <!--<div layout="row" layout-align="center center" class="date-calendar" >-->
+              <!--<mat-icon class="fa-lg default-icon" fontSet="fa">-->
+                <!--{{movie['release_date'] | date:'d'}}</mat-icon>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<strong class="tc-grey-700 md-button">{{movie['release_date'] | date:'yyyy'}} - {{movie['release_date'] | date:'MMM'}}</strong>-->
+        <!--</div>-->
+
+        <!--<div layout="column" flex>-->
+          <!--<h3 class="mat-headline tc-grey-800 push-top-md push-bottom-none">Additional info</h3>-->
+
+          <!--&lt;!&ndash; ***************** Runtime *******************&ndash;&gt;-->
+          <!--<strong class="tc-grey-900 push-none push-left-sm push-top-sm">Runtime</strong>-->
+          <!--<span *ngIf="movie['runtime']; else elseBlock"-->
+                <!--class="mat-body-1 push-none push-left-sm">{{convertTime(movie['runtime'])}}</span>-->
+
+          <!--&lt;!&ndash; ***************** Budget *******************&ndash;&gt;-->
+          <!--<strong class="tc-grey-900 push-none push-left-sm push-top-sm">Budget</strong>-->
+          <!--<span *ngIf="movie['budget']; else elseBlock"-->
+                <!--class="mat-body-1 push-none push-left-sm">{{convertMoney(movie['budget'])}}</span>-->
+
+          <!--&lt;!&ndash; ***************** Revenue *******************&ndash;&gt;-->
+          <!--<strong class="tc-grey-900 push-none push-left-sm push-top-sm">Budget</strong>-->
+          <!--<span *ngIf="movie['revenue']; else elseBlock"-->
+                <!--class="mat-body-1 push-none push-left-sm">{{convertMoney(movie['revenue'])}}</span>-->
+
+          <!--&lt;!&ndash; ***************** Homepage *******************&ndash;&gt;-->
+          <!--<strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Homepage</strong>-->
+          <!--<a *ngIf="movie['homepage']; else elseBlock"-->
+             <!--class="mat-body-1 push-none push-left-sm" href="{{movie['homepage']}}">{{movie['homepage']}}</a>-->
+
+          <!--&lt;!&ndash; ***************** Original language *******************&ndash;&gt;-->
+          <!--<strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Original language</strong>-->
+          <!--<span *ngIf="movie['original_language']; else elseBlock"-->
+                <!--class="mat-body-1 push-none push-left-sm text-uppercase">{{movie['original_language']}}</span>-->
+
+          <!--&lt;!&ndash; ***************** Status *******************&ndash;&gt;-->
+          <!--<strong class=" tc-grey-900 push-none push-left-sm push-top-sm">Status</strong>-->
+          <!--<span *ngIf="movie['status']; else elseBlock"-->
+                <!--class="mat-body-1 push-none push-left-sm">{{movie['status']}}</span>-->
+
+          <!--<ng-template #elseBlock>-->
+            <!--<span class="mat-body-1 push-none push-left-sm">-->
+              <!--Not provided-->
+            <!--</span>-->
+          <!--</ng-template>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
   <div layout="column">
-    <mat-toolbar class="pad-none" layout-align="center center">
-      <nav mat-tab-nav-bar class="pull-bottom-xl pull-top-md text-upper" flex>
+    <div class="movie-toolbar">
+      <nav mat-tab-nav-bar flex class="text-upper" layout="row" layout-align="center">
         <a mat-tab-link (click)="changeTab(route['value'])" *ngFor="let route of routes"
-           [active]="currentTab == route['value']" class="pad-left-sm pad-right-sm">
+           [active]="currentTab == route['value']" class="toolbar-item pad-left-sm pad-right-sm">
           <span hide-xs>{{route['title']}}</span>
           <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
         </a>
       </nav>
-    </mat-toolbar>
+    </div>
   </div>
   <div [ngSwitch]="currentTab">
     <div *ngSwitchCase="'1'">

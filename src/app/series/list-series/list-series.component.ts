@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { IPageChangeEvent } from '@covalent/core';
 
 // pagination
@@ -19,7 +19,8 @@ import { SeriesService } from '../series.service';
   selector: 'app-list-series',
   templateUrl: './list-series.component.html',
   styleUrls: ['./list-series.component.css'],
-  providers: [ SeriesService ]
+  providers: [ SeriesService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class ListSeriesComponent implements OnInit, OnDestroy {
 
@@ -84,37 +85,37 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
   updateSeries(page: number): void {
     switch (this.selectedCategory) {
       case 'popular': {
-        this.seriesService.getPopularSeries(page).subscribe(series => {
-          this.response = series;
-          this.series = series['results'];
-          this.totalPages = series['total_pages'];
+        this.seriesService.getPopularSeries(page).subscribe(response => {
+          this.response = response;
+          this.series = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'air': {
-        this.seriesService.getOnTheAirSeries(page).subscribe(series => {
-          this.response = series;
-          this.series = series['results'];
-          this.totalPages = series['total_pages'];
+        this.seriesService.getOnTheAirSeries(page).subscribe(response => {
+          this.response = response;
+          this.series = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'latest': {
-        this.seriesService.getLatestSeries(page).subscribe(series => {
-          this.response = series;
-          this.series = series['results'];
-          this.totalPages = series['total_pages'];
+        this.seriesService.getLatestSeries(page).subscribe(response => {
+          this.response = response;
+          this.series = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;
       }
       case 'top': {
-        this.seriesService.getTopRatedSeries(page).subscribe(series => {
-          this.response = series;
-          this.series = series['results'];
-          this.totalPages = series['total_pages'];
+        this.seriesService.getTopRatedSeries(page).subscribe(response => {
+          this.response = response;
+          this.series = response['results'];
+          this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
         break;

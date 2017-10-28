@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -20,7 +20,8 @@ import { MoviesService } from '../movies.service';
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.css'],
-  providers: [ MoviesService, TdMediaService ]
+  providers: [ MoviesService, TdMediaService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {
   // Used for responsive services

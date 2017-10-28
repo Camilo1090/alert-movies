@@ -65,7 +65,7 @@ export class MoviesService {
   }
 
   /**
-   * This function obtain the details of a specific movie, for more information of the api TMDB
+   * obtains the details of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-details
    * @param id: This is the ID of the movie
    * @returns {Observable<R>}: Results with the detail of a movie
@@ -77,7 +77,7 @@ export class MoviesService {
   }
 
   /**
-   * This function obtain the credits of a specific movie, for more information of the api TMDB
+   * obtains the credits of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-credits
    * @param id: This is the ID of the movie
    * @returns {Observable<R>}: Results with the credits of a specific movie
@@ -89,7 +89,7 @@ export class MoviesService {
   }
 
   /**
-   * This function obtain the videos of a specific movie, for more information of the api TMDB
+   * obtains the videos of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-videos
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie
@@ -100,7 +100,7 @@ export class MoviesService {
   }
 
   /**
-   * This function obtain the images of a specific movie, for more information of the api TMDB
+   * obtains the images of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-images
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie
@@ -111,7 +111,20 @@ export class MoviesService {
   }
 
   /**
-   * This function obtain the recommendations of a specific movie, for more information of the api TMDB
+   * obtains the reviews of a specific movie, for more information of the api TMDB
+   * https://developers.themoviedb.org/3/movies/get-movie-images
+   * @param id: This is the ID of the movie
+   * @param page: page for the query
+   * @returns {Observable<any>}: Results with the credits of a specific movie
+   */
+  getMovieReviews(id: number, page: number): Observable<Array<any>> {
+    const url = this.moviesUrl + '/' + id + '/reviews';
+    const args = '&page=' + page + '&language=en-US';
+    return this.sendRequest(url, args);
+  }
+
+  /**
+   * obtains the recommendations of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-recommendations
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie

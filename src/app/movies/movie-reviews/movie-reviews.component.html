@@ -1,0 +1,45 @@
+<div flex layout="row" tdMediaToggle="gt-xs"
+     [mediaClasses]="['pad-top-md', 'pad-bottom-lg', 'pad-left-xl', 'pad-right-xl']">
+  <div flex layout="column"
+       *tdLoading="'movie-reviews'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+    <div *ngIf="reviews.length > 0; then reviewsBlock else elseBlock"></div>
+    <ng-template #reviewsBlock>
+      <div layout="row" *ngFor="let review of reviews">
+      <div layout="column">
+        <div layout="row">
+          <div layout="column" layout-align="left" class="col-xs-12">
+            <h3 class="tc-grey-500">
+              Review by
+              <i class="tc-teal-A400">{{review['author']}}</i>
+            </h3>
+          </div>
+        </div>
+        <div layout="row" class="push-left-md push-bottom-md">
+          <i class="tc-grey-400">
+            Find review home page
+            <a href="{{review['url']}}">
+              here
+            </a>
+          </i>
+        </div>
+        <div layout="row">
+          <span class="tc-grey-200">{{review['content']}}</span>
+        </div>
+        <div layout="row"><hr class="col-xs-12"></div>
+      </div>
+    </div>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div layout="row" layout-align="center center">
+        <i class="tc-teal-A400">No reviews found</i>
+      </div>
+    </ng-template>
+    <td-paging-bar #pagingBar [pageSize]="[5]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
+                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-200">
+      <div *ngIf="isDesktop">
+        <span td-paging-bar-label hide-xs>Displaying </span>
+        {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+      </div>
+    </td-paging-bar>
+  </div>
+</div>

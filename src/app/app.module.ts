@@ -19,6 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MovieImagesComponent } from './movies/movie-images/movie-images.component';
 import { MovieVideosComponent } from './movies/movie-videos/movie-videos.component';
 import { MovieCastComponent } from './movies/movie-cast/movie-cast.component';
+import { MovieReviewsComponent } from './movies/movie-reviews/movie-reviews.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MovieCastComponent } from './movies/movie-cast/movie-cast.component';
     ListPeopleComponent,
     MovieImagesComponent,
     MovieVideosComponent,
-    MovieCastComponent
+    MovieCastComponent,
+    MovieReviewsComponent
   ],
   imports: [
     BrowserModule,

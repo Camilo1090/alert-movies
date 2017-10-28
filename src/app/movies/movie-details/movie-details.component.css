@@ -40,3 +40,8 @@ a.crew {
 a.toolbar-item:focus {
   color: #69f0ae;
 }
+
+.star {
+  font-size: 32px;
+  /*padding-left: 5px;*/
+}

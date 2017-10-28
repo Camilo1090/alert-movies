@@ -21,7 +21,7 @@ import { MoviesService } from '../movies.service';
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.css'],
   providers: [ MoviesService, TdMediaService ],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {
   // Used for responsive services

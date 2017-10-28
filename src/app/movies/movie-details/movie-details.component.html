@@ -22,7 +22,7 @@
            [mediaClasses]="['pad-top-xs']">
         <div layout="row">
           <div layout="row" layout-align="left" class="date-title col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <div class="date text-center col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div hide-xs class="date text-center col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
               <span class="tc-grey-400" layout="column">{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}</span>
             </div>
@@ -50,7 +50,7 @@
           <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Featured Crew</h3>
           <div class="row push-left-xs">
             <div *ngFor="let crew of credits['crew'] | slice:0:6">
-              <div layout="column" class="pad-xs col-xs-3">
+              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
                 <span class="tc-grey-300">{{crew['job']}}</span>
                 <a [routerLink]="['/person', crew.id]" class="crew">
                   <strong class="tc-black">{{crew['name']}}</strong>
@@ -63,7 +63,7 @@
           <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Movie Facts</h3>
           <div class="row push-left-xs">
           <!-- ***************** Runtime *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class="tc-black">Runtime</strong>
               <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-grey-300">
                 {{convertTime(movie['runtime'])}}
@@ -71,7 +71,7 @@
             </div>
 
             <!-- ***************** Budget *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class="tc-black">Budget</strong>
               <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-grey-300">
                 {{convertMoney(movie['budget'])}}
@@ -79,7 +79,7 @@
             </div>
 
             <!-- ***************** Revenue *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class="tc-black">Budget</strong>
               <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-grey-300">
                 {{convertMoney(movie['revenue'])}}
@@ -87,7 +87,7 @@
             </div>
 
             <!-- ***************** Homepage *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class=" tc-black">Homepage</strong>
               <a *ngIf="movie['homepage']; else elseBlock" class="mat-body-1" href="{{movie['homepage']}}">
                 {{movie['homepage']}}
@@ -95,7 +95,7 @@
             </div>
 
             <!-- ***************** Original language *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class=" tc-black">Original Language</strong>
               <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
                 {{movie['original_language']}}
@@ -103,7 +103,7 @@
             </div>
 
             <!-- ***************** Status *******************-->
-            <div layout="column" class="pad-xs col-xs-3">
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class=" tc-black">Status</strong>
               <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-grey-300">
                 {{movie['status']}}
@@ -220,7 +220,7 @@
   </div>
   <div [ngSwitch]="currentTab">
     <div *ngSwitchCase="'1'">
-      <!--<app-movie-images></app-movie-images>-->
+      <app-movie-images></app-movie-images>
     </div>
     <div *ngSwitchCase="'2'">
       <!--<app-movie-videos></app-movie-videos>-->

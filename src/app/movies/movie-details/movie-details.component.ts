@@ -26,7 +26,6 @@ import { MoviesService } from '../movies.service';
 export class MovieDetailsComponent implements OnInit, OnDestroy {
   // Used for responsive services
   isDesktop = false;
-  querySize = 'gt-sm';
   private _querySubscription: Subscription;
 
   apiImg = API.apiImg + 'original';
@@ -92,7 +91,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       .getMovieCredits(params['id']))
       .subscribe(credits => {
         this.credits = credits;
-        console.log(this.credits);
       });
   }
 
@@ -101,19 +99,19 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check the size of the screen
+   * checks the size of the screen
    */
   checkScreen(): void {
     this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query(this.querySize);
+      this.isDesktop = this._mediaService.query('gt-sm');
     });
   }
 
   /**
-   * This method subscribe with the service 'TdMediaService' to detect changes on the size of the screen
+   * subscribes the service 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery(this.querySize).subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         this.isDesktop = matches;
       });
@@ -121,7 +119,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * In charge to get an array of genres and return its separated by comma
+   * gets an array of genres and returns them separated by commas
    * @param genres: Array of genres
    * @returns {string}: List of genres separated by comma
    */
@@ -140,7 +138,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * In charge to get time in minutes and return its in the format HH:mm
+   * gets the time in minutes and returns it in HH:mm format
    * @param minutes: Integer with the minutes
    * @returns {string}: Time with the new format
    */
@@ -157,7 +155,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * In charge to get a budget and return its with the format of money
+   * gets a budget and returns it formatted
    * @param budget: Integer with the budget
    * @returns {string}: Budget with the new format
    */

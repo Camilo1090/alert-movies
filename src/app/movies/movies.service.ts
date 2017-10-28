@@ -11,13 +11,12 @@ import { API } from '../static/api';
 
 @Injectable()
 export class MoviesService {
-  moviesUrl = API.apiUrl + '/3/movie';
+  moviesUrl = API.apiUrl + '3/movie';
 
   constructor(private http: Http) {  }
 
-  sendRequest(url: string, args= ''): Observable<any> {
-    url += ('?api_key=' + API.apiKey +
-      '&language=en-US' + args);
+  sendRequest(url: string, args = ''): Observable<any> {
+    url += ('?api_key=' + API.apiKey + args);
     return this.http.get(url).map(response => response.json());
   }
 
@@ -28,7 +27,7 @@ export class MoviesService {
    */
   getPlayingNowMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/now_playing';
-    const args = '&page=' + page;
+    const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
   }
 
@@ -39,7 +38,7 @@ export class MoviesService {
    */
   getPopularMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/popular';
-    const args = '&page=' + page;
+    const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
   }
 
@@ -50,7 +49,7 @@ export class MoviesService {
    */
   getTopRatedMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/top_rated';
-    const args = '&page=' + page;
+    const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
   }
 
@@ -61,7 +60,7 @@ export class MoviesService {
    */
   getUpcomingMovies(page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/upcoming';
-    const args = '&page=' + page;
+    const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
   }
 
@@ -73,7 +72,8 @@ export class MoviesService {
    */
   getMovieDetails(id: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/' + id;
-    return this.sendRequest(url);
+    const args = '&language=en-US';
+    return this.sendRequest(url, args);
   }
 
   /**
@@ -84,7 +84,8 @@ export class MoviesService {
    */
   getMovieCredits(id: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/' + id + '/credits';
-    return this.sendRequest(url);
+    const args = '&language=en-US';
+    return this.sendRequest(url, args);
   }
 
   /**
@@ -93,7 +94,7 @@ export class MoviesService {
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
-  getVideos(id: number): Observable<Array<any>> {
+  getMovieVideos(id: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/' + id + '/videos';
     return this.sendRequest(url);
   }

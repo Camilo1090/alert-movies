@@ -1,0 +1,36 @@
+.mat-card {
+  background: none;
+}
+
+.card {
+  /*-webkit-transition: all 1s ease;*/
+  /*transition: all 0.5s ease;*/
+}
+
+.card:hover {
+  -ms-transform: scale(1.1,1.1); /* IE 9 */
+  -webkit-transform: scale(1.1,1.1); /* Safari */
+  transform: scale(1.1,1.1);
+  /*-webkit-box-shadow: 10px 10px 10px 0px #69f0ae;*/
+  /*-moz-box-shadow: 10px 10px 10px 0px #69f0ae;*/
+  /*box-shadow: 0 0 1px 0px #69f0ae;*/
+  z-index:9999;
+  /*border-right:1px solid transparent;*/
+  /*border-bottom:1px solid transparent;*/
+  cursor:pointer;
+  /*background-color:#fff;*/
+}
+
+.card:hover mat-card-content p {
+  color: #69f0ae !important;
+  font-weight: bold;
+}
+
+.rating {
+  padding-right: 10px;
+}
+
+.star {
+  font-size: 19px;
+  padding-left: 5px;
+}

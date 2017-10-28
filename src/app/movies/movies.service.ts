@@ -126,11 +126,13 @@ export class MoviesService {
   /**
    * obtains the recommendations of a specific movie, for more information of the api TMDB
    * https://developers.themoviedb.org/3/movies/get-movie-recommendations
-   * @param id: This is the ID of the movie
-   * @returns {Observable<any>}: Results with the credits of a specific movie
+   * @param id: ID of the movie
+   * @param page: page for the query
+   * @returns {Observable<any>}: Results with the recommendations of a specific movie
    */
-  getMovieRecommendations(id: number): Observable<Array<any>> {
+  getMovieRecommendations(id: number, page: number): Observable<Array<any>> {
     const url = this.moviesUrl + '/' + id + '/recommendations';
-    return this.sendRequest(url);
+    const args = '&page=' + page + '&language=en-US';
+    return this.sendRequest(url, args);
   }
 }

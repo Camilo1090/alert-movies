@@ -21,18 +21,21 @@
       <div flex-gt-md="50" layout="column" class="push-lg" tdMediaToggle="gt-xs"
            [mediaClasses]="['pad-top-xs']">
         <div layout="row">
-          <div layout="row" layout-align="left" class="date-title col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <div hide-xs class="date text-center col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          <div layout="row" layout-align="left" class="date-title col-xs-9">
+            <div hide-xs class="date text-center col-xs-2">
               <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
               <span class="tc-grey-400" layout="column">{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}</span>
             </div>
-            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-              <h1 class="tc-teal-A400"><b>{{movie['title']}} </b>({{movie['release_date'] | date:'yyyy'}})</h1>
+            <div class="col-xs-10">
+              <h1 class="tc-grey-400">
+                <b class="tc-teal-A400">{{movie['title']}} </b>
+                ({{movie['release_date'] | date:'yyyy'}})
+              </h1>
               <i class="tc-grey-500">{{getGenre(movie['genres'])}}</i>
             </div>
           </div>
 
-          <div layout="row" layout-align="end center" class="rating col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div layout="row" layout-align="end center" class="rating col-xs-3">
             <h1 class="tc-grey-300">
               <b>{{movie['vote_average']}}</b>
               <span aria-hidden="true" class="tc-amber-300">
@@ -144,7 +147,7 @@
       <app-movie-reviews></app-movie-reviews>
     </div>
     <div *ngSwitchCase="'5'">
-      <!--<app-movie-cast></app-movie-cast>-->
+      <app-movie-recommendations></app-movie-recommendations>
     </div>
   </div>
 </section>

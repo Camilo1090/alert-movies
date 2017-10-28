@@ -6,13 +6,13 @@
       <!-- *************** Image section *************** -->
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
-        <div class="movie-image push-lg push-right-none" flex-gt-xs="50">
+        <div layout="column" layout-align="center center" class="movie-image push-lg push-right-none" flex-gt-xs="50">
           <img *ngIf="movie['poster_path'] && isDesktop" src="{{apiImg + movie['poster_path']}}"
                class="img-responsive img-rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
-        <div class="pad-none" flex layout="row" layout-align="center center">
+        <div flex class="pad-none" layout="row" layout-align="center center">
           <img flex *ngIf="movie['backdrop_path'] && !isDesktop"
                src="{{apiImg + movie['backdrop_path']}}" class="img-responsive">
         </div>
@@ -25,10 +25,6 @@
             <div class="date text-center col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
               <span class="tc-grey-400" layout="column">{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}</span>
-              <!--<div class="back">-->
-                <!--<span aria-hidden="true" class="glyphicon glyphicon-hand-left"></span>-->
-                <!--Back!-->
-              <!--</div>-->
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
               <h1 class="tc-teal-A400"><b>{{movie['title']}} </b>({{movie['release_date'] | date:'yyyy'}})</h1>
@@ -239,5 +235,4 @@
       <!--<app-movie-cast></app-movie-cast>-->
     </div>
   </div>
-
 </section>

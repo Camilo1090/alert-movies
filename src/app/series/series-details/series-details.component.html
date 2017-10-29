@@ -3,41 +3,41 @@
   <div layout="column">
     <div layout-gt-sm="row" layout-xs="column" layout-align="center"
          tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
-      <!-- *************** Image section *************** -->
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
         <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none" flex-gt-xs="50">
-          <img *ngIf="movie['poster_path'] && isDesktop" src="{{apiImg + movie['poster_path']}}"
+          <img *ngIf="series['poster_path'] && isDesktop" src="{{apiImg + series['poster_path']}}"
                class="img-responsive img-rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
         <div flex class="pad-none" layout="row" layout-align="center center">
-          <img flex *ngIf="movie['backdrop_path'] && !isDesktop"
-               src="{{apiImg + movie['backdrop_path']}}" class="img-responsive">
+          <img flex *ngIf="series['backdrop_path'] && !isDesktop"
+               src="{{apiImg + series['backdrop_path']}}" class="img-responsive">
         </div>
       </ng-template>
-
       <div flex-gt-md="50" layout="column" class="push-lg" tdMediaToggle="gt-xs"
            [mediaClasses]="['pad-top-xs']">
         <div layout="row">
           <div layout="row" layout-align="left" class="date-title col-xs-9">
             <div hide-xs class="date text-center col-xs-2">
               <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
-              <span class="tc-grey-400" layout="column">{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}</span>
+              <span class="tc-grey-400" layout="column">
+                {{series['first_air_date'] | date:'d'}} {{series['first_air_date'] | date:'MMM'}}
+              </span>
             </div>
             <div class="col-xs-10">
               <h1 class="tc-grey-400">
-                <b class="tc-teal-A400">{{movie['title']}} </b>
-                ({{movie['release_date'] | date:'yyyy'}})
+                <b class="tc-teal-A400">{{series['name']}} </b>
+                ({{series['first_air_date'] | date:'yyyy'}})
               </h1>
-              <i class="tc-grey-500">{{getGenre(movie['genres'])}}</i>
+              <i class="tc-grey-500">{{getGenre(series['genres'])}}</i>
             </div>
           </div>
 
           <div layout="row" layout-align="end center" class="rating col-xs-3">
             <h1 class="tc-grey-300">
-              <b>{{movie['vote_average']}}</b>
+              <b>{{series['vote_average']}}</b>
               <span aria-hidden="true" class="tc-amber-300">
                 <i aria-hidden="true" class="fa fa-star star"></i>
               </span>
@@ -47,69 +47,78 @@
         <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
         <div layout="column">
           <h3 class="mat-headline tc-grey-500 push-bottom-xs">Overview</h3>
-          <span class="push-left-xs tc-grey-300">{{movie['overview']}}</span>
+          <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
         </div>
-        <div layout="column">
+        <div layout="column" *ngIf="crew.length > 0">
           <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Featured Crew</h3>
           <div class="row push-left-xs">
-            <div *ngFor="let crew of credits['crew'] | slice:0:6">
+            <div *ngFor="let person of crew | slice:0:6">
               <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-                <span class="tc-grey-300">{{crew['job']}}</span>
-                <a [routerLink]="['/person', crew.id]" class="crew">
-                  <strong class="tc-black">{{crew['name']}}</strong>
+                <span class="tc-grey-300">{{person['job']}}</span>
+                <a [routerLink]="['/person', person.id]" class="crew">
+                  <strong class="tc-black">{{person['name']}}</strong>
                 </a>
               </div>
             </div>
           </div>
         </div>
         <div layout="column">
-          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Movie Facts</h3>
+          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Show Facts</h3>
           <div class="row push-left-xs">
-          <!-- ***************** Runtime *******************-->
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Runtime</strong>
-              <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-grey-300">
-                {{convertTime(movie['runtime'])}}
+              <strong class="tc-black">Episode Runtime</strong>
+              <span *ngIf="series['episode_run_time']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{convertTime(series['episode_run_time'])}}
               </span>
             </div>
 
-            <!-- ***************** Budget *******************-->
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Budget</strong>
-              <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-grey-300">
-                {{convertMoney(movie['budget'])}}
+              <strong class="tc-black">Seasons</strong>
+              <span *ngIf="series['number_of_seasons']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{series['number_of_seasons']}}
               </span>
             </div>
 
-            <!-- ***************** Revenue *******************-->
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Revenue</strong>
-              <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-grey-300">
-                {{convertMoney(movie['revenue'])}}
+              <strong class="tc-black">Episodes</strong>
+              <span *ngIf="series['number_of_episodes']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{series['number_of_episodes']}}
               </span>
             </div>
 
-            <!-- ***************** Homepage *******************-->
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class=" tc-black">Homepage</strong>
-              <a *ngIf="movie['homepage']; else elseBlock" class="mat-body-1" href="{{movie['homepage']}}">
-                {{movie['homepage']}}
+              <a *ngIf="series['homepage']; else elseBlock" class="mat-body-1" href="{{series['homepage']}}">
+                {{series['homepage']}}
               </a>
             </div>
 
-            <!-- ***************** Original language *******************-->
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Original Language</strong>
-              <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
-                {{movie['original_language']}}
+              <strong class=" tc-black">Network</strong>
+              <span *ngIf="networks.length > 0; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+                {{networks[0]['name']}}
               </span>
             </div>
 
-            <!-- ***************** Status *******************-->
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <strong class=" tc-black">Company</strong>
+              <span *ngIf="companies.length > 0; else elseBlock"
+                    class="mat-body-1 text-uppercase tc-grey-300">
+                {{companies[0]['name']}}
+              </span>
+            </div>
+
+            <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <strong class=" tc-black">Original Language</strong>
+              <span *ngIf="series['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+                {{series['original_language']}}
+              </span>
+            </div>
+
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <strong class=" tc-black">Status</strong>
-              <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-grey-300">
-                {{movie['status']}}
+              <span *ngIf="series['status']; else elseBlock" class="mat-body-1 tc-grey-300">
+                {{series['status']}}
               </span>
             </div>
           </div>
@@ -135,19 +144,16 @@
   </div>
   <div [ngSwitch]="currentTab">
     <div *ngSwitchCase="'1'">
-      <app-movie-images></app-movie-images>
+      <!--<app-series-images></app-series-images>-->
     </div>
     <div *ngSwitchCase="'2'">
-      <app-movie-videos></app-movie-videos>
+      <!--<app-series-videos></app-series-videos>-->
     </div>
     <div *ngSwitchCase="'3'">
-      <app-movie-cast></app-movie-cast>
+      <!--<app-series-cast></app-series-cast>-->
     </div>
     <div *ngSwitchCase="'4'">
-      <app-movie-reviews></app-movie-reviews>
-    </div>
-    <div *ngSwitchCase="'5'">
-      <app-movie-recommendations></app-movie-recommendations>
+      <!--<app-series-recommendations></app-series-recommendations>-->
     </div>
   </div>
 </section>

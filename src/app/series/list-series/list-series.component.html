@@ -18,7 +18,7 @@
         <mat-grid-list cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let serie of series" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
-              <a [routerLink]="['/serie', serie.id]">
+              <a [routerLink]="['/series', serie.id]">
                 <div *ngIf="serie['backdrop_path']; else elseBlock">
                   <img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />
                 </div>

@@ -21,6 +21,7 @@ import { MovieVideosComponent } from './movies/movie-videos/movie-videos.compone
 import { MovieCastComponent } from './movies/movie-cast/movie-cast.component';
 import { MovieReviewsComponent } from './movies/movie-reviews/movie-reviews.component';
 import { MovieRecommendationsComponent } from './movies/movie-recommendations/movie-recommendations.component';
+import { SeriesDetailsComponent } from './series/series-details/series-details.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MovieRecommendationsComponent } from './movies/movie-recommendations/mo
     MovieVideosComponent,
     MovieCastComponent,
     MovieReviewsComponent,
-    MovieRecommendationsComponent
+    MovieRecommendationsComponent,
+    SeriesDetailsComponent
   ],
   imports: [
     BrowserModule,

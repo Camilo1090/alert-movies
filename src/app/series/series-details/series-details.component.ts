@@ -14,23 +14,25 @@ import { API} from '../../static/api';
 import { GENRES } from '../../static/genres';
 
 // services
-import { MoviesService } from '../movies.service';
+import { SeriesService } from '../series.service';
 
 @Component({
-  selector: 'app-movie-details',
-  templateUrl: './movie-details.component.html',
-  styleUrls: ['./movie-details.component.css'],
-  providers: [ MoviesService, TdMediaService ],
-  // encapsulation: ViewEncapsulation.None
+  selector: 'app-series-details',
+  templateUrl: './series-details.component.html',
+  styleUrls: ['./series-details.component.css'],
+  providers: [ SeriesService, TdMediaService ]
 })
-export class MovieDetailsComponent implements OnInit, OnDestroy {
+export class SeriesDetailsComponent implements OnInit, OnDestroy {
+
   // Used for responsive services
   isDesktop = false;
   private _querySubscription: Subscription;
 
   apiImg = API.apiImg + 'original';
-  movie = [];
-  credits = [];
+  series = [];
+  crew = [];
+  networks = [];
+  companies = [];
 
   routes: Object[] = [
     {
@@ -47,20 +49,15 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       icon: 'people',
     },
     {
-      title: 'Reviews',
-      value: '4',
-      icon: 'comment',
-    },
-    {
       title: 'Recommendations',
-      value: '5',
-      icon: 'movie',
+      value: '4',
+      icon: 'tv',
     },
   ];
 
   currentTab = 1;
 
-  constructor(private moviesService: MoviesService,
+  constructor(private seriesService: SeriesService,
               private route: ActivatedRoute,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
@@ -70,27 +67,29 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.registerLoading();
 
-    this.updateMovie();
-    this.updateCredits();
+    this.updateSeriesDetails();
+    this.updateSeriesCredits();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateMovie(): void {
-    this.route.params.switchMap((params: Params) => this.moviesService
-      .getMovieDetails(params['id']))
-      .subscribe(movie => {
-        this.movie = movie;
+  updateSeriesDetails(): void {
+    this.route.params.switchMap((params: Params) => this.seriesService
+      .getSeriesDetails(params['id']))
+      .subscribe(response => {
+        this.series = response;
+        this.networks = response['networks'];
+        this.companies = response['production_companies'];
         this.resolveLoading();
       });
   }
 
-  updateCredits(): void {
-    this.route.params.switchMap((params: Params) => this.moviesService
-      .getMovieCredits(params['id']))
-      .subscribe(credits => {
-        this.credits = credits;
+  updateSeriesCredits(): void {
+    this.route.params.switchMap((params: Params) => this.seriesService
+      .getSeriesCredits(params['id']))
+      .subscribe(response => {
+        this.crew = response['crew'];
       });
   }
 
@@ -144,8 +143,11 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
    */
   convertTime(minutes: number): string {
     let text = '';
+    let hourTime = 0;
     if (minutes) {
-      text += Math.floor(minutes / 60) + 'h ';
+      if ((hourTime = Math.floor(minutes / 60)) > 0) {
+        text += hourTime + 'h ';
+      }
       if (minutes % 60 !== 0) {
         text += (minutes % 60) + 'min';
       }
@@ -180,14 +182,15 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('movie');
+    this._loadingService.register('series-details');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('movie');
+    this._loadingService.resolve('series-details');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movie', value);
+    this._loadingService.setValue('series-details', value);
   }
+
 }

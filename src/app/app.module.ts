@@ -23,6 +23,7 @@ import { MovieReviewsComponent } from './movies/movie-reviews/movie-reviews.comp
 import { MovieRecommendationsComponent } from './movies/movie-recommendations/movie-recommendations.component';
 import { SeriesDetailsComponent } from './series/series-details/series-details.component';
 import { SeriesImagesComponent } from './series/series-images/series-images.component';
+import { SeriesVideosComponent } from './series/series-videos/series-videos.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SeriesImagesComponent } from './series/series-images/series-images.comp
     MovieReviewsComponent,
     MovieRecommendationsComponent,
     SeriesDetailsComponent,
-    SeriesImagesComponent
+    SeriesImagesComponent,
+    SeriesVideosComponent
   ],
   imports: [
     BrowserModule,

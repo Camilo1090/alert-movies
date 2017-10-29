@@ -6,7 +6,8 @@ import {MatIconRegistry} from '@angular/material';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
+  providers: [ MatIconRegistry ]
 })
 
 export class FooterComponent {

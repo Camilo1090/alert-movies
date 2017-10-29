@@ -80,9 +80,11 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   updateMovie(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieDetails(params['id']))
-      .subscribe(movie => {
-        this.movie = movie;
+      .subscribe(response => {
+        this.movie = response;
         this.resolveLoading();
+      }, err => {
+        console.log(err);
       });
   }
 
@@ -91,6 +93,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       .getMovieCredits(params['id']))
       .subscribe(credits => {
         this.credits = credits;
+      }, err => {
+        console.log(err);
       });
   }
 

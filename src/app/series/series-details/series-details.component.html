@@ -1,5 +1,5 @@
 <section flex class="bgc-grey-800"
-         *tdLoading="'movie'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
+         *tdLoading="'series-details'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
   <div layout="column">
     <div layout-gt-sm="row" layout-xs="column" layout-align="center"
          tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
@@ -144,7 +144,7 @@
   </div>
   <div [ngSwitch]="currentTab">
     <div *ngSwitchCase="'1'">
-      <!--<app-series-images></app-series-images>-->
+      <app-series-images></app-series-images>
     </div>
     <div *ngSwitchCase="'2'">
       <!--<app-series-videos></app-series-videos>-->

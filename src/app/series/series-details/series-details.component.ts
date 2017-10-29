@@ -190,7 +190,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('series-details', value);
+    this._loadingService.setValue('seriesDetails', value);
   }
 
 }

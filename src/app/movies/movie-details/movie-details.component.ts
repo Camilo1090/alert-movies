@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 // pagination
@@ -28,7 +28,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   isDesktop = false;
   private _querySubscription: Subscription;
 
-  apiImg = API.apiImg + 'original';
+  apiImgOrig = API.apiImg + 'original';
+  apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   movie = [];
   credits = [];
 
@@ -61,10 +62,16 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   currentTab = 1;
 
   constructor(private moviesService: MoviesService,
+              private router: Router,
               private route: ActivatedRoute,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
+    this.router.events
+      .filter(e => e instanceof NavigationEnd)
+      .subscribe(() => {
+        window.scroll(0, 0);
+      });
   }
 
   ngOnInit() {

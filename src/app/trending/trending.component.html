@@ -39,13 +39,13 @@
         <h1 class="title mat-display-1 tc-teal-A400 push-top-xs push-bottom-sm">Trending TV Series</h1>
         <div class="center-block carousel-container">
           <carousel class="text-center">
-            <slide *ngFor="let serie of series">
-              <a [routerLink]="['/serie', serie.id]">
-                <img src="{{apiImg + serie['backdrop_path']}}" class="img-slide img-responsive">
+            <slide *ngFor="let s of series">
+              <a [routerLink]="['/series', s.id]">
+                <img src="{{apiImg + s['backdrop_path']}}" class="img-slide img-responsive">
               </a>
               <!--<img class="img-slide" [src]="imageSources[0]" alt="First slide">-->
               <div class="carousel-caption tc-grey-50">
-                <h3>{{serie['name']}}</h3>
+                <h3>{{s['name']}}</h3>
                 <!--<div class="carousel-caption-date">-->
                   <!--<mat-icon class="mat-24 fa-mat tc-grey-50" fontSet="fa" fontIcon="fa-calendar"></mat-icon>-->
                   <!--<small layout-align="center center" class="tc-grey-50">-->

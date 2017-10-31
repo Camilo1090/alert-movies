@@ -30,3 +30,7 @@
 .card:hover mat-card-content i {
   color: #69f0ae !important;
 }
+
+.divider {
+  border-top-color: #212121;
+}

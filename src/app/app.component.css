@@ -58,6 +58,10 @@ mat-sidenav-container mat-sidenav a.active mat-icon {
   color: #69f0ae;
 }
 
+.mat-tab-label-active {
+  color: #69f0ae !important;
+}
+
 .toolbar {
   background-color: #303030;
   border-bottom: 1px solid hsla(0,0%,100%,.12);

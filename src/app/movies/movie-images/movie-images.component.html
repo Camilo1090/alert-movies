@@ -1,11 +1,11 @@
-<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-400"
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
      [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-lg', 'pad-right-xl']">
   <div flex layout="column">
     <div flex *tdLoading="'movie-images'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <h3 hide-xs class="title tc-grey-900">Backdrops</h3>
       <mat-grid-list layout="row" cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let backdrop of movieBackdrops" [colspan]="1" [rowspan]="1">
-            <mat-card class="card">
+            <mat-card class="card bgc-grey-900">
               <a href="{{apiImgOrig + backdrop['file_path']}}">
                 <div *ngIf="backdrop['file_path']; else elseBlock">
                   <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />

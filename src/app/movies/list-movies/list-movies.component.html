@@ -15,36 +15,36 @@
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs" [mediaClasses]="['results']">
       <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-          <mat-grid-list cols="{{columns}}" rowHeight="5:4">
-            <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
-              <mat-card class="card">
-                <a [routerLink]="['/movie', movie.id]">
-                  <div *ngIf="movie['backdrop_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+        <mat-grid-list cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
+            <mat-card class="card">
+              <a [routerLink]="['/movie', movie.id]">
+                <div *ngIf="movie['backdrop_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                </div>
+                <ng-template #elseBlock>
+                  <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
+                </ng-template>
+              </a>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-xs-10">
+                    <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                      {{movie['title']}}</p>
                   </div>
-                  <ng-template #elseBlock>
-                    <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
-                  </ng-template>
-                </a>
-                <mat-card-content class="bgc-grey-900">
-                  <div layout="row">
-                    <div class="col-xs-10">
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
                       <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{movie['title']}}</p>
-                    </div>
-                    <div class="col-xs-offset-1">
-                      <div layout="row" class="rating">
-                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{movie['vote_average']}}
-                        </p>
-                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                      </div>
+                        {{movie['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
                     </div>
                   </div>
-                </mat-card-content>
-              </mat-card>
-            </mat-grid-tile>
-          </mat-grid-list>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
       <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
                      [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">

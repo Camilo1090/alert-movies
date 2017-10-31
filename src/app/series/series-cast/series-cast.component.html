@@ -4,7 +4,7 @@
     <div flex *tdLoading="'movie-cast'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <!--<h3 hide-xs class="title tc-teal-A400">Backdrops</h3>-->
       <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.75">
-        <mat-grid-tile *ngFor="let person of movieCast" [colspan]="1" [rowspan]="1">
+        <mat-grid-tile *ngFor="let person of seriesCast" [colspan]="1" [rowspan]="1">
           <mat-card class="card">
             <a [routerLink]="['/person', person['id']]">
               <div *ngIf="person['profile_path']; else elseBlock">

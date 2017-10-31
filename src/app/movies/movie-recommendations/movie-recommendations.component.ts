@@ -21,7 +21,8 @@ import { MoviesService } from '../movies.service';
   selector: 'app-movie-recommendations',
   templateUrl: './movie-recommendations.component.html',
   styleUrls: ['./movie-recommendations.component.css'],
-  providers: [ MoviesService, TdMediaService ]
+  providers: [ MoviesService, TdMediaService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class MovieRecommendationsComponent implements OnInit, OnDestroy {
 

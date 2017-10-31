@@ -62,6 +62,10 @@ a.crew {
   opacity: 1;
 }
 
+a.toolbar-item.mat-tab-label-active {
+  opacity: 1;
+}
+
 a.toolbar-item {
   text-decoration: none;
   opacity: 0.5;

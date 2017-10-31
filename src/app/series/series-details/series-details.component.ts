@@ -28,7 +28,8 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   isDesktop = false;
   private _querySubscription: Subscription;
 
-  apiImg = API.apiImg + 'original';
+  apiImgOrig = API.apiImg + 'original';
+  apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   series = [];
   crew = [];
   networks = [];

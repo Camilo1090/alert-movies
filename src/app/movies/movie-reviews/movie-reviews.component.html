@@ -1,42 +1,46 @@
-<div flex layout="row" tdMediaToggle="gt-xs"
+<div flex layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
      [mediaClasses]="['pad-top-md', 'pad-bottom-lg', 'pad-left-xl', 'pad-right-xl']">
   <div flex layout="column"
        *tdLoading="'movie-reviews'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
     <div *ngIf="reviews.length > 0; then reviewsBlock else elseBlock"></div>
     <ng-template #reviewsBlock>
-      <div layout="row" *ngFor="let review of reviews">
-      <div layout="column">
-        <div layout="row">
-          <div layout="column" layout-align="left" class="col-xs-12">
-            <h3 class="tc-grey-500">
-              Review by
-              <i class="tc-teal-A400">{{review['author']}}</i>
-            </h3>
-          </div>
-        </div>
-        <div layout="row" class="push-left-md push-bottom-md">
-          <i class="tc-grey-400">
-            Find review home page
-            <a href="{{review['url']}}">
-              here
-            </a>
-          </i>
-        </div>
-        <div layout="row">
-          <span class="tc-grey-200 push-left-xs push-right-xs content"
-                innerHTML="{{review['content'] | formatString:'markdown'}}"></span>
-        </div>
-        <div layout="row"><hr class="col-xs-12"></div>
+      <div layout="column" tdMediaToggle="gt-sm"
+           [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+        <mat-card *ngFor="let review of reviews" tdMediaToggle="gt-md"
+                  [mediaClasses]="['push-left-xl', 'push-right-xl']">
+          <mat-card-content layout="column" class="bgc-grey-100">
+            <div layout="row">
+              <div layout="column" layout-align="left" class="col-xs-12">
+                <h3 class="tc-grey-800">
+                  Review by
+                  <i class="tc-grey-900"><strong>{{review['author']}}</strong></i>
+                </h3>
+              </div>
+            </div>
+            <div layout="row" class="push-left-md push-bottom-md">
+              <i class="tc-grey-800">
+                Find review home page
+                <a href="{{review['url']}}">
+                  here
+                </a>
+              </i>
+            </div>
+            <!--<div layout="row"><hr class="col-xs-12"></div>-->
+            <div layout="row">
+              <span class="tc-grey-800 push-left-xs push-right-xs content"
+                    innerHTML="{{review['content'] | formatString:'markdown'}}"></span>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
-    </div>
     </ng-template>
     <ng-template #elseBlock>
       <div layout="row" layout-align="center center">
-        <i class="tc-teal-A400">No reviews found</i>
+        <i class="tc-grey-900"><strong>No reviews found</strong></i>
       </div>
     </ng-template>
     <td-paging-bar #pagingBar [pageSize]="[5]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-200">
+                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
       <div *ngIf="isDesktop">
         <span td-paging-bar-label hide-xs>Displaying </span>
         {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>

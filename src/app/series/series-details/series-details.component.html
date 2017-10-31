@@ -1,19 +1,21 @@
 <section flex class="bgc-grey-800"
          *tdLoading="'series-details'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
-  <div layout="column">
-    <div layout-gt-sm="row" layout-xs="column" layout-align="center"
+  <div layout="column" class="parent">
+    <div *ngIf="series['backdrop_path'] && isDesktop" class="bg-image"
+         [ngStyle]="{'background-image': 'url(' + apiImgBack + series['backdrop_path'] + ')'}"></div>
+    <div layout-gt-sm="row" layout-xs="column" layout-align="center" class="custom-bg"
          tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
         <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none" flex-gt-xs="50">
-          <img *ngIf="series['poster_path'] && isDesktop" src="{{apiImg + series['poster_path']}}"
+          <img *ngIf="series['poster_path'] && isDesktop" src="{{apiImgOrig + series['poster_path']}}"
                class="img-responsive img-rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
         <div flex class="pad-none" layout="row" layout-align="center center">
           <img flex *ngIf="series['backdrop_path'] && !isDesktop"
-               src="{{apiImg + series['backdrop_path']}}" class="img-responsive">
+               src="{{apiImgOrig + series['backdrop_path']}}" class="img-responsive">
         </div>
       </ng-template>
       <div flex-gt-md="50" layout="column" class="push-lg" tdMediaToggle="gt-xs"
@@ -132,12 +134,12 @@
     </div>
   </div>
   <div layout="column">
-    <div class="movie-toolbar">
+    <div class="movie-toolbar bgc-grey-100">
       <nav mat-tab-nav-bar flex class="text-upper" layout="row" layout-align="center">
         <a mat-tab-link (click)="changeTab(route['value'])" *ngFor="let route of routes"
            [active]="currentTab == route['value']" class="toolbar-item pad-left-sm pad-right-sm">
-          <span hide-xs>{{route['title']}}</span>
-          <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
+          <span hide-xs class="tc-grey-900">{{route['title']}}</span>
+          <span hide-gt-xs class="tc-grey-900"><mat-icon>{{route['icon']}}</mat-icon></span>
         </a>
       </nav>
     </div>
@@ -150,7 +152,7 @@
       <app-series-videos></app-series-videos>
     </div>
     <div *ngSwitchCase="'3'">
-      <!--<app-series-cast></app-series-cast>-->
+      <app-series-cast></app-series-cast>
     </div>
     <div *ngSwitchCase="'4'">
       <!--<app-series-recommendations></app-series-recommendations>-->

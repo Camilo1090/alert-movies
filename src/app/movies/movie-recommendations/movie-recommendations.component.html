@@ -1,4 +1,4 @@
-<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-400"
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
      [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
   <div flex layout="column">
     <div flex
@@ -35,11 +35,11 @@
       </mat-grid-list>
     </div>
     <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
+                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
       <div *ngIf="isDesktop">
         <span td-paging-bar-label hide-xs class="tc-grey-900">Displaying </span>
         {{pagingBar.range}} <span hide-xs class="tc-grey-900">of {{pagingBar.total}}</span>
       </div>
     </td-paging-bar>
   </div>
-</div>
+</div>`

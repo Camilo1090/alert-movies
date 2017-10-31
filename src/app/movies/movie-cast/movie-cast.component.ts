@@ -166,7 +166,7 @@ export class MovieCastComponent implements OnInit, OnDestroy {
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movies', value);
+    this._loadingService.setValue('movieCast', value);
   }
 
 }

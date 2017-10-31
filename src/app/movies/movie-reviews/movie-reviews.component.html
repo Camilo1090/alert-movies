@@ -23,7 +23,8 @@
           </i>
         </div>
         <div layout="row">
-          <span class="tc-grey-200 push-left-xs push-right-xs">{{review['content']}}</span>
+          <span class="tc-grey-200 push-left-xs push-right-xs content"
+                innerHTML="{{review['content'] | formatString:'markdown'}}"></span>
         </div>
         <div layout="row"><hr class="col-xs-12"></div>
       </div>

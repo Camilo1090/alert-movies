@@ -1,8 +1,8 @@
-<div layout="row" tdMediaToggle="gt-xs"
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-400"
      [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-lg', 'pad-right-xl']">
   <div flex layout="column">
     <div flex *tdLoading="'movie-images'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-      <h3 hide-xs class="title tc-teal-A400">Backdrops</h3>
+      <h3 hide-xs class="title tc-grey-900">Backdrops</h3>
       <mat-grid-list layout="row" cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let backdrop of movieBackdrops" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
@@ -14,14 +14,14 @@
                   <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
                 </ng-template>
               </a>
-              <mat-card-content class="bgc-grey-900">
-                <i class="tc-grey-400 push-left-sm">Size: {{backdrop['width']}}x{{backdrop['height']}}</i>
+              <mat-card-content class="bgc-grey-900 text-center">
+                <i class="tc-grey-200">Size: {{backdrop['width']}}x{{backdrop['height']}}</i>
               </mat-card-content>
             </mat-card>
           </mat-grid-tile>
         </mat-grid-list>
-      <hr>
-      <h3 hide-xs class="title tc-teal-A400">Posters</h3>
+      <hr class="divider">
+      <h3 hide-xs class="title tc-grey-900">Posters</h3>
       <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.7">
           <mat-grid-tile *ngFor="let poster of moviePosters" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
@@ -33,8 +33,8 @@
                   <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
                 </ng-template>
               </a>
-              <mat-card-content class="bgc-grey-900">
-                <i class="tc-grey-400 push-left-sm">Size: {{poster['width']}}x{{poster['height']}}</i>
+              <mat-card-content class="bgc-grey-900 text-center">
+                <i class="tc-grey-200">Size: {{poster['width']}}x{{poster['height']}}</i>
               </mat-card-content>
             </mat-card>
           </mat-grid-tile>

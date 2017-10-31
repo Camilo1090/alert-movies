@@ -49,52 +49,52 @@
       </div>
       <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
       <div layout="column">
-        <h3 class="mat-headline tc-grey-500 push-bottom-xs">Overview</h3>
+        <h3 class="mat-headline tc-grey-300 fact push-bottom-xs">Overview</h3>
         <span class="push-left-xs tc-grey-300">{{movie['overview']}}</span>
       </div>
       <div layout="column">
-        <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Featured Crew</h3>
+        <h3 class="mat-headline tc-grey-300 fact push-top-sm push-bottom-xs">Featured Crew</h3>
         <div class="row push-left-xs">
           <div *ngFor="let crew of credits['crew'] | slice:0:6">
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <span class="tc-grey-300">{{crew['job']}}</span>
               <a [routerLink]="['/person', crew.id]" class="crew">
-                <strong class="tc-black">{{crew['name']}}</strong>
+                <strong class="tc-white">{{crew['name']}}</strong>
               </a>
+              <span class="tc-grey-400">{{crew['job']}}</span>
             </div>
           </div>
         </div>
       </div>
       <div layout="column">
-        <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Movie Facts</h3>
+        <h3 class="mat-headline tc-grey-300 fact push-top-sm push-bottom-xs">Movie Facts</h3>
         <div class="row push-left-xs">
         <!-- ***************** Runtime *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class="tc-black">Runtime</strong>
-            <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-grey-300">
+            <span class="tc-grey-400">Runtime</span>
+            <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-white fact">
               {{convertTime(movie['runtime'])}}
             </span>
           </div>
 
           <!-- ***************** Budget *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class="tc-black">Budget</strong>
-            <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-grey-300">
+            <span class="tc-white">Budget</span>
+            <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-white fact">
               {{convertMoney(movie['budget'])}}
             </span>
           </div>
 
           <!-- ***************** Revenue *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class="tc-black">Revenue</strong>
-            <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-grey-300">
+            <span class="tc-white">Revenue</span>
+            <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-white fact">
               {{convertMoney(movie['revenue'])}}
             </span>
           </div>
 
           <!-- ***************** Homepage *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class=" tc-black">Homepage</strong>
+            <span class=" tc-white">Homepage</span>
             <a *ngIf="movie['homepage']; else elseBlock" class="mat-body-1" href="{{movie['homepage']}}">
               {{movie['homepage']}}
             </a>
@@ -102,22 +102,22 @@
 
           <!-- ***************** Original language *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class=" tc-black">Original Language</strong>
-            <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+            <span class=" tc-white">Original Language</span>
+            <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
               {{movie['original_language']}}
             </span>
           </div>
 
           <!-- ***************** Status *******************-->
           <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-            <strong class=" tc-black">Status</strong>
-            <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-grey-300">
+            <span class=" tc-white">Status</span>
+            <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-white fact">
               {{movie['status']}}
             </span>
           </div>
         </div>
         <ng-template #elseBlock>
-          <span class="mat-body-1 tc-grey-300">
+          <span class="mat-body-1 tc-white fact">
             Not provided
           </span>
         </ng-template>

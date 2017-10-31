@@ -17,6 +17,9 @@ import { GENRES } from '../../static/genres';
 // services
 import { MoviesService } from '../movies.service';
 
+// pipes
+import { FormatStringPipe } from '../../pipes/format-string.pipe';
+
 @Component({
   selector: 'app-movie-reviews',
   templateUrl: './movie-reviews.component.html',
@@ -62,7 +65,6 @@ export class MovieReviewsComponent implements OnInit, OnDestroy {
       .getMovieReviews(params['id'], page))
       .subscribe(response => {
         this.response = response;
-        console.log(response);
         this.reviews = response['results'];
         this.totalPages = response['total_pages'];
         this.totalResults = response['total_results'];

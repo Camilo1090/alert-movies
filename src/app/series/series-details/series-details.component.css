@@ -44,7 +44,11 @@
 }
 
 a.crew {
-  text-decoration-color: #000000;
+  text-decoration-color: #ffffff;
+}
+
+.fact {
+  font-weight: bold;
 }
 
 .movie-toolbar {

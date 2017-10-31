@@ -26,6 +26,7 @@ import { SeriesImagesComponent } from './series/series-images/series-images.comp
 import { SeriesVideosComponent } from './series/series-videos/series-videos.component';
 import { FormatStringPipe } from './pipes/format-string.pipe';
 import { SeriesCastComponent } from './series/series-cast/series-cast.component';
+import { SeriesRecommendationsComponent } from './series/series-recommendations/series-recommendations.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SeriesCastComponent } from './series/series-cast/series-cast.component'
     SeriesImagesComponent,
     SeriesVideosComponent,
     FormatStringPipe,
-    SeriesCastComponent
+    SeriesCastComponent,
+    SeriesRecommendationsComponent
   ],
   imports: [
     BrowserModule,

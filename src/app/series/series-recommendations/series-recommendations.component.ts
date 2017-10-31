@@ -15,16 +15,14 @@ import { API} from '../../static/api';
 import { GENRES } from '../../static/genres';
 
 // services
-import { MoviesService } from '../movies.service';
+import { SeriesService } from '../series.service';
 
 @Component({
-  selector: 'app-movie-recommendations',
-  templateUrl: './movie-recommendations.component.html',
-  styleUrls: ['./movie-recommendations.component.css'],
-  providers: [ MoviesService, TdMediaService ],
-  // encapsulation: ViewEncapsulation.None
+  selector: 'app-series-recommendations',
+  templateUrl: './series-recommendations.component.html',
+  styleUrls: ['./series-recommendations.component.css']
 })
-export class MovieRecommendationsComponent implements OnInit, OnDestroy {
+export class SeriesRecommendationsComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = true;
@@ -44,7 +42,7 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
 
   apiImg = API.apiImg + 'w500';
 
-  constructor(private moviesService: MoviesService,
+  constructor(private seriesService: SeriesService,
               private route: ActivatedRoute,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
@@ -54,15 +52,15 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updateMovieRecommendations(1);
+    this.updateSeriesRecommendations(1);
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateMovieRecommendations(page: number): void {
-    this.route.params.switchMap((params: Params) => this.moviesService
-      .getMovieRecommendations(params['id'], page))
+  updateSeriesRecommendations(page: number): void {
+    this.route.params.switchMap((params: Params) => this.seriesService
+      .getSeriesRecommendations(params['id'], page))
       .subscribe(response => {
         this.response = response;
         this.recommendations = response['results'];
@@ -175,19 +173,20 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
   changePage(event: IPageChangeEvent): void {
     this.event = event;
     this.registerLoading();
-    this.updateMovieRecommendations(event.page);
+    this.updateSeriesRecommendations(event.page);
+    console.log(event.page);
   }
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('movie-recommendations');
+    this._loadingService.register('series-recommendations');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('movie-recommendations');
+    this._loadingService.resolve('series-recommendations');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movies', value);
+    this._loadingService.setValue('seriesRecommendations', value);
   }
 }

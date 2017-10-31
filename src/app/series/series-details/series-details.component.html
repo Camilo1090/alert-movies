@@ -48,84 +48,84 @@
         </div>
         <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
         <div layout="column">
-          <h3 class="mat-headline tc-grey-500 push-bottom-xs">Overview</h3>
+          <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
           <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
         </div>
         <div layout="column" *ngIf="crew.length > 0">
-          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Featured Crew</h3>
+          <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
           <div class="row push-left-xs">
             <div *ngFor="let person of crew | slice:0:6">
               <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-                <span class="tc-grey-300">{{person['job']}}</span>
                 <a [routerLink]="['/person', person.id]" class="crew">
-                  <strong class="tc-black">{{person['name']}}</strong>
+                  <strong class="tc-white">{{person['name']}}</strong>
                 </a>
+                <span class="tc-grey-400">{{person['job']}}</span>
               </div>
             </div>
           </div>
         </div>
         <div layout="column">
-          <h3 class="mat-headline tc-grey-500 push-top-sm push-bottom-xs">Show Facts</h3>
+          <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Show Facts</strong></h3>
           <div class="row push-left-xs">
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Episode Runtime</strong>
-              <span *ngIf="series['episode_run_time']; else elseBlock" class="mat-body-1 tc-grey-300">
-                {{convertTime(series['episode_run_time'])}}
+              <span class="tc-grey-400">Episode Runtime</span>
+              <span *ngIf="series['episode_run_time']; else elseBlock" class="mat-body-1 tc-white fact">
+                {{convertTime(series['episode_run_time'][0])}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Seasons</strong>
-              <span *ngIf="series['number_of_seasons']; else elseBlock" class="mat-body-1 tc-grey-300">
+              <span class="tc-grey-400">Seasons</span>
+              <span *ngIf="series['number_of_seasons']; else elseBlock" class="mat-body-1 tc-white fact">
                 {{series['number_of_seasons']}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class="tc-black">Episodes</strong>
-              <span *ngIf="series['number_of_episodes']; else elseBlock" class="mat-body-1 tc-grey-300">
+              <span class="tc-grey-400">Episodes</span>
+              <span *ngIf="series['number_of_episodes']; else elseBlock" class="mat-body-1 tc-white fact">
                 {{series['number_of_episodes']}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Homepage</strong>
+              <span class=" tc-grey-400">Homepage</span>
               <a *ngIf="series['homepage']; else elseBlock" class="mat-body-1" href="{{series['homepage']}}">
                 {{series['homepage']}}
               </a>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Network</strong>
-              <span *ngIf="networks.length > 0; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+              <span class=" tc-grey-400">Network</span>
+              <span *ngIf="networks.length > 0; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
                 {{networks[0]['name']}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Company</strong>
+              <span class=" tc-grey-400">Company</span>
               <span *ngIf="companies.length > 0; else elseBlock"
-                    class="mat-body-1 text-uppercase tc-grey-300">
+                    class="mat-body-1 text-uppercase tc-white fact">
                 {{companies[0]['name']}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Original Language</strong>
-              <span *ngIf="series['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-grey-300">
+              <span class=" tc-grey-400">Original Language</span>
+              <span *ngIf="series['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
                 {{series['original_language']}}
               </span>
             </div>
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-              <strong class=" tc-black">Status</strong>
-              <span *ngIf="series['status']; else elseBlock" class="mat-body-1 tc-grey-300">
+              <span class=" tc-grey-400">Status</span>
+              <span *ngIf="series['status']; else elseBlock" class="mat-body-1 tc-white fact">
                 {{series['status']}}
               </span>
             </div>
           </div>
           <ng-template #elseBlock>
-            <span class="mat-body-1 tc-grey-300">
+            <span class="mat-body-1 tc-white fact">
               Not provided
             </span>
           </ng-template>
@@ -155,7 +155,7 @@
       <app-series-cast></app-series-cast>
     </div>
     <div *ngSwitchCase="'4'">
-      <!--<app-series-recommendations></app-series-recommendations>-->
+      <app-series-recommendations></app-series-recommendations>
     </div>
   </div>
 </section>

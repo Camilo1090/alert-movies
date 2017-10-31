@@ -191,11 +191,11 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('movie');
+    this._loadingService.register('movie-details');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('movie');
+    this._loadingService.resolve('movie-details');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.

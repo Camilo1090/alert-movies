@@ -15,7 +15,7 @@
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs" [mediaClasses]="['results']">
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list cols="{{columns}}" rowHeight="0.2:0.37">
+        <mat-grid-list cols="{{columns}}" rowHeight="1:1.8">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
             <mat-card class="card">
               <a [routerLink]="['/person', person.id]">

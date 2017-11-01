@@ -16,8 +16,7 @@ export class PeopleService {
   constructor(private http: Http) {  }
 
   sendRequest(url: string, args= ''): Observable<any> {
-    url += ('?api_key=' + API.apiKey +
-      '&language=en-US' + args);
+    url += ('?api_key=' + API.apiKey + args);
     return this.http.get(url).map(response => response.json());
   }
 
@@ -29,6 +28,30 @@ export class PeopleService {
   getPopularPeople(page: number): Observable<Array<any>> {
     const url = this.peopleUrl + '/popular';
     const args = '&page=' + page;
+    return this.sendRequest(url, args);
+  }
+
+  getPersonDetails(id: number): Observable<Array<any>> {
+    const url = this.peopleUrl + '/' + id;
+    const args = '&language=en-US';
+    return this.sendRequest(url, args);
+  }
+
+  getPersonMovies(id: number): Observable<Array<any>> {
+    const url = this.peopleUrl + '/' + id + '/movie_credits';
+    const args = '&language=en-US';
+    return this.sendRequest(url, args);
+  }
+
+  getPersonSeries(id: number): Observable<Array<any>> {
+    const url = this.peopleUrl + '/' + id + '/tv_credits';
+    const args = '&language=en-US';
+    return this.sendRequest(url, args);
+  }
+
+  getPersonCombinedCredits(id: number): Observable<Array<any>> {
+    const url = this.peopleUrl + '/' + id + '/combined_credits';
+    const args = '&language=en-US';
     return this.sendRequest(url, args);
   }
 }

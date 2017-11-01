@@ -3,36 +3,44 @@
   <div flex layout="column">
     <div flex
          *tdLoading="'movie-recommendations'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-      <mat-grid-list cols="{{columns}}" rowHeight="5:4">
-        <mat-grid-tile *ngFor="let series of recommendations" [colspan]="1" [rowspan]="1">
-          <mat-card class="card">
-            <a [routerLink]="['/series', series.id]">
-              <div *ngIf="series['backdrop_path']; else elseBlock">
-                <img mat-card-image [src]="apiImg + series['backdrop_path']" class="img-responsive" />
-              </div>
-              <ng-template #elseBlock>
-                <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
-              </ng-template>
-            </a>
-            <mat-card-content class="bgc-grey-900">
-              <div layout="row">
-                <div class="col-xs-10">
-                  <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                    {{series['name']}}</p>
+      <div *ngIf="recommendations.length > 0; then recommendationsBlock else elseBlock"></div>
+      <ng-template #recommendationsBlock>
+        <mat-grid-list cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let series of recommendations" [colspan]="1" [rowspan]="1">
+            <mat-card class="card">
+              <a [routerLink]="['/series', series.id]">
+                <div *ngIf="series['backdrop_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + series['backdrop_path']" class="img-responsive" />
                 </div>
-                <div class="col-xs-offset-1">
-                  <div layout="row" class="rating">
+                <ng-template #elseBlock>
+                  <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
+                </ng-template>
+              </a>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-xs-10">
                     <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                      {{series['vote_average']}}
-                    </p>
-                    <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                      {{series['name']}}</p>
+                  </div>
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{series['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="center center">
+          <i class="tc-grey-900"><strong>No recommendations available</strong></i>
+        </div>
+      </ng-template>
     </div>
     <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
                    [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">

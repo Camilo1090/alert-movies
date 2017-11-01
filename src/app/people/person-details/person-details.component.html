@@ -1,3 +1,142 @@
-<p>
-  person-details works!
-</p>
+<section flex class="bgc-grey-800"
+         *tdLoading="'person-details'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
+  <div layout="column" class="parent">
+    <!-- *************** Image section *************** -->
+    <div *ngIf="featuredCredit && featuredCredit['backdrop_path'] && isDesktop" class="bg-image"
+         [ngStyle]="{'background-image': 'url(' + apiImgBack + featuredCredit['backdrop_path'] + ')'}"></div>
+    <div layout-gt-sm="row" layout-sm="column" layout-align="center" class="custom-bg"
+         tdMediaToggle="gt-xs" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+      <div layout-gt-sm="row" layout-sm="column" layout-align="center"
+           tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+        <div layout-gt-sm="row" layout-sm="column" layout-align="center"
+             tdMediaToggle="gt-md" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+          <div *ngIf="isDesktop; then desktop else mobile;"></div>
+          <ng-template #desktop>
+            <div layout="row" layout-align="center center" class="poster-image push-lg push-right-none">
+              <img *ngIf="person['profile_path']" src="{{apiImgOrig + person['profile_path']}}"
+                   class="img-responsive img-rounded">
+            </div>
+          </ng-template>
+          <ng-template #mobile>
+            <div flex class="push-top-md push-left-none push-bottom-none push-right-none"
+                 layout="column" layout-align="center center">
+              <img flex *ngIf="person['profile_path'] && !isDesktop"
+                   src="{{apiImgProf + person['profile_path']}}" class="img-responsive img-rounded">
+            </div>
+          </ng-template>
+          <div flex-gt-md="50" layout="column" class="pad-top-xs pad-left-md pad-bottom-md pad-right-md"
+               tdMediaToggle="gt-sm" [mediaClasses]="['push-lg', 'push-left-none']">
+            <div layout="row">
+              <div layout="row" layout-align="left" class="date-title col-xs-8">
+                <!--<div hide-xs class="date text-center col-xs-2">-->
+                  <!--<span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>-->
+                  <!--<span class="tc-grey-400" layout="column">-->
+                  <!--{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}-->
+                <!--</span>-->
+                <!--</div>-->
+                <div class="col-xs-12 pad-left-none">
+                  <h1 class="tc-grey-400">
+                    <b class="tc-teal-A400">{{person['name']}} </b>
+                  </h1>
+                  <!--<i class="tc-grey-500">{{getGenre(movie['genres'])}}</i>-->
+                </div>
+              </div>
+
+              <div layout="row" layout-align="end center" class="rating col-xs-4">
+                <h1 class="tc-grey-300">
+                  <b>{{person['popularity'] | number:'1.0-0'}}</b>
+                  <span aria-hidden="true" class="tc-blue-500">
+                  <i aria-hidden="true" class="fa fa-thumbs-up star"></i>
+                </span>
+                </h1>
+              </div>
+            </div>
+            <div layout="row"><hr class="col-xs-12 push-top-none"></div>
+            <div layout="column">
+              <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Biography</strong></h3>
+              <span *ngIf="person['biography']; else elseBlock" class="push-left-xs tc-grey-300">
+                {{person['biography']}}
+              </span>
+            </div>
+            <!--<div layout="column">-->
+              <!--<h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>-->
+              <!--<div class="row push-left-xs">-->
+                <!--<div *ngFor="let crew of credits['crew'] | slice:0:6">-->
+                  <!--<div layout="column" class="pad-xs col-xs-6 col-sm-3">-->
+                    <!--<a [routerLink]="['/person', crew.id]" class="crew">-->
+                      <!--<strong class="tc-white">{{crew['name']}}</strong>-->
+                    <!--</a>-->
+                    <!--<span class="tc-grey-400">{{crew['job']}}</span>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <div layout="column">
+              <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Personal Info</strong></h3>
+              <div class="row push-left-xs">
+                <!-- ***************** Runtime *******************-->
+                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+                  <span class="tc-grey-400">Gender</span>
+                  <span *ngIf="gender; else elseBlock" class="mat-body-1 tc-white fact">
+                  {{gender}}
+                </span>
+                </div>
+
+                <!-- ***************** Budget *******************-->
+                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+                  <span class="tc-white">Birthday</span>
+                  <span *ngIf="person['birthday']; else elseBlock" class="mat-body-1 tc-white fact">
+                  {{person['birthday'] | date:'d-MMM-yyyy'}}
+                </span>
+                </div>
+
+                <!-- ***************** Revenue *******************-->
+                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+                  <span class="tc-white">Place of Birth</span>
+                  <span *ngIf="person['place_of_birth']; else elseBlock" class="mat-body-1 tc-white fact">
+                  {{person['place_of_birth']}}
+                </span>
+                </div>
+
+                <!-- ***************** Homepage *******************-->
+                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+                  <span class=" tc-white">Official Site</span>
+                  <a *ngIf="person['homepage']; else elseBlock" class="mat-body-1" href="{{person['homepage']}}">
+                    {{person['homepage']}}
+                  </a>
+                </div>
+              </div>
+              <ng-template #elseBlock>
+              <span class="mat-body-1 tc-white fact">
+                -
+              </span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div layout="column">
+    <div class="movie-toolbar bgc-grey-100">
+      <nav mat-tab-nav-bar flex class="text-upper" layout="row" layout-align="center">
+        <a mat-tab-link (click)="changeTab(route['value'])" *ngFor="let route of routes"
+           [active]="currentTab == route['value']" class="toolbar-item pad-left-sm pad-right-sm">
+          <span hide-xs class="tc-grey-900">{{route['title']}}</span>
+          <span hide-gt-xs class="tc-grey-900"><mat-icon>{{route['icon']}}</mat-icon></span>
+        </a>
+      </nav>
+    </div>
+  </div>
+  <div [ngSwitch]="currentTab">
+    <div *ngSwitchCase="'1'">
+      <!--<app-movie-images></app-movie-images>-->
+    </div>
+    <div *ngSwitchCase="'2'">
+      <!--<app-movie-videos></app-movie-videos>-->
+    </div>
+    <div *ngSwitchCase="'3'">
+      <!--<app-movie-cast></app-movie-cast>-->
+    </div>
+  </div>
+</section>

@@ -1,5 +1,14 @@
 .header {
   position: fixed;
+  top: 0;
+  left: 0;
+  /*background-color: #081c24;*/
+  width: 100%;
+  z-index: 999;
+}
+
+.main {
+  padding-top: 56.4px;
 }
 
 .z-0{

@@ -29,6 +29,7 @@ import { SeriesCastComponent } from './series/series-cast/series-cast.component'
 import { SeriesRecommendationsComponent } from './series/series-recommendations/series-recommendations.component';
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
 import { PersonMoviesComponent } from './people/person-movies/person-movies.component';
+import { PersonSeriesComponent } from './people/person-series/person-series.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { PersonMoviesComponent } from './people/person-movies/person-movies.comp
     SeriesCastComponent,
     SeriesRecommendationsComponent,
     PersonDetailsComponent,
-    PersonMoviesComponent
+    PersonMoviesComponent,
+    PersonSeriesComponent
   ],
   imports: [
     BrowserModule,

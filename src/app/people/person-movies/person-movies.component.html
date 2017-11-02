@@ -1,0 +1,49 @@
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
+     [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
+  <div flex layout="column">
+    <div flex
+         *tdLoading="'movie-recommendations'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+      <div *ngIf="movies.length > 0; then moviesBlock else elseBlock"></div>
+      <ng-template #moviesBlock >
+        <mat-grid-list cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
+            <mat-card class="card">
+              <a [routerLink]="['/movie', movie.id]">
+                <div *ngIf="movie['backdrop_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + movie['backdrop_path']" class="img-responsive" />
+                </div>
+                <ng-template #elseBlock>
+                  <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
+                </ng-template>
+              </a>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-xs-10">
+                    <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                      {{movie['title']}}</p>
+                    <i *ngIf="movie['character']"
+                       class="mat-subhead tc-grey-200 push-left-xs push-top-none push-bottom-none">
+                      as <strong>{{movie['character']}}</strong></i>
+                  </div>
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{movie['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="center center">
+          <i class="tc-grey-900"><strong>No movies available</strong></i>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

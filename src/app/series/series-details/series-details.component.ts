@@ -6,15 +6,15 @@ import 'rxjs/add/operator/switchMap';
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// Load service
+// Load shared
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../static/api';
-import { GENRES } from '../../static/genres';
+import { API} from '../../shared/api/api';
+import { GENRES } from '../../shared/api/genres';
 
 // services
-import { SeriesService } from '../series.service';
+import { SeriesService } from '../shared/series.service';
 
 @Component({
   selector: 'app-series-details',
@@ -108,7 +108,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * subscribes the service 'TdMediaService' to detect changes on the size of the screen
+   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {

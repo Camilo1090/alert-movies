@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import {sendRequest} from 'selenium-webdriver/http';
 
 // api
-import { API } from '../static/api';
+import { API } from '../../shared/api/api';
 
 
 @Injectable()

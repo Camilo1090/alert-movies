@@ -7,15 +7,15 @@ import 'rxjs/add/operator/switchMap';
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// Load service
+// Load shared
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../static/api';
-import { GENRES } from '../../static/genres';
+import { API} from '../../shared/api/api';
+import { GENRES } from '../../shared/api/genres';
 
 // services
-import { MoviesService } from '../movies.service';
+import { MoviesService } from '../shared/movies.service';
 
 @Component({
   selector: 'app-movie-videos',
@@ -89,7 +89,7 @@ export class MovieVideosComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * subscribes with the service 'TdMediaService' to detect changes on the size of the screen
+   * subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 4;

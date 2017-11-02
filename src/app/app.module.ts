@@ -24,13 +24,14 @@ import { MovieRecommendationsComponent } from './movies/movie-recommendations/mo
 import { SeriesDetailsComponent } from './series/series-details/series-details.component';
 import { SeriesImagesComponent } from './series/series-images/series-images.component';
 import { SeriesVideosComponent } from './series/series-videos/series-videos.component';
-import { FormatStringPipe } from './pipes/format-string.pipe';
+import { FormatStringPipe } from './shared/format-string/format-string.pipe';
 import { SeriesCastComponent } from './series/series-cast/series-cast.component';
 import { SeriesRecommendationsComponent } from './series/series-recommendations/series-recommendations.component';
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
 import { PersonMoviesComponent } from './people/person-movies/person-movies.component';
 import { PersonSeriesComponent } from './people/person-series/person-series.component';
 import { PersonImagesComponent } from './people/person-images/person-images.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { PersonImagesComponent } from './people/person-images/person-images.comp
     PersonDetailsComponent,
     PersonMoviesComponent,
     PersonSeriesComponent,
-    PersonImagesComponent
+    PersonImagesComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

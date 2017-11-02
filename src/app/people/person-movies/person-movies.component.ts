@@ -20,7 +20,8 @@ import { PeopleService } from '../people.service';
 @Component({
   selector: 'app-person-movies',
   templateUrl: './person-movies.component.html',
-  styleUrls: ['./person-movies.component.css']
+  styleUrls: ['./person-movies.component.css'],
+  providers: [ PeopleService, TdMediaService ]
 })
 export class PersonMoviesComponent implements OnInit, OnDestroy {
 

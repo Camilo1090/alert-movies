@@ -1,0 +1,32 @@
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
+     [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-lg', 'pad-right-xl']">
+  <div flex layout="column">
+    <div flex *tdLoading="'person-images'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+      <div *ngIf="images.length > 0; then imagesBlock else elseBlock"></div>
+      <ng-template #imagesBlock >
+        <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.7">
+          <mat-grid-tile *ngFor="let image of images" [colspan]="1" [rowspan]="1">
+            <mat-card class="card bgc-grey-900">
+              <a href="{{apiImg + image['file_path']}}">
+                <div *ngIf="image['file_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + image['file_path']" class="img-responsive" />
+                </div>
+                <ng-template #elseBlock>
+                  <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
+                </ng-template>
+              </a>
+              <mat-card-content class="bgc-grey-900 text-center">
+                <i class="tc-grey-200">Size: {{image['width']}}x{{image['height']}}</i>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="center center">
+          <i class="tc-grey-900"><strong>No images available</strong></i>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

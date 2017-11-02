@@ -30,6 +30,7 @@ import { SeriesRecommendationsComponent } from './series/series-recommendations/
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
 import { PersonMoviesComponent } from './people/person-movies/person-movies.component';
 import { PersonSeriesComponent } from './people/person-series/person-series.component';
+import { PersonImagesComponent } from './people/person-images/person-images.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { PersonSeriesComponent } from './people/person-series/person-series.comp
     SeriesRecommendationsComponent,
     PersonDetailsComponent,
     PersonMoviesComponent,
-    PersonSeriesComponent
+    PersonSeriesComponent,
+    PersonImagesComponent
   ],
   imports: [
     BrowserModule,

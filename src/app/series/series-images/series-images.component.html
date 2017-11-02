@@ -3,42 +3,50 @@
   <div flex layout="column">
     <div flex *tdLoading="'movie-images'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <h3 hide-xs class="title tc-grey-900">Backdrops</h3>
-      <mat-grid-list layout="row" cols="{{columns}}" rowHeight="5:4">
-        <mat-grid-tile *ngFor="let backdrop of seriesBackdrops" [colspan]="1" [rowspan]="1">
-          <mat-card class="card bgc-grey-900">
-            <a href="{{apiImgOrig + backdrop['file_path']}}">
-              <div *ngIf="backdrop['file_path']; else elseBlock">
-                <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
-              </div>
-              <ng-template #elseBlock>
-                <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
-              </ng-template>
-            </a>
-            <mat-card-content class="bgc-grey-900 text-center">
-              <i class="tc-grey-200">Size: {{backdrop['width']}}x{{backdrop['height']}}</i>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+      <div *ngIf="seriesBackdrops.length > 0; then backdropsBlock else elseBlock"></div>
+      <ng-template #backdropsBlock>
+        <mat-grid-list layout="row" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let backdrop of seriesBackdrops" [colspan]="1" [rowspan]="1">
+            <mat-card class="card bgc-grey-900">
+              <a href="{{apiImgOrig + backdrop['file_path']}}">
+                <div *ngIf="backdrop['file_path']; else noImageBlock">
+                  <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
+                </div>
+              </a>
+              <mat-card-content class="bgc-grey-900 text-center">
+                <i class="tc-grey-200">Size: {{backdrop['width']}}x{{backdrop['height']}}</i>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </ng-template>
       <hr class="divider">
       <h3 hide-xs class="title tc-grey-900">Posters</h3>
-      <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.7">
-        <mat-grid-tile *ngFor="let poster of seriesPosters" [colspan]="1" [rowspan]="1">
-          <mat-card class="card">
-            <a href="{{apiImgOrig + poster['file_path']}}">
-              <div *ngIf="poster['file_path']; else elseBlock">
-                <img mat-card-image [src]="apiImg + poster['file_path']" class="img-responsive" />
-              </div>
-              <ng-template #elseBlock>
-                <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
-              </ng-template>
-            </a>
-            <mat-card-content class="bgc-grey-900 text-center">
-              <i class="tc-grey-200">Size: {{poster['width']}}x{{poster['height']}}</i>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+      <div *ngIf="seriesPosters.length > 0; then postersBlock else elseBlock"></div>
+      <ng-template #postersBlock>
+        <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.7">
+          <mat-grid-tile *ngFor="let poster of seriesPosters" [colspan]="1" [rowspan]="1">
+            <mat-card class="card">
+              <a href="{{apiImgOrig + poster['file_path']}}">
+                <div *ngIf="poster['file_path']; else noImageBlock">
+                  <img mat-card-image [src]="apiImg + poster['file_path']" class="img-responsive" />
+                </div>
+              </a>
+              <mat-card-content class="bgc-grey-900 text-center">
+                <i class="tc-grey-200">Size: {{poster['width']}}x{{poster['height']}}</i>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="left" class="push-left-sm">
+          <i class="tc-grey-900"><strong>No images available</strong></i>
+        </div>
+      </ng-template>
+      <ng-template #noImageBlock>
+        <img mat-card-image src="../../../assets/img/no-img.png" class="img-responsive" />
+      </ng-template>
     </div>
   </div>
 </div>

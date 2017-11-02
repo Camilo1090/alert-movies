@@ -54,4 +54,9 @@ export class PeopleService {
     const args = '&language=en-US';
     return this.sendRequest(url, args);
   }
+
+  getPersonImages(id: number): Observable<Array<any>> {
+    const url = this.peopleUrl + '/' + id + '/images';
+    return this.sendRequest(url);
+  }
 }

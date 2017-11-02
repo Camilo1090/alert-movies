@@ -1,7 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import { IPageChangeEvent } from '@covalent/core';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
@@ -18,22 +17,21 @@ import { GENRES } from '../../static/genres';
 import { PeopleService } from '../people.service';
 
 @Component({
-  selector: 'app-person-series',
-  templateUrl: './person-series.component.html',
-  styleUrls: ['./person-series.component.css'],
+  selector: 'app-person-images',
+  templateUrl: './person-images.component.html',
+  styleUrls: ['./person-images.component.css'],
   providers: [ PeopleService, TdMediaService ]
 })
-export class PersonSeriesComponent implements OnInit, OnDestroy {
+export class PersonImagesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = true;
   columns: number;
   private _querySubscription: Subscription;
 
-  response = [];
-  series = [];
-
+  images = [];
   apiImg = API.apiImg + 'w500';
+  apiImgOrig = API.apiImg + 'original';
 
   constructor(private peopleService: PeopleService,
               private route: ActivatedRoute,
@@ -45,21 +43,17 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updatePersonSeries();
+    this.updatePersonImages();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updatePersonSeries(): void {
+  updatePersonImages(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
-      .getPersonSeries(params['id']))
+      .getPersonImages(params['id']))
       .subscribe(response => {
-        if (response['cast'].length >= response['crew'].length) {
-          this.series = response['cast'].sort((a, b) => b['popularity'] - a['popularity']);
-        } else {
-          this.series = response['crew'].sort((a, b) => b['popularity'] - a['popularity']);
-        }
+        this.images = response['profiles'].slice(0, 12);
         this.resolveLoading();
       });
   }
@@ -75,19 +69,23 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
     // this.columns = 4;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
+        this.columns = 2;
+        this.isDesktop = false;
+      }
+      if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
         this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
-        this.columns = 2;
-        this.isDesktop = true;
-      }
-      if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
         this.isDesktop = true;
       }
-      if (this._mediaService.query('gt-md')) {
+      if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
+        this.isDesktop = true;
+      }
+      if (this._mediaService.query('gt-md')) {
+        this.columns = 5;
         this.isDesktop = true;
       }
     });
@@ -98,24 +96,23 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
    */
   watchScreen(): void {
     // this.columns = 4;
-    this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)')
-      .subscribe((matches: boolean) => {
-        this._ngZone.run(() => {
-          if (matches) {
-            this.columns = 1;
-            this.isDesktop = false;
-          }
-        });
-      });
-    this._querySubscription = this._mediaService.registerQuery('gt-xs').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = true;
+          this.isDesktop = false;
         }
       });
     });
-    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 375px)').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 1;
+          this.isDesktop = false;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('gt-xs').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
@@ -123,10 +120,18 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
         }
       });
     });
-    this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
+          this.isDesktop = true;
+        }
+      });
+    });
+    this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        if (matches) {
+          this.columns = 5;
           this.isDesktop = true;
         }
       });
@@ -154,15 +159,15 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
 
   // Methods for the loading
   registerLoading(): void {
-    this._loadingService.register('person-series');
+    this._loadingService.register('person-images');
   }
 
   resolveLoading(): void {
-    this._loadingService.resolve('person-series');
+    this._loadingService.resolve('person-images');
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('personSeries', value);
+    this._loadingService.setValue('personImages', value);
   }
 
 }

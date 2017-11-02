@@ -1,11 +1,11 @@
 <section>
-  <div layout="row" tdMediaToggle="gt-xs"
-       [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
-    <div *ngIf="isDesktop" layout="column" class="filters">
-      <aside>
+  <div layout="row">
+    <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
+      <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
         <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
         <!--<mat-form-field>-->
-          <!--<mat-select [ngModel]="selectedCategory" (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">-->
+          <!--<mat-select [ngModel]="selectedCategory" -->
+                      <!--(ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">-->
             <!--<mat-option *ngFor="let category of categories" [value]="category['value']">-->
               <!--{{ category['viewValue'] }}-->
             <!--</mat-option>-->
@@ -13,15 +13,16 @@
         <!--</mat-form-field>-->
       </aside>
     </div>
-    <div flex layout="column" tdMediaToggle="gt-xs" [mediaClasses]="['results']">
+    <div flex layout="column" tdMediaToggle="gt-xs"
+         [mediaClasses]="['results', 'pad-top-md', 'pad-bottom-lg', 'pad-left-md', 'pad-right-md']">
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <mat-grid-list cols="{{columns}}" rowHeight="1:1.8">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
-            <mat-card class="card">
+            <mat-card class="card bgc-grey-900">
               <a [routerLink]="['/person', person.id]">
                 <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
               </a>
-              <mat-card-content class="bgc-grey-900">
+              <mat-card-content>
                 <div flex layout="column">
                   <div layout="row">
                     <a flex [routerLink]="['/person', person['id']]">
@@ -39,7 +40,7 @@
         </mat-grid-list>
       </div>
       <td-paging-bar #pagingBar [pageSize]="[10]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-200">
+                     [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-900">
         <div *ngIf="isDesktop">
           <span td-paging-bar-label hide-xs>Displaying </span>
           {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>

@@ -1,6 +1,6 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { IPageChangeEvent } from '@covalent/core';
+import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
+import { IPageChangeEvent, TdPagingBarComponent } from '@covalent/core';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
@@ -27,26 +27,28 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Used for responsive services
   isDesktop = false;
   columns: number;
+  columnsPeople: number;
   private _querySubscription: Subscription;
 
+  // search
+  media: string;
+  query: string;
+
   // Used for the pagination
-  event: IPageChangeEvent;
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount = 5;
   totalPages: number;
   totalResults: number;
+  currentPage: number;
 
-  currentResults = [];
-  combinedResults = [];
-  movies = [];
-  series = [];
-  people = [];
+  results = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
   constructor(private searchService: SearchService,
               private route: ActivatedRoute,
+              private router: Router,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -55,43 +57,69 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.registerLoading();
 
-    this.updateSearchResults(1);
+    // this.router.events.subscribe((evt) => {
+    //   if (!(evt instanceof NavigationEnd)) {
+    //     return;
+    //   }
+    //   window.scrollTo(0, 0);
+    // });
+
+    this.route.params.subscribe(params => {
+      this.media = params['media'];
+      this.query = params['query'];
+      this.currentPage = params['page'];
+      this.updateSearchResults();
+    });
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateSearchResults(page: number): void {
-    this.route.params.switchMap((params: Params) => this.searchService
-      .searchMulti(params['query'], page))
-      .subscribe(response => {
-        this.currentResults = response['results'];
-        this.combinedResults = response['results'];
-        this.movies = this.combinedResults.filter(result => result['media_type'] === 'movie');
-        this.series = this.combinedResults.filter(result => result['media_type'] === 'tv');
-        this.people = this.combinedResults.filter(result => result['media_type'] === 'person');
-        this.totalResults = response['total_results'];
-        this.totalPages = response['total_pages'];
-        this.resolveLoading();
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  onAllClicked(): void {
-    this.currentResults = this.combinedResults;
+  updateSearchResults(): void {
+    switch (this.media) {
+      case 'movie': {
+        this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
+          this.results = response['results'];
+          this.totalResults = response['total_results'];
+          this.totalPages = response['total_pages'];
+        }, err => {
+          console.log(err);
+        });
+      } break;
+      case 'series': {
+        this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
+          this.results = response['results'];
+          this.totalResults = response['total_results'];
+          this.totalPages = response['total_pages'];
+          this.resolveLoading();
+        }, err => {
+          console.log(err);
+        });
+      } break;
+      case 'person': {
+        this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
+          this.results = response['results'];
+          this.totalResults = response['total_results'];
+          this.totalPages = response['total_pages'];
+          this.resolveLoading();
+        }, err => {
+          console.log(err);
+        });
+      }
+    }
+    this.resolveLoading();
   }
 
   onMoviesClicked(): void {
-    this.currentResults = this.movies;
+    this.router.navigate(['/search', 'movie', {'query': this.query, 'page': this.currentPage}]);
   }
 
   onSeriesClicked(): void {
-    this.currentResults = this.series;
+    this.router.navigate(['/search', 'series', {'query': this.query, 'page': this.currentPage}]);
   }
 
   onPeopleClicked(): void {
-    this.currentResults = this.people;
+    this.router.navigate(['/search', 'person', {'query': this.query, 'page': this.currentPage}]);
   }
 
   ngOnDestroy(): void {
@@ -105,27 +133,32 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this.columns = 5;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
-        this.columns = 2;
+        this.columns = 1;
+        this.columnsPeople = 2;
         this.isDesktop = false;
         this.pageLinkCount = 1;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
+        this.columnsPeople = 1;
         this.isDesktop = false;
         this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-xs')) {
-        this.columns = 3;
+        this.columns = 2;
+        this.columnsPeople = 3;
         this.isDesktop = false;
         this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
-        this.columns = 4;
+        this.columns = 3;
+        this.columnsPeople = 4;
         this.isDesktop = true;
         this.pageLinkCount = 5;
       }
       if (this._mediaService.query('gt-md')) {
-        this.columns = 5;
+        this.columns = 4;
+        this.columnsPeople = 5;
         this.isDesktop = true;
         this.pageLinkCount = 5;
       }
@@ -140,7 +173,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
-          this.columns = 2;
+          this.columns = 1;
+          this.columnsPeople = 2;
           this.isDesktop = false;
           this.pageLinkCount = 1;
         }
@@ -150,6 +184,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 1;
+          this.columnsPeople = 1;
           this.isDesktop = false;
           this.pageLinkCount = 1;
         }
@@ -158,7 +193,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this._querySubscription = this._mediaService.registerQuery('gt-xs').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
-          this.columns = 3;
+          this.columns = 2;
+          this.columnsPeople = 3;
           this.isDesktop = false;
           this.pageLinkCount = 1;
         }
@@ -167,7 +203,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
-          this.columns = 4;
+          this.columns = 3;
+          this.columnsPeople = 4;
           this.isDesktop = true;
           this.pageLinkCount = 5;
         }
@@ -176,7 +213,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
-          this.columns = 5;
+          this.columns = 4;
+          this.columnsPeople = 5;
           this.isDesktop = true;
           this.pageLinkCount = 5;
         }
@@ -208,9 +246,10 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
-    this.event = event;
-    this.registerLoading();
-    this.updateSearchResults(event.page);
+    this.currentPage = event.page;
+    this.router.navigate(['/search', this.media, {'query': this.query, 'page': this.currentPage}]);
+    // window.scrollTo(0, 0);
+    // this.updateSearchResults();
   }
 
   // Methods for the loading

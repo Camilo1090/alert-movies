@@ -2,64 +2,99 @@
   <div layout="row">
     <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
       <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
-        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Media Type: </h3>
-        <ul>
-          <li>
-            <a (click)="onAllClicked()">All <span>{{combinedResults.length}}</span></a>
-          </li>
-          <li>
-            <a (click)="onMoviesClicked()">Movies <span>{{movies.length}}</span></a>
-          </li>
-          <li>
-            <a (click)="onSeriesClicked()">TV Series <span>{{series.length}}</span></a>
-          </li>
-          <li>
-            <a (click)="onPeopleClicked()">People <span>{{people.length}}</span></a>
-          </li>
-        </ul>
+        <!--<h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Media Type: </h3>-->
+        <div class="media-type-container push-top-sm">
+          <ul mat-tab-nav-bar class="media-type-list pad-left-none">
+            <li>
+              <a mat-tab-link [active]="media === 'movie'"
+                 [routerLink]="['/search', 'movie', {'query': query, 'page': currentPage}]">Movies <span></span></a>
+            </li>
+            <li>
+              <a mat-tab-link [active]="media === 'series'"
+                 [routerLink]="['/search', 'series', {'query': query, 'page': currentPage}]">TV Series <span></span></a>
+            </li>
+            <li>
+              <a mat-tab-link [active]="media === 'person'"
+                 [routerLink]="['/search', 'person', {'query': query, 'page': currentPage}]">People <span></span></a>
+            </li>
+          </ul>
+        </div>
       </aside>
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs"
-         [mediaClasses]="['results', 'pad-top-md', 'pad-bottom-lg', 'pad-left-md', 'pad-right-md']">
-      <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list cols="{{columns}}" rowHeight="1:1.8">
-          <mat-grid-tile *ngFor="let result of currentResults" [ngSwitch]="result['media_type']"
-                         [colspan]="1" [rowspan]="1">
-            <mat-card *ngSwitchCase="'movie'" class="person-card bgc-grey-900">
-              <a [routerLink]="['/movie', result.id]">
-                <img mat-card-image [src]="apiImg + result['poster_path']" class="img-responsive image" />
+         [mediaClasses]="['results', 'pad-top-sm', 'pad-bottom-md', 'pad-left-md', 'pad-right-md']">
+      <div layout="row" layout-align="start center">
+        <h2>Search</h2>
+        <mat-icon class="arrow push-top-sm">keyboard_arrow_right</mat-icon>
+        <h2 [ngSwitch]="media">
+          <span *ngSwitchCase="'movie'">Movies Results</span>
+          <span *ngSwitchCase="'series'">TV Series Results</span>
+          <span *ngSwitchCase="'person'">People Results</span>
+        </h2>
+      </div>
+      <div flex [ngSwitch]="media"
+           *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+        <mat-grid-list *ngSwitchCase="'movie'" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+            <mat-card class="movie-series-card bgc-grey-900">
+              <a [routerLink]="['/movie', result['id']]">
+                <div *ngIf="result['backdrop_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
+                </div>
               </a>
-              <mat-card-content>
-                <div flex layout="column">
-                  <div layout="row">
-                    <a flex [routerLink]="['/movie', result['id']]">
-                      <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['title']}}</h3>
-                      <span><i>movie</i></span>
-                    </a>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-xs-10">
+                    <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                      {{result['title']}}</p>
+                  </div>
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{result['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                    </div>
                   </div>
                 </div>
               </mat-card-content>
             </mat-card>
-            <mat-card *ngSwitchCase="'tv'" class="person-card bgc-grey-900">
-              <a [routerLink]="['/series', result.id]">
-                <img mat-card-image [src]="apiImg + result['poster_path']" class="img-responsive image" />
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+            <mat-card class="movie-series-card bgc-grey-900">
+              <a [routerLink]="['/series', result['id']]">
+                <div *ngIf="result['backdrop_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
+                </div>
               </a>
-              <mat-card-content>
-                <div flex layout="column">
-                  <div layout="row">
-                    <a flex [routerLink]="['/series', result['id']]">
-                      <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['name']}}</h3>
-                      <span><i>tv series</i></span>
-                    </a>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-xs-10">
+                    <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                      {{result['name']}}</p>
+                  </div>
+                  <div class="col-xs-offset-1">
+                    <div layout="row" class="rating">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{result['vote_average']}}
+                      </p>
+                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                    </div>
                   </div>
                 </div>
               </mat-card-content>
             </mat-card>
-            <mat-card *ngSwitchCase="'person'" class="person-card bgc-grey-900">
-              <a [routerLink]="['/person', result.id]">
-                <img mat-card-image [src]="apiImg + result['profile_path']" class="img-responsive image" />
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list *ngSwitchCase="'person'" cols="{{columnsPeople}}" rowHeight="1:1.75">
+          <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+            <mat-card class="person-card bgc-grey-900">
+              <a [routerLink]="['/person', result['id']]">
+                <div *ngIf="result['profile_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + result['profile_path']" class="img-responsive image" />
+                </div>
               </a>
               <mat-card-content>
                 <div flex layout="column">
@@ -68,7 +103,14 @@
                       <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                         {{result['name']}}</h3>
                     </a>
-                    <span><i>person</i></span>
+                  </div>
+                  <div *ngIf="result['known_for'] && result['known_for'][0]" layout="row">
+                    <i *ngIf="result['known_for'][0]['title']" flex class="text-micro tc-grey-300">
+                      {{result['known_for'][0]['title']}}
+                    </i>
+                    <i *ngIf="result['known_for'][0]['name']" flex class="text-micro tc-grey-300">
+                      {{result['known_for'][0]['name']}}
+                    </i>
                   </div>
                 </div>
               </mat-card-content>
@@ -76,13 +118,18 @@
           </mat-grid-tile>
         </mat-grid-list>
       </div>
-      <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
-        <div *ngIf="isDesktop">
-          <span td-paging-bar-label hide-xs>Displaying </span>
-          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-        </div>
-      </td-paging-bar>
+      <ng-template #elseBlock>
+        <img mat-card-image src="../../assets/img/no-img.png" class="img-responsive" />
+      </ng-template>
+      <div class="push-top-sm">
+        <td-paging-bar #pagingBarBottom [pageSize]="[20]" [pageLinkCount]="0" [initialPage]="currentPage"
+                       [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
+          <div *ngIf="isDesktop">
+            <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
+            <span hide-xs>({{totalResults}} results)</span>
+          </div>
+        </td-paging-bar>
+      </div>
     </div>
   </div>
 </section>

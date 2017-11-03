@@ -47,7 +47,6 @@ export class SearchBarComponent implements OnInit {
       .switchMap(query => query ?
         this.searchService.searchMulti(query, 1).map(response => response['results']) :
         Observable.of<Array<any>>([])).do(response => {
-        console.log(response);
         this.results = response;
       });
   }
@@ -62,9 +61,10 @@ export class SearchBarComponent implements OnInit {
   }
 
   onEnter($event: string) {
+    const query = this.searchBar.value;
     this.clear();
     // this.complete = Observable.of<Array<any>>([]);
-    this.router.navigate(['/search', $event]);
+    this.router.navigate(['/search', 'movie', {'query': query, 'page': 1}]);
   }
 
 }

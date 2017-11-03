@@ -85,10 +85,6 @@ mat-form-field.category-field {
   font-size : 1vw; overflow: hidden;
 }
 
-.mat-card {
-  background: none;
-}
-
 .card {
   /*-webkit-transition: all 1s ease;*/
   /*transition: all 0.5s ease;*/

@@ -19,7 +19,7 @@ import { SeriesService } from '../shared/series.service';
   selector: 'app-list-series',
   templateUrl: './list-series.component.html',
   styleUrls: ['./list-series.component.css'],
-  providers: [ SeriesService ],
+  providers: [ SeriesService, TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListSeriesComponent implements OnInit, OnDestroy {
@@ -133,7 +133,6 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
   checkScreen(): void {
     // this.columns = 4;
     this._ngZone.run(() => {
-      this.isDesktop = !this._mediaService.query('xs');
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
         this.isDesktop = false;

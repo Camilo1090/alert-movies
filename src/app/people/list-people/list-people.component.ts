@@ -19,7 +19,7 @@ import { PeopleService } from '../shared/people.service';
   selector: 'app-list-people',
   templateUrl: './list-people.component.html',
   styleUrls: ['./list-people.component.css'],
-  providers: [ PeopleService ],
+  providers: [ PeopleService, TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListPeopleComponent implements OnInit, OnDestroy {
@@ -87,7 +87,7 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
-        this.isDesktop = true;
+        this.isDesktop = false;
         this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
@@ -130,7 +130,7 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
+          this.isDesktop = false;
           this.pageLinkCount = 1;
         }
       });

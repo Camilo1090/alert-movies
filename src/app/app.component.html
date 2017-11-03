@@ -59,8 +59,8 @@
              layout-align-gt-xs="start center" layout-align-xs="center center">
           <a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
              [active]="ni.isActive" *ngFor="let route of routes">
-            <span hide-xs class="">{{route['title']}}</span>
-            <span hide-gt-xs class="tc-grey-100"><mat-icon>{{route['icon']}}</mat-icon></span>
+            <span hide-xs>{{route['title']}}</span>
+            <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
           </a>
         </nav>
       </div>

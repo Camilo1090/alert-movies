@@ -57,11 +57,11 @@ export class SearchBarComponent implements OnInit {
   }
 
   clear() {
+    this.searchBar.value = '';
     this.searchInputTerm.next('');
   }
 
   onEnter($event: string) {
-    this.searchBar.value = '';
     this.clear();
     // this.complete = Observable.of<Array<any>>([]);
     this.router.navigate(['/search', $event]);

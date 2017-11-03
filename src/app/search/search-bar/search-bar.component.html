@@ -5,7 +5,7 @@
                  (search)="onEnter($event)" (clear)="clear()" (click)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">
-    <ul class="search-results">
+    <ul class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">
       <li *ngFor="let result of results | slice:0:5" [ngSwitch]="result['media_type']" class="search-result">
         <a *ngSwitchCase="'movie'" class="search-result"
            [routerLink]="['/movie', result['id']]" (click)="clear()">

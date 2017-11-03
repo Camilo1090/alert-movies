@@ -9,6 +9,7 @@ import { ListPeopleComponent } from './people/list-people/list-people.component'
 import { ListSeriesComponent } from './series/list-series/list-series.component';
 import { SeriesDetailsComponent } from './series/series-details/series-details.component';
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
+import { SearchComponent } from './search/search.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'list-series', component: ListSeriesComponent },
   { path: 'movie/:id', component: MovieDetailsComponent },
   { path: 'series/:id', component: SeriesDetailsComponent },
-  { path: 'person/:id', component: PersonDetailsComponent }
+  { path: 'person/:id', component: PersonDetailsComponent },
+  { path: 'search/:query', component: SearchComponent }
 ];
 
 @NgModule({

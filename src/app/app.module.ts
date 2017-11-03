@@ -32,6 +32,7 @@ import { PersonMoviesComponent } from './people/person-movies/person-movies.comp
 import { PersonSeriesComponent } from './people/person-series/person-series.component';
 import { PersonImagesComponent } from './people/person-images/person-images.component';
 import { SearchComponent } from './search/search.component';
+import { SearchBarComponent } from './search/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { SearchComponent } from './search/search.component';
     PersonMoviesComponent,
     PersonSeriesComponent,
     PersonImagesComponent,
-    SearchComponent
+    SearchComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,

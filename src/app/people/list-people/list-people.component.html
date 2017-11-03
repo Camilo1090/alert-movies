@@ -18,7 +18,7 @@
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <mat-grid-list cols="{{columns}}" rowHeight="1:1.8">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
-            <mat-card class="card bgc-grey-900">
+            <mat-card class="person-card bgc-grey-900">
               <a [routerLink]="['/person', person.id]">
                 <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
               </a>

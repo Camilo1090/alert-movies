@@ -53,12 +53,12 @@
   background: none;
 }
 
-.card {
+.person-card {
   /*-webkit-transition: all 1s ease;*/
   /*transition: all 0.5s ease;*/
 }
 
-.card:hover {
+.person-card:hover {
   -ms-transform: scale(1.07,1.07); /* IE 9 */
   -webkit-transform: scale(1.07,1.07); /* Safari */
   transform: scale(1.07,1.07);
@@ -72,12 +72,12 @@
   /*background-color:#fff;*/
 }
 
-.card:hover mat-card-content h3 {
+.person-card:hover mat-card-content h3 {
   color: #69f0ae !important;
   font-weight: 200;
   text-decoration: none;
 }
 
-.card:hover mat-card-content a {
+.person-card:hover mat-card-content a {
   text-decoration: none;
 }

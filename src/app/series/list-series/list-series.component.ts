@@ -141,7 +141,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
-        this.isDesktop = true;
+        this.isDesktop = false;
         this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
@@ -176,7 +176,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = true;
+          this.isDesktop = false;
           this.pageLinkCount = 1;
         }
       });

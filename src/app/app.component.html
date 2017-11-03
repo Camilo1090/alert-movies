@@ -25,9 +25,9 @@
   <!--</td-navigation-drawer>-->
 
   <div class="page-wrapper">
-    <div flex layout="row" layout-align="start center" class="header pad-xs bgc-grey-900">
+    <div flex layout-gt-xs="row" layout-xs="column" layout-align="start center" class="header pad-xs bgc-grey-900">
       <div flex>
-        <button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()">
+        <button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()" hide-xs>
           <mat-icon class="tc-grey-400">menu</mat-icon>
         </button>
         <span hide-gt-xs>
@@ -46,13 +46,17 @@
         </span>
         <span flex></span>
       </div>
-      <div flex="30" hide-xs hide-sm>
+      <div flex="30" hide-xs>
+        <app-search-bar></app-search-bar>
+      </div>
+      <div flex layout="row" hide-gt-xs>
         <app-search-bar></app-search-bar>
       </div>
     </div>
-    <div class="main">
+    <div class="main-gt-xs" tdMediaToggle="xs" [mediaClasses]="['main-xs']">
       <div class="toolbar">
-        <nav mat-tab-nav-bar class="text-upper" flex>
+        <nav mat-tab-nav-bar class="text-upper" flex layout="row"
+             layout-align-gt-xs="start center" layout-align-xs="center center">
           <a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
              [active]="ni.isActive" *ngFor="let route of routes">
             <span hide-xs class="">{{route['title']}}</span>

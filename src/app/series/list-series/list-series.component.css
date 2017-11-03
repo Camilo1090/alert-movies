@@ -19,39 +19,39 @@
   /*margin-bottom: 30px;*/
 }
 
-.mat-form-field-infix {
+.category-field .mat-form-field-infix {
   border-top: none;
 }
 
-.mat-form-field {
+mat-form-field.category-field {
   width: 100%;
   /*padding-left: 20px;*/
   /*padding-top: 5px;*/
   /*margin-bottom: 5px;*/
 }
 
-.mat-select-content {
+.category-field .mat-select-content {
   background-color: #6f6f6f;
 }
 
-.mat-input-underline {
+.category-field .mat-input-underline {
   background-color: #F5F5F5 !important;
 }
 
-.mat-input-ripple {
+.category-field .mat-input-ripple {
   background-color: #F5F5F5 !important;
 }
 
 /* to change selected item color in the select list */
-.mat-select-arrow {
+.category-field .mat-select-arrow {
   color: #F5F5F5 !important;
 }
 
-.mat-select-value {
+.category-field .mat-select-value {
   color: #69f0ae !important;
 }
 
-.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+.category-field .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: #69f0ae !important;
 }
 

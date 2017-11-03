@@ -2,8 +2,8 @@
   <div layout="row">
     <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
       <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
-        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
-        <mat-form-field>
+        <h3 class="title push-bottom-sm tc-teal-A400">Category: </h3>
+        <mat-form-field class="category-field">
           <mat-select [ngModel]="selectedCategory"
                       (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
             <mat-option *ngFor="let category of categories" [value]="category['value']">

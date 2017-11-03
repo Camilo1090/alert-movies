@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+
+import { TdSearchBoxComponent } from '@covalent/core';
 
 // Observable class extensions
 import 'rxjs/add/observable/of';
@@ -24,6 +26,7 @@ import { SearchService } from '../shared/search.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchBarComponent implements OnInit {
+  @ViewChild('searchBar') searchBar: TdSearchBoxComponent;
 
   private searchInputTerm = new Subject<string>();
   complete: Observable<Array<any>>;
@@ -46,7 +49,6 @@ export class SearchBarComponent implements OnInit {
         Observable.of<Array<any>>([])).do(response => {
         console.log(response);
         this.results = response;
-        // response.length > 0 ? this.isEmpty = true: this.isEmpty=false;
       });
   }
 
@@ -59,7 +61,9 @@ export class SearchBarComponent implements OnInit {
   }
 
   onEnter($event: string) {
+    this.searchBar.value = '';
     this.clear();
+    // this.complete = Observable.of<Array<any>>([]);
     this.router.navigate(['/search', $event]);
   }
 

@@ -7,8 +7,12 @@
   z-index: 999;
 }
 
-.main {
+.main-gt-xs {
   padding-top: 66.7px;
+}
+
+.main-xs {
+  padding-top: 112.5px;
 }
 
 .z-0{

@@ -1,6 +1,6 @@
 <div layout="column" class="search" tdMediaToggle="gt-xs" [mediaClasses]="['pad-right-xl']">
   <td-search-box #searchBar class="search-bar tc-grey-50" backIcon="arrow_back"
-                 placeholder="Search for movies, series or people" [showUnderline]="true"
+                 placeholder="Search for a movie, tv series or person..." [showUnderline]="true"
                  [debounce]="300" [alwaysVisible]="true" (searchDebounce)="search($event)"
                  (search)="onEnter($event)" (clear)="clear()" (click)="clear()">
   </td-search-box>

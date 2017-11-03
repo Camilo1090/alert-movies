@@ -34,6 +34,7 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount = 5;
+  totalResults: number;
   totalPages: number;
 
   response = [];
@@ -60,6 +61,7 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     this.peopleService.getPopularPeople(page).subscribe(response => {
       this.response = response;
       this.people = response['results'];
+      this.totalResults = response['total_results'];
       this.totalPages = response['total_pages'];
       this.resolveLoading();
     });

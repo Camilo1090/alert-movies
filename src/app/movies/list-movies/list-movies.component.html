@@ -48,7 +48,7 @@
         </mat-grid-list>
       </div>
       <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="10000" (change)="changePage($event)" class="tc-grey-900">
+                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
         <div *ngIf="isDesktop">
           <span td-paging-bar-label hide-xs>Displaying </span>
           {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>

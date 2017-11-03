@@ -55,6 +55,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount = 5;
+  totalResults: number;
   totalPages: number;
 
   response = [];
@@ -88,6 +89,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
         this.seriesService.getPopularSeries(page).subscribe(response => {
           this.response = response;
           this.series = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -97,6 +99,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
         this.seriesService.getOnTheAirSeries(page).subscribe(response => {
           this.response = response;
           this.series = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -106,6 +109,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
         this.seriesService.getLatestSeries(page).subscribe(response => {
           this.response = response;
           this.series = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -115,6 +119,7 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
         this.seriesService.getTopRatedSeries(page).subscribe(response => {
           this.response = response;
           this.series = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });

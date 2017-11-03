@@ -55,6 +55,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount: number;
+  totalResults: number;
   totalPages: number;
 
   response = [];
@@ -88,6 +89,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
         this.moviesService.getPopularMovies(page).subscribe(response => {
           this.response = response;
           this.movies = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -97,6 +99,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
         this.moviesService.getPlayingNowMovies(page).subscribe(response => {
           this.response = response;
           this.movies = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -106,6 +109,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
         this.moviesService.getUpcomingMovies(page).subscribe(response => {
           this.response = response;
           this.movies = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });
@@ -115,6 +119,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
         this.moviesService.getTopRatedMovies(page).subscribe(response => {
           this.response = response;
           this.movies = response['results'];
+          this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
         });

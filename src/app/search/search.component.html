@@ -7,15 +7,15 @@
           <ul mat-tab-nav-bar class="media-type-list pad-left-none">
             <li>
               <a mat-tab-link class="text-left pad-left-none" [active]="media == 'movie'"
-                 (click)="onMoviesClick()">Movies <span></span></a>
+                 (click)="onMoviesClick()">Movies <span class="results-length">{{totalMovies}}</span></a>
             </li>
             <li>
               <a mat-tab-link class="text-left pad-left-none" [active]="media == 'series'"
-                 (click)="onSeriesClick()">TV Series <span></span></a>
+                 (click)="onSeriesClick()">TV Series <span class="results-length">{{totalSeries}}</span></a>
             </li>
             <li>
               <a mat-tab-link class="text-left pad-left-none" [active]="media == 'person'"
-                 (click)="onPeopleClick()">People <span></span></a>
+                 (click)="onPeopleClick()">People <span class="results-length">{{totalPeople}}</span></a>
             </li>
           </ul>
         </div>
@@ -128,8 +128,9 @@
         </div>
       </ng-template>
       <div class="push-top-sm">
-        <td-paging-bar #pagingBar *ngIf="results.length > 0" [pageSize]="[20]" [pageLinkCount]="0" [initialPage]="currentPage"
-                       [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
+        <td-paging-bar #pagingBar *ngIf="results.length > 0" [pageSize]="[20]"
+                       [pageLinkCount]="0" [initialPage]="currentPage" [firstLast]="firstLast"
+                       [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
           <div *ngIf="isDesktop">
             <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
             <span hide-xs>({{totalResults}} results)</span>

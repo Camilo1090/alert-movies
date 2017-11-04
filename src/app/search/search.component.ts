@@ -38,10 +38,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   // Used for the pagination
   firstLast = true;
-  pageSizeAll = false;
-  pageLinkCount = 5;
   totalPages: number;
-  totalResults: number;
+  totalMovies: number;
+  totalSeries: number;
+  totalPeople: number;
   currentPage = 1;
 
   results = [];
@@ -98,8 +98,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'movie': {
         this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalResults = response['total_results'];
+          this.totalMovies = response['total_results'];
           this.totalPages = response['total_pages'];
+          this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
+            this.totalSeries = r['total_results'];
+          });
+          this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
+            this.totalPeople = r['total_results'];
+          });
           this.resolveLoading();
         }, err => {
           console.log(err);
@@ -108,8 +114,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'series': {
         this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalResults = response['total_results'];
+          this.totalSeries = response['total_results'];
           this.totalPages = response['total_pages'];
+          this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
+            this.totalMovies = r['total_results'];
+          });
+          this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
+            this.totalPeople = r['total_results'];
+          });
           this.resolveLoading();
         }, err => {
           console.log(err);
@@ -118,8 +130,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'person': {
         this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalResults = response['total_results'];
+          this.totalPeople = response['total_results'];
           this.totalPages = response['total_pages'];
+          this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
+            this.totalMovies = r['total_results'];
+          });
+          this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
+            this.totalSeries = r['total_results'];
+          });
           this.resolveLoading();
         }, err => {
           console.log(err);
@@ -168,31 +186,26 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.columns = 1;
         this.columnsPeople = 2;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
         this.columnsPeople = 1;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
         this.columnsPeople = 3;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
         this.columnsPeople = 4;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
         this.columnsPeople = 5;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
     });
   }
@@ -208,7 +221,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.columns = 1;
           this.columnsPeople = 2;
           this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -218,7 +230,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.columns = 1;
           this.columnsPeople = 1;
           this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -228,7 +239,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.columns = 2;
           this.columnsPeople = 3;
           this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -238,7 +248,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.columns = 3;
           this.columnsPeople = 4;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -248,7 +257,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.columns = 4;
           this.columnsPeople = 5;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });

@@ -41,6 +41,10 @@
   visibility: hidden !important;
 }
 
+.results-length {
+  opacity: 0.5;
+}
+
 .results {
   /*padding-left: 10px;*/
   float: left;

@@ -89,7 +89,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       .getMovieDetails(params['id']))
       .subscribe(response => {
         this.movie = response;
-        this.resolveLoading();
       }, err => {
         console.log(err);
       });
@@ -100,6 +99,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       .getMovieCredits(params['id']))
       .subscribe(credits => {
         this.credits = credits;
+        this.resolveLoading();
       }, err => {
         console.log(err);
       });
@@ -199,6 +199,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movie', value);
+    this._loadingService.setValue('movie-details', value);
   }
 }

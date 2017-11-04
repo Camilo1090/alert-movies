@@ -2,7 +2,7 @@
   <td-search-box #searchBar class="search-bar tc-grey-50" backIcon="arrow_back"
                  placeholder="Search for a movie, tv series or person..." [showUnderline]="true"
                  [debounce]="300" [alwaysVisible]="true" (searchDebounce)="search($event)"
-                 (search)="onEnter($event)" (clear)="clear()" (click)="clear()">
+                 (search)="onEnter($event)" (clear)="clear()" (focusout)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">
     <ul class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">

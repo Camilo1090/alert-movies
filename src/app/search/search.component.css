@@ -28,8 +28,17 @@
   border-bottom-color: #69f0ae;
 }
 
-.media-type-list a:active {
+.media-type-list a:focus {
   border-bottom-color: #69f0ae;
+}
+
+.media-type-list a.mat-tab-label-active {
+  border-bottom-color: #69f0ae;
+}
+
+
+.media-type-list mat-ink-bar.mat-ink-bar {
+  visibility: hidden !important;
 }
 
 .results {

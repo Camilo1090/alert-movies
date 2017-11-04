@@ -20,9 +20,11 @@ import { SearchService } from './shared/search.service';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
-  providers: [ SearchService, TdMediaService ]
+  providers: [ SearchService, TdMediaService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
   isDesktop = false;
@@ -31,8 +33,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   private _querySubscription: Subscription;
 
   // search
-  media: string;
-  query: string;
+  media = 'movie';
+  query = '';
 
   // Used for the pagination
   firstLast = true;
@@ -40,7 +42,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   pageLinkCount = 5;
   totalPages: number;
   totalResults: number;
-  currentPage: number;
+  currentPage = 1;
 
   results = [];
   apiImg = API.apiImg + 'w500';
@@ -55,8 +57,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.registerLoading();
-
     // this.router.events.subscribe((evt) => {
     //   if (!(evt instanceof NavigationEnd)) {
     //     return;
@@ -65,10 +65,28 @@ export class SearchComponent implements OnInit, OnDestroy {
     // });
 
     this.route.params.subscribe(params => {
-      this.media = params['media'];
-      this.query = params['query'];
-      this.currentPage = params['page'];
-      this.updateSearchResults();
+      this.registerLoading();
+      if (params['media']) {
+        this.media = params['media'];
+      } else {
+        this.media = 'movie';
+      }
+      if (params['query']) {
+        this.query = params['query'];
+      } else {
+        this.query = '';
+      }
+      if (params['page']) {
+        this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
+      }
+      if (this.query !== '') {
+        this.updateSearchResults();
+      } else {
+        this.results = [];
+        this.resolveLoading();
+      }
     });
 
     this.checkScreen();
@@ -82,6 +100,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.results = response['results'];
           this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
+          this.resolveLoading();
         }, err => {
           console.log(err);
         });
@@ -107,19 +126,32 @@ export class SearchComponent implements OnInit, OnDestroy {
         });
       }
     }
-    this.resolveLoading();
   }
 
-  onMoviesClicked(): void {
-    this.router.navigate(['/search', 'movie', {'query': this.query, 'page': this.currentPage}]);
+  /**
+   * In charge to manage the behavior of the pagination
+   * @param event: Event of change the page
+   */
+  changePage(event: IPageChangeEvent): void {
+    this.currentPage = event.page;
+    this.router.navigate(['/search', this.media, {'query': this.query, 'page': this.currentPage}]);
+    // window.scrollTo(0, 0);
+    // this.updateSearchResults();
   }
 
-  onSeriesClicked(): void {
-    this.router.navigate(['/search', 'series', {'query': this.query, 'page': this.currentPage}]);
+  onMoviesClick() {
+    this.media = 'movie';
+    this.pagingBar.navigateToPage(1);
   }
 
-  onPeopleClicked(): void {
-    this.router.navigate(['/search', 'person', {'query': this.query, 'page': this.currentPage}]);
+  onSeriesClick() {
+    this.media = 'series';
+    this.pagingBar.navigateToPage(1);
+  }
+
+  onPeopleClick() {
+    this.media = 'person';
+    this.pagingBar.navigateToPage(1);
   }
 
   ngOnDestroy(): void {
@@ -239,17 +271,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
     }
     return genres;
-  }
-
-  /**
-   * In charge to manage the behavior of the pagination
-   * @param event: Event of change the page
-   */
-  changePage(event: IPageChangeEvent): void {
-    this.currentPage = event.page;
-    this.router.navigate(['/search', this.media, {'query': this.query, 'page': this.currentPage}]);
-    // window.scrollTo(0, 0);
-    // this.updateSearchResults();
   }
 
   // Methods for the loading

@@ -17,6 +17,7 @@ export class MoviesService {
 
   sendRequest(url: string, args = ''): Observable<any> {
     url += ('?api_key=' + API.apiKey + args);
+    console.log(url);
     return this.http.get(url).map(response => response.json());
   }
 

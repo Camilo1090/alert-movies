@@ -1,5 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { IPageChangeEvent } from '@covalent/core';
+import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {IPageChangeEvent, TdPagingBarComponent} from '@covalent/core';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
@@ -14,6 +14,7 @@ import { GENRES } from '../../shared/api/genres';
 
 // services
 import { PeopleService } from '../shared/people.service';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-people',
@@ -23,6 +24,7 @@ import { PeopleService } from '../shared/people.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ListPeopleComponent implements OnInit, OnDestroy {
+  @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
   isDesktop = false;
@@ -30,41 +32,63 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   private _querySubscription: Subscription;
 
   // Used for the pagination
-  event: IPageChangeEvent;
+  currentPage = 1;
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount = 5;
   totalResults: number;
   totalPages: number;
 
-  response = [];
   people = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
   constructor(private peopleService: PeopleService,
+              private route: ActivatedRoute,
+              private router: Router,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
-    this.registerLoading();
-
-    this.updatePeople(1);
+    this.route.params.subscribe(params => {
+      this.registerLoading();
+      // console.log(params);
+      if (params['page']) {
+        this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
+      }
+      this.updatePeople();
+    });
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updatePeople(page: number): void {
-    this.peopleService.getPopularPeople(page).subscribe(response => {
-      this.response = response;
-      this.people = response['results'];
+  updatePeople(): void {
+    this.peopleService.getPopularPeople(this.currentPage).subscribe(response => {
+      if (response['results']) {
+        this.people = response['results'];
+      } else {
+        this.people = [];
+      }
       this.totalResults = response['total_results'];
       this.totalPages = response['total_pages'];
       this.resolveLoading();
+    }, err => {
+      console.log(err);
     });
+  }
+
+  /**
+   * In charge to manage the behavior of the pagination
+   * @param event: Event of change the page
+   */
+  changePage(event: IPageChangeEvent): void {
+    this.currentPage = event.page;
+    this.router.navigate(['/list-people', {'page': this.currentPage}]);
   }
 
   ngOnDestroy(): void {
@@ -174,16 +198,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       }
     }
     return genres;
-  }
-
-  /**
-   * In charge to manage the behavior of the pagination
-   * @param event: Event of change the page
-   */
-  changePage(event: IPageChangeEvent): void {
-    this.event = event;
-    this.registerLoading();
-    this.updatePeople(event.page);
   }
 
   // Methods for the loading

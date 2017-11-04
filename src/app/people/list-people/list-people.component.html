@@ -2,7 +2,7 @@
   <div layout="row">
     <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
       <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
-        <h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
+        <h3 class="title push-bottom-sm push-top-sm tc-teal-A400" tdMediaToggle="xs">Category: </h3>
         <!--<mat-form-field>-->
           <!--<mat-select [ngModel]="selectedCategory" -->
                       <!--(ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">-->
@@ -14,9 +14,12 @@
       </aside>
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs"
-         [mediaClasses]="['results', 'pad-top-md', 'pad-bottom-lg', 'pad-left-md', 'pad-right-md']">
+         [mediaClasses]="['results', 'pad-top-sm', 'pad-bottom-md', 'pad-left-md', 'pad-right-md']">
+      <div layout="row" layout-align="start center">
+        <h2>Popular People</h2>
+      </div>
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list cols="{{columns}}" rowHeight="1:1.8">
+        <mat-grid-list *ngIf="people.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="1:1.8">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
             <mat-card class="person-card bgc-grey-900">
               <a [routerLink]="['/person', person.id]">
@@ -39,13 +42,20 @@
           </mat-grid-tile>
         </mat-grid-list>
       </div>
-      <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
-        <div *ngIf="isDesktop">
-          <span td-paging-bar-label hide-xs>Displaying </span>
-          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+      <ng-template #noResultsBlock>
+        <div class="push-left-md push-top-sm">
+          <span class="tc-grey-900">No results were found.</span>
         </div>
-      </td-paging-bar>
+      </ng-template>
+      <div class="push-top-sm">
+        <td-paging-bar #pagingBar *ngIf="people.length > 0" [pageSize]="[20]" [pageLinkCount]="0" [initialPage]="currentPage"
+                       [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
+          <div *ngIf="isDesktop">
+            <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
+            <span hide-xs>({{totalResults}} results)</span>
+          </div>
+        </td-paging-bar>
+      </div>
     </div>
   </div>
 </section>

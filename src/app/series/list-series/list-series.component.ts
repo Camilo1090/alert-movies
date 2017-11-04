@@ -1,5 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { IPageChangeEvent } from '@covalent/core';
+import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {IPageChangeEvent, TdPagingBarComponent} from '@covalent/core';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
@@ -14,6 +14,7 @@ import { GENRES } from '../../shared/api/genres';
 
 // services
 import { SeriesService } from '../shared/series.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-series',
@@ -23,6 +24,7 @@ import { SeriesService } from '../shared/series.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ListSeriesComponent implements OnInit, OnDestroy {
+  @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
   isDesktop = false;
@@ -51,81 +53,118 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
   ];
 
   // Used for the pagination
-  event: IPageChangeEvent;
+  currentPage = 1;
   firstLast = true;
-  pageSizeAll = false;
   pageLinkCount = 5;
   totalResults: number;
   totalPages: number;
 
-  response = [];
   series = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
   constructor(private seriesService: SeriesService,
+              private route: ActivatedRoute,
+              private router: Router,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
-    this.registerLoading();
-
-    this.updateSeries(1);
+    this.route.params.subscribe(params => {
+      this.registerLoading();
+      // console.log(params);
+      if (params['category']) {
+        this.selectedCategory = params['category'];
+      } else {
+        this.selectedCategory = 'popular';
+      }
+      if (params['page']) {
+        this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
+      }
+      this.updateSeries();
+    });
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  onCategoryChanged(newValue: string): void {
-    this.selectedCategory = newValue;
-    this.updateSeries(1);
-  }
-
-  updateSeries(page: number): void {
+  updateSeries(): void {
     switch (this.selectedCategory) {
       case 'popular': {
-        this.seriesService.getPopularSeries(page).subscribe(response => {
-          this.response = response;
-          this.series = response['results'];
+        this.seriesService.getPopularSeries(this.currentPage).subscribe(response => {
+          if (response['results']) {
+            this.series = response['results'];
+          } else {
+            this.series = [];
+          }
           this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
+        }, err => {
+          console.log(err);
         });
-        break;
-      }
+      } break;
       case 'air': {
-        this.seriesService.getOnTheAirSeries(page).subscribe(response => {
-          this.response = response;
-          this.series = response['results'];
+        this.seriesService.getOnTheAirSeries(this.currentPage).subscribe(response => {
+          if (response['results']) {
+            this.series = response['results'];
+          } else {
+            this.series = [];
+          }
           this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
+        }, err => {
+          console.log(err);
         });
-        break;
-      }
+      } break;
       case 'latest': {
-        this.seriesService.getLatestSeries(page).subscribe(response => {
-          this.response = response;
-          this.series = response['results'];
+        this.seriesService.getLatestSeries(this.currentPage).subscribe(response => {
+          if (response['results']) {
+            this.series = response['results'];
+          } else {
+            this.series = [];
+          }
           this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
+        }, err => {
+          console.log(err);
         });
-        break;
-      }
+      } break;
       case 'top': {
-        this.seriesService.getTopRatedSeries(page).subscribe(response => {
-          this.response = response;
-          this.series = response['results'];
+        this.seriesService.getTopRatedSeries(this.currentPage).subscribe(response => {
+          if (response['results']) {
+            this.series = response['results'];
+          } else {
+            this.series = [];
+          }
           this.totalResults = response['total_results'];
           this.totalPages = response['total_pages'];
           this.resolveMoviesLoading();
+        }, err => {
+          console.log(err);
         });
-        break;
-      }
+      } break;
     }
+  }
+
+  onCategoryChanged(newValue: string): void {
+    this.selectedCategory = newValue;
+    this.pagingBar.navigateToPage(1);
+  }
+
+  /**
+   * In charge to manage the behavior of the pagination
+   * @param event: Event of change the page
+   */
+  changePage(event: IPageChangeEvent): void {
+    this.currentPage = event.page;
+    this.router.navigate(['/list-series', {'category': this.selectedCategory, 'page': this.currentPage}]);
   }
 
   ngOnDestroy(): void {
@@ -222,16 +261,6 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
       }
     }
     return genres;
-  }
-
-  /**
-   * In charge to manage the behavior of the pagination
-   * @param event: Event of change the page
-   */
-  changePage(event: IPageChangeEvent): void {
-    this.event = event;
-    this.registerLoading();
-    this.updateSeries(event.page);
   }
 
   // Methods for the loading

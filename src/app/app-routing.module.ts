@@ -10,6 +10,7 @@ import { ListSeriesComponent } from './series/list-series/list-series.component'
 import { SeriesDetailsComponent } from './series/series-details/series-details.component';
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
 import { SearchComponent } from './search/search.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,9 @@ const routes: Routes = [
   { path: 'movie/:id', component: MovieDetailsComponent },
   { path: 'series/:id', component: SeriesDetailsComponent },
   { path: 'person/:id', component: PersonDetailsComponent },
-  { path: 'search/:media', component: SearchComponent }
+  { path: 'search/:media', component: SearchComponent },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({

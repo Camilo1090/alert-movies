@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 // pagination
@@ -59,6 +59,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   currentTab = 1;
 
   constructor(private seriesService: SeriesService,
+              private router: Router,
               private route: ActivatedRoute,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
@@ -69,7 +70,6 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
     this.registerLoading();
 
     this.updateSeriesDetails();
-    this.updateSeriesCredits();
 
     this.checkScreen();
     this.watchScreen();
@@ -82,6 +82,13 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
         this.series = response;
         this.networks = response['networks'];
         this.companies = response['production_companies'];
+        this.updateSeriesCredits();
+      }, err => {
+        if (err['status'] === 404) {
+          this.router.navigate(['/404']);
+        } else {
+          console.log(err);
+        }
         this.resolveLoading();
       });
   }
@@ -91,6 +98,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
       .getSeriesCredits(params['id']))
       .subscribe(response => {
         this.crew = response['crew'];
+        this.resolveLoading();
       });
   }
 

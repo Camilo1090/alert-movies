@@ -33,6 +33,7 @@ import { PersonSeriesComponent } from './people/person-series/person-series.comp
 import { PersonImagesComponent } from './people/person-images/person-images.component';
 import { SearchComponent } from './search/search.component';
 import { SearchBarComponent } from './search/search-bar/search-bar.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { SearchBarComponent } from './search/search-bar/search-bar.component';
     PersonSeriesComponent,
     PersonImagesComponent,
     SearchComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

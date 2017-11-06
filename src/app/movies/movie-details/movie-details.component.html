@@ -126,7 +126,7 @@
     </div>
   </div>
   <div layout="column">
-    <div class="movie-toolbar bgc-grey-100">
+    <div #tabs class="movie-toolbar bgc-grey-100">
       <nav mat-tab-nav-bar flex class="text-upper" layout="row" layout-align="center">
         <a mat-tab-link (click)="changeTab(route['value'])" *ngFor="let route of routes"
            [active]="currentTab == route['value']" class="toolbar-item pad-left-sm pad-right-sm">

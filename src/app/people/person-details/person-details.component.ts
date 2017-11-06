@@ -69,14 +69,13 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.registerLoading();
 
-    this.updatePerson();
-    this.updateFeaturedCredit();
+    this.updatePersonDetails();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updatePerson(): void {
+  updatePersonDetails(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonDetails(params['id']))
       .subscribe(response => {
@@ -88,9 +87,14 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
         if (response['gender'] === 2) {
           this.gender = 'Male';
         }
-        this.resolveLoading();
+        this.updateFeaturedCredit();
       }, err => {
-        console.log(err);
+        if (err['status'] === 404) {
+          this.router.navigate(['/404']);
+        } else {
+          console.log(err);
+        }
+        this.resolveLoading();
       });
   }
 

@@ -59,6 +59,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
     },
   ];
 
+  id: number;
   currentTab = 1;
 
   constructor(private moviesService: MoviesService,
@@ -77,20 +78,25 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.registerLoading();
 
-    this.updateMovie();
-    this.updateCredits();
+    this.updateMovieDetails();
 
     this.checkScreen();
     this.watchScreen();
   }
 
-  updateMovie(): void {
+  updateMovieDetails(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieDetails(params['id']))
       .subscribe(response => {
         this.movie = response;
+        this.updateCredits();
       }, err => {
-        console.log(err);
+        if (err['status'] === 404) {
+          this.router.navigate(['/404']);
+        } else {
+          console.log(err);
+        }
+        this.resolveLoading();
       });
   }
 
@@ -103,6 +109,10 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         console.log(err);
       });
+  }
+
+  changeTab(tab: number): void {
+    this.currentTab = tab;
   }
 
   ngOnDestroy(): void {
@@ -183,10 +193,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       }
     }
     return text;
-  }
-
-  changeTab(tab: number): void {
-    this.currentTab = tab;
   }
 
   // Methods for the loading

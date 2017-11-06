@@ -1,3 +1,7 @@
+td-layout.page mat-sidenav-container.mat-drawer-container {
+  background-color: #212121;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -13,10 +17,6 @@
 
 .main-xs {
   padding-top: 112.5px;
-}
-
-.z-0{
-  z-index: 0;
 }
 
 /*.mat-tab-link {*/
@@ -52,26 +52,26 @@ mat-sidenav-container mat-sidenav a.active mat-icon {
   color: #424242 !important;
 }
 
-.title {
+a.title {
   text-decoration: none;
   font-size: 24px;
   font-weight: 600;
 }
 
-.toolbar-item {
+a.toolbar-item {
   font-weight: bold;
   color: #F5F5F5;
   opacity: 1;
 }
-.toolbar-item:hover {
+a.toolbar-item:hover {
   color: #69f0ae;
 }
 
-.toolbar-item:focus {
+a.toolbar-item:focus {
   color: #69f0ae;
 }
 
-.mat-tab-label-active {
+a.toolbar-item.mat-tab-label-active {
   color: #69f0ae !important;
 }
 

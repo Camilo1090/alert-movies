@@ -1,48 +1,23 @@
-<td-layout #layout>
-  <mat-sidenav-container>
-    <mat-sidenav class="sidenav bgc-grey-800" #sidenav mode="cover">
-      <div class="branding"><img class="logo" [src]="logo"/> <span class="tc-grey-100">{{title}}</span></div>
-      <mat-nav-list>
-        <a mat-list-item class="sidenav-item tc-grey-100" *ngFor="let route of routes" (click)="sidenav.close()"
-           [routerLink]="[route['route']]" routerLinkActive="active">
-          <mat-icon class="tc-grey-100">{{route['icon']}}</mat-icon>
-          {{route['title']}}
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-  <!--<td-navigation-drawer #sidenav sidenavTitle="{{title}}" logo="assets:tmdb">-->
-    <!--&lt;!&ndash;<div class="branding"><img class="logo" [src]="logo"/> <span class="tc-grey-100">{{title}}</span></div>&ndash;&gt;-->
-    <!--<mat-nav-list>-->
-      <!--<ng-template let-item let-last="last"-->
-                   <!--ngFor [ngForOf]="routes">-->
-        <!--<a mat-list-item class="sidenav-item tc-grey-100"-->
-           <!--[routerLink]="[item['route']]" routerLinkActive="active" (click)="layout.close()">-->
-          <!--<mat-icon class="tc-grey-100">{{item['icon']}}</mat-icon>-->
-          <!--{{item['title']}}-->
-        <!--</a>-->
-      <!--</ng-template>-->
-    <!--</mat-nav-list>-->
-  <!--</td-navigation-drawer>-->
-
+<td-layout #layout class="page">
   <div class="page-wrapper">
     <div flex layout-gt-xs="row" layout-xs="column" layout-align="start center" class="header pad-xs bgc-grey-900">
-      <div flex>
-        <button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()" hide-xs>
-          <mat-icon class="tc-grey-400">menu</mat-icon>
-        </button>
+      <div flex class="push-left-sm">
+        <!--<button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()" hide-xs>-->
+          <!--<mat-icon class="tc-grey-400">menu</mat-icon>-->
+        <!--</button>-->
         <span hide-gt-xs>
-          <a [routerLink]="['/']" class="title tc-grey-100">
-            <img class="logo" [src]="logo" />
-            <span hide-gt-xs>{{[title]}}</span>
-          </a>
+            <a [routerLink]="['/']" class="title tc-grey-100">
+              <!--<img class="logo" [src]="logo" />-->
+              <span hide-gt-xs>{{[title]}}</span>
+            </a>
           <!--<md-icon class="md-icon-logo" svgIcon="assets:tmdb"></md-icon>-->
-        </span>
+          </span>
         <span hide-xs>
           <a [routerLink]="['/']" class="title tc-grey-100" >
             <img class="logo" [src]="logo" />
             <span hide-xs>{{[title]}}</span>
           </a>
-          <!--<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>-->
+        <!--<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>-->
         </span>
         <span flex></span>
       </div>
@@ -64,10 +39,27 @@
           </a>
         </nav>
       </div>
-      <router-outlet></router-outlet>
-      <app-footer></app-footer>
+      <div class="bgc-grey-300">
+        <router-outlet></router-outlet>
+      </div>
     </div>
+    <app-footer></app-footer>
   </div>
-
-  </mat-sidenav-container>
 </td-layout>
+
+
+<!--<td-layout #layout>-->
+  <!--<mat-sidenav-container class="page">-->
+    <!--<mat-sidenav class="sidenav bgc-grey-800" #sidenav mode="cover">-->
+      <!--<div class="branding"><img class="logo" [src]="logo"/> <span class="tc-grey-100">{{title}}</span></div>-->
+      <!--<mat-nav-list>-->
+        <!--<a mat-list-item class="sidenav-item tc-grey-100" *ngFor="let route of routes" (click)="sidenav.close()"-->
+           <!--[routerLink]="[route['route']]" routerLinkActive="active">-->
+          <!--<mat-icon class="tc-grey-100">{{route['icon']}}</mat-icon>-->
+          <!--{{route['title']}}-->
+        <!--</a>-->
+      <!--</mat-nav-list>-->
+    <!--</mat-sidenav>-->
+
+  <!--</mat-sidenav-container>-->
+<!--</td-layout>-->

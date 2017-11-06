@@ -30,7 +30,9 @@
     <div class="push-bottom-xl" hide-xs></div>
     </div>
   </div>
-  <mat-divider class="divider"></mat-divider>
+  <div layout="row">
+    <mat-divider class="divider col-xs-12"></mat-divider>
+  </div>
   <div layout="row" class="bgc-grey-800">
     <div flex class="pad" tdMediaToggle="gt-xs">
       <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">

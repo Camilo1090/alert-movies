@@ -1,5 +1,5 @@
-<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
-     [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300 pad-bottom-lg"
+     [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-right-xl']">
   <div flex layout="column">
     <div flex
          *tdLoading="'movie-recommendations'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
@@ -38,16 +38,18 @@
       </ng-template>
       <ng-template #elseBlock>
         <div layout="row" layout-align="center center">
-          <i class="tc-grey-900"><strong>No recommendations available</strong></i>
+          <h3><i class="tc-grey-900"><strong>No recommendations available</strong></i></h3>
         </div>
       </ng-template>
     </div>
-    <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                   [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
-      <div *ngIf="isDesktop">
-        <span td-paging-bar-label hide-xs class="tc-grey-900">Displaying </span>
-        {{pagingBar.range}} <span hide-xs class="tc-grey-900">of {{pagingBar.total}}</span>
-      </div>
-    </td-paging-bar>
+    <div layout="row" layout-align="center center" layout-align-gt-sm="end center" class="push-top-sm">
+      <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
+                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
+        <div *ngIf="isDesktop">
+          <span td-paging-bar-label hide-xs class="tc-grey-900">Displaying </span>
+          {{pagingBar.range}} <span hide-xs class="tc-grey-900">of {{pagingBar.total}}</span>
+        </div>
+      </td-paging-bar>
+    </div>
   </div>
 </div>

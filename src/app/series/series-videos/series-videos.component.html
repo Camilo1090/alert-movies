@@ -2,21 +2,29 @@
      [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-bottom-lg', 'pad-right-xl']">
   <div flex layout="column">
     <div flex *tdLoading="'series-videos'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-      <div *ngFor="let video of seriesVideos" class="col-xs-12 col-md-6 col-lg-4">
-        <mat-card class="bgc-grey-900">
-          <iframe mat-card-image [src]="getUrl(video['key'])" height="300" frameborder="0" allowfullscreen></iframe>
-          <mat-card-content class="bgc-grey-900">
-            <div layout="row">
-              <div class="col-xs-9">
-                <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">{{video['name']}}</h3>
+      <div *ngIf="seriesVideos.length > 0; then videosBlock else elseBlock"></div>
+      <ng-template #videosBlock>
+        <div *ngFor="let video of seriesVideos" class="col-xs-12 col-md-6 col-lg-4">
+          <mat-card class="bgc-grey-900">
+            <iframe mat-card-image [src]="getUrl(video['key'])" height="300" frameborder="0" allowfullscreen></iframe>
+            <mat-card-content class="bgc-grey-900">
+              <div layout="row">
+                <div class="col-xs-9">
+                  <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">{{video['name']}}</h3>
+                </div>
+                <div class="col-xs-3">
+                  <i flex class="text-micro tc-grey-200">Size: {{video['size']}}</i>
+                </div>
               </div>
-              <div class="col-xs-3">
-                <i flex class="text-micro tc-grey-200">Size: {{video['size']}}</i>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="center center">
+          <h3><strong><i>No videos available</i></strong></h3>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

@@ -8,13 +8,13 @@
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
         <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none" flex-gt-xs="50">
-          <img *ngIf="series['poster_path'] && isDesktop" src="{{apiImgOrig + series['poster_path']}}"
+          <img *ngIf="series['poster_path']" src="{{apiImgOrig + series['poster_path']}}"
                class="img-responsive img-rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
         <div flex class="pad-none" layout="row" layout-align="center center">
-          <img flex *ngIf="series['backdrop_path'] && !isDesktop"
+          <img flex *ngIf="series['backdrop_path']"
                src="{{apiImgOrig + series['backdrop_path']}}" class="img-responsive">
         </div>
       </ng-template>

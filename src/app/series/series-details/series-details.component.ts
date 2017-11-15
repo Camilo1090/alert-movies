@@ -111,7 +111,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
    */
   checkScreen(): void {
     this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query('gt-sm');
+      this.isDesktop = this._mediaService.query('gt-md');
     });
   }
 
@@ -119,7 +119,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
    * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
+    this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         this.isDesktop = matches;
       });

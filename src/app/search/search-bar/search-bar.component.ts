@@ -17,6 +17,7 @@ import 'rxjs/add/operator/do';
 
 // services
 import { SearchService } from '../shared/search.service';
+import {API} from '../../shared/api/api';
 
 @Component({
   selector: 'app-search-bar',
@@ -34,6 +35,8 @@ export class SearchBarComponent implements OnInit {
   searchBoxTerm = '';
   debounce = 0;
   alwaysVisible = false;
+
+  apiImg = API.apiImg + 'w300';
 
   constructor(private searchService: SearchService,
               private router: Router) {

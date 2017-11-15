@@ -1,44 +1,46 @@
-<div flex layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300 pad-bottom-lg"
-     [mediaClasses]="['pad-top-md', 'pad-left-xl', 'pad-right-xl']">
-  <div flex layout="column"
-       *tdLoading="'movie-reviews'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-    <div *ngIf="reviews.length > 0; then reviewsBlock else elseBlock"></div>
-    <ng-template #reviewsBlock>
-      <div layout="column" tdMediaToggle="gt-sm"
-           [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
-        <mat-card *ngFor="let review of reviews" tdMediaToggle="gt-md"
-                  [mediaClasses]="['push-left-xl', 'push-right-xl']">
-          <mat-card-content layout="column" class="bgc-grey-100">
-            <div layout="row">
-              <div layout="column" layout-align="left" class="col-xs-12">
-                <h3 class="tc-grey-800">
-                  Review by
-                  <i class="tc-grey-900"><strong>{{review['author']}}</strong></i>
-                </h3>
+<div flex layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300 pad-top-md pad-bottom-lg"
+     [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+  <div flex layout="column">
+    <div flex
+         *tdLoading="'movie-reviews'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+      <div *ngIf="reviews.length > 0; then reviewsBlock else elseBlock"></div>
+      <ng-template #reviewsBlock>
+        <div layout="column" tdMediaToggle="gt-sm"
+             [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
+          <mat-card *ngFor="let review of reviews" tdMediaToggle="gt-md"
+                    [mediaClasses]="['push-left-xl', 'push-right-xl']">
+            <mat-card-content layout="column" class="bgc-grey-100">
+              <div layout="row">
+                <div layout="column" layout-align="left" class="col-xs-12">
+                  <h3 class="tc-grey-800">
+                    Review by
+                    <i class="tc-grey-900"><strong>{{review['author']}}</strong></i>
+                  </h3>
+                </div>
               </div>
-            </div>
-            <div layout="row" class="push-left-md push-bottom-md">
-              <i class="tc-grey-800">
-                Find review home page
-                <a href="{{review['url']}}">
-                  here
-                </a>
-              </i>
-            </div>
-            <!--<div layout="row"><hr class="col-xs-12"></div>-->
-            <div layout="row">
-              <span class="tc-grey-800 push-left-xs push-right-xs content"
-                    innerHTML="{{review['content'] | formatString:'markdown'}}"></span>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </ng-template>
-    <ng-template #elseBlock>
-      <div layout="row" layout-align="center center">
-        <h3><i class="tc-grey-900"><strong>No reviews found</strong></i></h3>
-      </div>
-    </ng-template>
+              <div layout="row" class="push-left-md push-bottom-md">
+                <i class="tc-grey-800">
+                  Find review home page
+                  <a href="{{review['url']}}">
+                    here
+                  </a>
+                </i>
+              </div>
+              <!--<div layout="row"><hr class="col-xs-12"></div>-->
+              <div layout="row">
+                <span class="tc-grey-800 push-left-xs push-right-xs content"
+                      innerHTML="{{review['content'] | formatString:'markdown'}}"></span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div layout="row" layout-align="center center">
+          <h3><i class="tc-grey-900"><strong>No reviews found</strong></i></h3>
+        </div>
+      </ng-template>
+    </div>
     <div layout="row" layout-align="center center" layout-align-gt-sm="end center" class="push-top-sm">
       <td-paging-bar #pagingBar [pageSize]="[5]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
                      [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">

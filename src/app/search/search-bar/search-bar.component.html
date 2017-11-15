@@ -10,31 +10,40 @@
         <a *ngSwitchCase="'movie'" class="search-result"
            [routerLink]="['/movie', result['id']]" (click)="clear()">
           <div layout="row" layout-align="left center">
-            <mat-icon>local_movies</mat-icon>
+            <!--<mat-icon>local_movies</mat-icon>-->
+            <img *ngIf="result['poster_path']; else elseBlock"
+                 [src]="apiImg + result['poster_path']" class="img-responsive" />
             <span class="push-left-sm">
-              {{result['title']}}
+              {{result['title']}} <i class="tc-grey-400">(Movie)</i>
             </span>
           </div>
         </a>
         <a *ngSwitchCase="'tv'" class="search-result"
            [routerLink]="['/series', result['id']]" (click)="clear()">
           <div layout="row" layout-align="left center">
-            <mat-icon>tv</mat-icon>
+            <!--<mat-icon>tv</mat-icon>-->
+            <img *ngIf="result['poster_path']; else elseBlock"
+                 [src]="apiImg + result['poster_path']" class="img-responsive" />
             <span class="push-left-sm">
-              {{result['name']}}
+              {{result['name']}} <i class="tc-grey-400">(TV Show)</i>
             </span>
           </div>
         </a>
         <a *ngSwitchCase="'person'" class="search-result"
            [routerLink]="['/person', result['id']]" (click)="clear()">
           <div layout="row" layout-align="left center">
-            <mat-icon>person</mat-icon>
+            <!--<mat-icon>person</mat-icon>-->
+            <img *ngIf="result['profile_path']; else elseBlock"
+                 [src]="apiImg + result['profile_path']" class="img-responsive" />
             <span class="push-left-sm">
-              {{result['name']}}
+              {{result['name']}} <i class="tc-grey-400">(Person)</i>
             </span>
           </div>
         </a>
       </li>
     </ul>
+    <ng-template #elseBlock>
+      <img src="../../../assets/img/no-img.png" class="img-responsive" />
+    </ng-template>
   </div>
 </div>

@@ -1,8 +1,8 @@
-<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300"
-     [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-xl']">
+<div layout="row" tdMediaToggle="gt-xs" class="bgc-grey-300 pad-top-md pad-bottom-lg"
+     [mediaClasses]="['pad-left-lg', 'pad-right-lg']">
   <div flex layout="column">
     <div flex
-         *tdLoading="'person-movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+         *tdLoading="'person-series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="series.length > 0; then seriesBlock else elseBlock"></div>
       <ng-template #seriesBlock >
         <mat-grid-list cols="{{columns}}" rowHeight="5:4">

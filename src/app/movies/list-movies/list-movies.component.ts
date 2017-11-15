@@ -238,7 +238,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get an array of genres by id and return the name of these separated by comma
+   * gets an array of genres by id and return the name of these separated by comma
    * @param genresId: Array of genres by id
    * @returns {string}: List of genres separated by comma
    */

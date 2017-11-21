@@ -1,14 +1,14 @@
 .filters {
-  float: left;
-  width: 15%;
+  /*float: left;*/
+  /*width: 15%;*/
   /*padding-right: 20px;*/
   /*border-right: dotted #F5F5F5;*/
 }
 
 .results {
   /*padding-left: 10px;*/
-  float: left;
-  width: 85%;
+  /*float: left;*/
+  /*width: 85%;*/
 }
 
 .title {
@@ -24,7 +24,7 @@
 }
 
 mat-form-field.category-field {
-  width: 100%;
+  width: 130px;
   /*padding-left: 20px;*/
   /*padding-top: 5px;*/
   /*margin-bottom: 5px;*/

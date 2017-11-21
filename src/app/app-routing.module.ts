@@ -11,11 +11,13 @@ import { SeriesDetailsComponent } from './series/series-details/series-details.c
 import { PersonDetailsComponent } from './people/person-details/person-details.component';
 import { SearchComponent } from './search/search.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { DiscoverComponent } from './discover/discover.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/trending', pathMatch: 'full' },
   { path: 'trending',  component: TrendingComponent },
+  { path: 'discover',  component: DiscoverComponent },
   { path: 'list-movies', component: ListMoviesComponent },
   { path: 'list-people', component: ListPeopleComponent },
   { path: 'list-series', component: ListSeriesComponent },

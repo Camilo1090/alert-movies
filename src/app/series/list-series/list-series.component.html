@@ -1,17 +1,22 @@
 <section>
-  <div layout="row">
-    <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
-      <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
-        <h3 class="title push-bottom-sm push-top-sm tc-teal-A400">Category: </h3>
-        <mat-form-field class="category-field">
-          <mat-select [ngModel]="selectedCategory"
-                      (ngModelChange)="onCategoryChanged($event); pagingBar.navigateToPage(1)">
-            <mat-option *ngFor="let category of categories" [value]="category['value']">
-              {{ category['viewValue'] }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </aside>
+  <div layout="column">
+    <div layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="filters bgc-grey-800">
+      <div tdMediaToggle="gt-xs"
+           [mediaClasses]="['pad-top-xs', 'pad-left-md', 'pad-bottom-xs', 'pad-right-md']">
+        <div layout="row">
+          <div layout="column">
+            <p hide-xs class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+            <mat-form-field class="category-field pad-left-xs">
+              <mat-select [(ngModel)]="selectedCategory"
+                          (ngModelChange)="onCategoryChanged($event)">
+                <mat-option *ngFor="let category of categories" [value]="category['value']">
+                  {{ category['viewValue'] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
          [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">

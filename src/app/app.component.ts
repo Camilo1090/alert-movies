@@ -18,6 +18,10 @@ export class AppComponent {
       route: '/trending',
       icon: 'whatshot',
     }, {
+      title: 'Discover',
+      route: '/discover',
+      icon: 'new_releases',
+    }, {
       title: 'Movies',
       route: '/list-movies',
       icon: 'local_movies',

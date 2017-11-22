@@ -24,10 +24,11 @@
 }
 
 mat-form-field.category-field {
-  width: 130px;
-  /*padding-left: 20px;*/
-  /*padding-top: 5px;*/
-  /*margin-bottom: 5px;*/
+  /*width: 130px;*/
+}
+
+mat-form-field.sort-field {
+  /*width: 200px;*/
 }
 
 .discover-filters .mat-select-content {
@@ -57,7 +58,7 @@ mat-form-field.category-field {
 
 td-chips.genres-field {
   min-height: inherit;
-  width: 240px;
+  /*width: 240px;*/
 }
 
 .td-chips-wrapper {

@@ -1,3 +1,132 @@
-<p>
-  discover works!
-</p>
+<section>
+  <div layout="column">
+    <div layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="filters bgc-grey-800">
+      <div tdMediaToggle="gt-xs"
+           [mediaClasses]="['pad-top-xs', 'pad-left-xl', 'pad-bottom-xs', 'pad-right-md']">
+        <div layout="row">
+          <div layout="column">
+            <p hide-xs class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+            <mat-form-field class="category-field pad-left-xs">
+              <mat-select [(ngModel)]="selectedCategory"
+                          (ngModelChange)="onCategoryChanged($event)">
+                <mat-option *ngFor="let category of categories" [value]="category['value']">
+                  {{ category['viewValue'] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div layout="column" class="push-left-md">
+            <p hide-xs class="title push-bottom-xs push-top-sm tc-teal-A400">Year: </p>
+            <mat-form-field class="category-field pad-left-xs">
+              <mat-select [(ngModel)]="selectedYear"
+                          (ngModelChange)="onFilterOptionsChanged()">
+                <mat-option *ngFor="let y of years" [value]="y.value">
+                  {{ y.view }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div layout="column" class="push-left-md">
+            <p hide-xs class="title push-bottom-xs push-top-sm tc-teal-A400">Sort By: </p>
+            <mat-form-field class="category-field pad-left-xs">
+              <mat-select [(ngModel)]="selectedSort"
+                          (ngModelChange)="onFilterOptionsChanged()">
+                <mat-option *ngFor="let sort of sorts" [value]="sort.value">
+                  {{ sort.view }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
+         [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">
+      <div layout="row" layout-align="start center">
+        <h2 [ngSwitch]="selectedCategory">
+          <span *ngSwitchCase="'movies'">Discover Movies</span>
+          <span *ngSwitchCase="'series'">Discover TV Series</span>
+        </h2>
+      </div>
+      <div flex *tdLoading="'discover'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+        <div *ngIf="results.length > 0; else noResultsBlock" [ngSwitch]="selectedCategory">
+          <mat-grid-list *ngSwitchCase="'movies'" cols="{{columns}}" rowHeight="5:4">
+            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+              <mat-card class="card">
+                <a [routerLink]="['/movie', result.id]">
+                  <div *ngIf="result['backdrop_path']; else elseBlock">
+                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
+                  </div>
+                  <ng-template #elseBlock>
+                    <img mat-card-image src="../../assets/img/no-img.png" class="img-responsive" />
+                  </ng-template>
+                </a>
+                <mat-card-content class="bgc-grey-900">
+                  <div layout="row">
+                    <div class="col-xs-10">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{result['title']}}</p>
+                    </div>
+                    <div class="col-xs-offset-1">
+                      <div layout="row" class="rating">
+                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                          {{result['vote_average']}}
+                        </p>
+                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="5:4">
+            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+              <mat-card class="card">
+                <a [routerLink]="['/series', result.id]">
+                  <div *ngIf="result['backdrop_path']; else elseBlock">
+                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
+                  </div>
+                  <ng-template #elseBlock>
+                    <img mat-card-image src="../../assets/img/no-img.png" class="img-responsive" />
+                  </ng-template>
+                </a>
+                <mat-card-content class="bgc-grey-900">
+                  <div layout="row">
+                    <div class="col-xs-10">
+                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                        {{result['name']}}</p>
+                    </div>
+                    <div class="col-xs-offset-1">
+                      <div layout="row" class="rating">
+                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                          {{result['vote_average']}}
+                        </p>
+                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+      <ng-template #noResultsBlock>
+        <div class="push-left-md push-top-sm">
+          <span class="tc-grey-900">No results were found.</span>
+        </div>
+      </ng-template>
+      <div layout="row" layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
+        <td-paging-bar #pagingBar *ngIf="results.length > 0" [pageSize]="[20]"
+                       [pageLinkCount]="0" [initialPage]="currentPage" [firstLast]="firstLast"
+                       [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
+          <div *ngIf="isDesktop">
+            <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
+            <span hide-xs>({{totalResults}} results)</span>
+          </div>
+        </td-paging-bar>
+      </div>
+    </div>
+  </div>
+</section>

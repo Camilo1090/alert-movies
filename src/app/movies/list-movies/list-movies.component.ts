@@ -12,7 +12,6 @@ import { TdLoadingService } from '@covalent/core';
 // api
 import { API} from '../../shared/api/api';
 import { GENRES } from '../../shared/api/genres';
-import { YEARS } from '../../shared/api/years';
 
 // services
 import { MoviesService } from '../shared/movies.service';
@@ -53,8 +52,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     },
   ];
 
-  selectedYear = 0;
-
   // Used for the pagination
   currentPage: number;
   firstLast = true;
@@ -65,7 +62,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   movies = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
-  years = YEARS;
 
   constructor(private moviesService: MoviesService,
               private route: ActivatedRoute,
@@ -161,10 +157,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     this.selectedCategory = newValue;
     this.pagingBar.navigateToPage(1);
     // this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
-  }
-
-  onYearChanged(): void {
-
   }
 
   /**

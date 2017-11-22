@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'person/:id', component: PersonDetailsComponent },
   { path: 'search/:media', component: SearchComponent },
   { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404' }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

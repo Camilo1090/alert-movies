@@ -1,6 +1,6 @@
 import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdMediaService, TdPagingBarComponent} from '@covalent/core';
+import {TdChipsComponent, TdMediaService, TdPagingBarComponent} from '@covalent/core';
 
 // pagination
 import { Subscription } from 'rxjs/Subscription';
@@ -11,7 +11,7 @@ import { TdLoadingService } from '@covalent/core';
 
 // api
 import { API } from '../shared/api/api';
-import { GENRES } from '../shared/api/genres';
+import { MOVIE_GENRES, SERIES_GENRES } from '../shared/api/genres';
 import { YEARS } from '../shared/api/years';
 
 // services
@@ -77,14 +77,21 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       view: 'Release Date Ascending'
     },
     {
-      value: 'original_title.desc',
+      value: 'original_title.asc',
       view: 'Title (A-Z)'
     },
     {
-      value: 'original_title.asc',
+      value: 'original_title.desc',
       view: 'Title (Z-A)'
     },
   ];
+
+  // genres
+  genres = [];
+  genresModel = [];
+  filteredGenres = [];
+  genresInputValue = '';
+  genresInputPlaceholder = 'Filter by genres...';
 
   // Used for the pagination
   currentPage: number;
@@ -122,6 +129,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this.updateResults();
     });
 
+    this.updateGenres();
+    this.filterGenres('');
     this.checkScreen();
     this.watchScreen();
   }
@@ -165,10 +174,90 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this.params.push({name: 'primary_release_year', value: this.selectedYear});
     }
     this.params.push({name: 'sort_by', value: this.selectedSort});
+    if (this.genresModel.length > 0) {
+      let values = '';
+      for (let i = 0; i < this.genresModel.length; i++) {
+        values += this.genresModel[i].id + ',';
+      }
+      this.params.push({name: 'with_genres', value: values});
+    }
   }
 
-  onCategoryChanged(newValue: string): void {
-    this.selectedCategory = newValue;
+  updateGenres() {
+    this.genres = [];
+    switch (this.selectedCategory) {
+      case 'movies': {
+        for (const key in MOVIE_GENRES) {
+          this.genres.push({id: key, name: MOVIE_GENRES[key]});
+        }
+        this.genres.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+      } break;
+      case 'series': {
+        for (const key in SERIES_GENRES) {
+          this.genres.push({id: key, name: SERIES_GENRES[key]});
+        }
+      } break;
+    }
+  }
+
+  filterGenres(value: string) {
+    this.filteredGenres = this.genres.filter((obj: any) => {
+      if (value) {
+        return obj.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      } else {
+        return false;
+      }
+    }).filter((filteredObj: any) => {
+      return this.genresModel ? this.genresModel.indexOf(filteredObj) < 0 : true;
+    });
+  }
+
+  showAllGenres() {
+    this.filteredGenres = this.genres.filter((filteredObj: any) => {
+      return this.genresModel ? this.genresModel.indexOf(filteredObj) < 0 : true;
+    });
+  }
+
+  updateGenresInputSize(value: string) {
+    const input = document.getElementsByClassName('mat-form-field-type-mat-input')[2];
+    // input.setAttribute('style', 'width:' + ((value.length * 8) + 25) + 'px !important;');
+    // console.log(input);
+  }
+
+  onGenresInputChanged(value: string) {
+    // this.updateGenresInputSize(value);
+    this.filterGenres(value);
+  }
+
+  onFocusIn() {
+    this.genresInputPlaceholder = '';
+    // if (this.genresInputValue.length === 0) {
+    //   this.updateGenresInputSize(this.genresInputPlaceholder);
+    // } else {
+    //   this.updateGenresInputSize(this.genresInputValue);
+    // }
+  }
+
+  onFocusOut() {
+    if (this.genresModel.length === 0) {
+      this.genresInputPlaceholder = 'Filter by genres...';
+      // if (this.genresInputValue.length === 0) {
+      //   this.updateGenresInputSize(this.genresInputPlaceholder);
+      // } else {
+      //   this.updateGenresInputSize(this.genresInputValue);
+      // }
+    }
+  }
+
+  onCategoryChanged(): void {
+    this.genresModel = [];
+    this.updateGenres();
     this.pagingBar.navigateToPage(1);
     // this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
   }
@@ -266,9 +355,9 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     if (genresId) {
       for (const id of genresId) {
         if (id === genresId[genresId.length - 1]) {
-          genres += GENRES[id];
+          genres += MOVIE_GENRES[id];
         } else {
-          genres += GENRES[id] + ', ';
+          genres += MOVIE_GENRES[id] + ', ';
         }
       }
     }

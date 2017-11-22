@@ -11,7 +11,7 @@ import { TdLoadingService } from '@covalent/core';
 
 // api
 import { API} from '../../shared/api/api';
-import { GENRES } from '../../shared/api/genres';
+import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
@@ -144,7 +144,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
    * @param genres: Array of genres
    * @returns {string}: List of genres separated by comma
    */
-  getGenre(genres: Array<any>): string {
+  getGenres(genres: Array<any>): string {
     let names = '';
     if (genres) {
       for (const genre of genres) {

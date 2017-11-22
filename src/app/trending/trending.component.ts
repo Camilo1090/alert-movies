@@ -13,7 +13,7 @@ import { CarouselConfig } from 'ngx-bootstrap';
 
 // api
 import { API} from '../shared/api/api';
-import { GENRES } from '../shared/api/genres';
+import { MOVIE_GENRES } from '../shared/api/genres';
 
 // services
 import { MoviesService } from '../movies/shared/movies.service';
@@ -128,9 +128,9 @@ export class TrendingComponent implements OnInit, OnDestroy {
     if (genresId) {
       for (const id of genresId) {
         if (id === genresId[genresId.length - 1]) {
-          genres += GENRES[id];
+          genres += MOVIE_GENRES[id];
         } else {
-          genres += GENRES[id] + ', ';
+          genres += MOVIE_GENRES[id] + ', ';
         }
       }
     }

@@ -11,7 +11,7 @@ import { TdLoadingService } from '@covalent/core';
 
 // api
 import { API} from '../../shared/api/api';
-import { GENRES } from '../../shared/api/genres';
+import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { PeopleService } from '../shared/people.service';
@@ -133,62 +133,6 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
         this.isDesktop = matches;
       });
     });
-  }
-
-  /**
-   * gets an array of genres and returns them separated by commas
-   * @param genres: Array of genres
-   * @returns {string}: List of genres separated by comma
-   */
-  getGenre(genres: Array<any>): string {
-    let names = '';
-    if (genres) {
-      for (const genre of genres) {
-        if (genre === genres[genres.length - 1]) {
-          names += genre['name'];
-        } else {
-          names += genre['name'] + ', ';
-        }
-      }
-    }
-    return names;
-  }
-
-  /**
-   * gets the time in minutes and returns it in HH:mm format
-   * @param minutes: Integer with the minutes
-   * @returns {string}: Time with the new format
-   */
-  convertTime(minutes: number): string {
-    let text = '';
-    if (minutes) {
-      text += Math.floor(minutes / 60) + 'h ';
-      if (minutes % 60 !== 0) {
-        text += (minutes % 60) + 'min';
-      }
-    }
-
-    return text;
-  }
-
-  /**
-   * gets a budget and returns it formatted
-   * @param budget: Integer with the budget
-   * @returns {string}: Budget with the new format
-   */
-  convertMoney(budget: number): string {
-    let text = '$';
-    if (budget) {
-      const buffer = '' + budget;
-      for (let _i = 0; _i < buffer.length; _i++) {
-        if (_i % 3 === 0 && _i !== 0) {
-          text += ',' + buffer[_i];
-        } else {
-          text += buffer[_i];
-        }
-      }
-    }
-    return text;
   }
 
   changeTab(tab: number): void {

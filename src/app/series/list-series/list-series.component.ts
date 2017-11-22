@@ -10,7 +10,7 @@ import { TdLoadingService } from '@covalent/core';
 
 // api
 import { API} from '../../shared/api/api';
-import { GENRES } from '../../shared/api/genres';
+import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { SeriesService } from '../shared/series.service';
@@ -242,25 +242,6 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
         }
       });
     });
-  }
-
-  /**
-   * Get an array of genres by id and return the name of these separated by comma
-   * @param genresId: Array of genres by id
-   * @returns {string}: List of genres separated by comma
-   */
-  getGenre(genresId: Array<number>): any {
-    let genres = '';
-    if (genresId) {
-      for (const id of genresId) {
-        if (id === genresId[genresId.length - 1]) {
-          genres += GENRES[id];
-        } else {
-          genres += GENRES[id] + ', ';
-        }
-      }
-    }
-    return genres;
   }
 
   // Methods for the loading

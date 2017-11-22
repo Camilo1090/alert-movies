@@ -33,6 +33,7 @@ import { CovalentMediaModule } from '@covalent/core';
 import { CovalentNotificationsModule } from '@covalent/core';
 import { CovalentPagingModule } from '@covalent/core';
 import { CovalentLoadingModule } from '@covalent/core';
+import { CovalentChipsModule } from '@covalent/core';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { CovalentLoadingModule } from '@covalent/core';
     CovalentMediaModule,
     CovalentPagingModule,
     CovalentLoadingModule,
-    CovalentNotificationsModule
+    CovalentNotificationsModule,
+    CovalentChipsModule
   ],
   exports: [
     FormsModule,
@@ -85,7 +87,8 @@ import { CovalentLoadingModule } from '@covalent/core';
     CovalentMediaModule,
     CovalentPagingModule,
     CovalentLoadingModule,
-    CovalentNotificationsModule
+    CovalentNotificationsModule,
+    CovalentChipsModule
   ],
 })
 export class AppCustomMaterialModule {

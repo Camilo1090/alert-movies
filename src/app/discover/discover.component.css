@@ -19,7 +19,7 @@
   /*margin-bottom: 30px;*/
 }
 
-.category-field .mat-form-field-infix {
+.discover-filters .mat-form-field-infix {
   border-top: none;
 }
 
@@ -30,29 +30,60 @@ mat-form-field.category-field {
   /*margin-bottom: 5px;*/
 }
 
-.category-field .mat-select-content {
+.discover-filters .mat-select-content {
   background-color: #6f6f6f;
 }
 
-.category-field .mat-input-underline {
+.discover-filters .mat-input-underline {
   background-color: #F5F5F5 !important;
 }
 
-.category-field .mat-input-ripple {
+.discover-filters .mat-input-ripple {
   background-color: #F5F5F5 !important;
 }
 
 /* to change selected item color in the select list */
-.category-field .mat-select-arrow {
+.discover-filters .mat-select-arrow {
   color: #F5F5F5 !important;
 }
 
-.category-field .mat-select-value {
+.discover-filters .mat-select-value {
   color: #69f0ae !important;
 }
 
-.category-field .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+.discover-filters .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: #69f0ae !important;
+}
+
+td-chips.genres-field {
+  min-height: inherit;
+  width: 240px;
+}
+
+.td-chips-wrapper {
+  min-height: inherit !important;
+}
+
+td-chips.genres-field mat-form-field {
+  /*background-color: #757575 !important;*/
+  color: #F5F5F5 !important;
+  /*width: auto;*/
+}
+
+td-chips.genres-field mat-basic-chip{
+  /*background-color: #757575 !important;*/
+  margin: 0 5px 5px 0 !important;
+}
+
+td-chips.genres-field .mat-form-field-placeholder {
+  /*background-color: #757575 !important;*/
+  color: #BDBDBD !important;
+}
+
+td-chips.genres-field .mat-form-field-underline,
+td-chips.genres-field .mat-form-field-ripple.mat-focused {
+  /*visibility: hidden !important;*/
+  background-color: #F5F5F5 !important;
 }
 
 .paging-bar {

@@ -30,6 +30,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   // Used for responsive services
   isDesktop = true;
   columns: number;
+  filter = false;
   private _querySubscription: Subscription;
 
   // categories
@@ -289,6 +290,13 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
         this.isDesktop = false;
+        this.filter = false;
+      }
+      if (this._mediaService.query('(max-width: 740px)')) {
+        this.filter = true;
+      }
+      if (this._mediaService.query('(min-width: 741px)')) {
+        this.filter = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
@@ -316,6 +324,23 @@ export class DiscoverComponent implements OnInit, OnDestroy {
           if (matches) {
             this.columns = 1;
             this.isDesktop = false;
+            this.filter = false;
+          }
+        });
+      });
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 740px)')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.filter = true;
+          }
+        });
+      });
+    this._querySubscription = this._mediaService.registerQuery('(min-width: 741px)')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.filter = false;
           }
         });
       });
@@ -345,25 +370,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * gets an array of genres by id and return the name of these separated by comma
-   * @param genresId: Array of genres by id
-   * @returns {string}: List of genres separated by comma
-   */
-  getGenre(genresId: Array<number>): any {
-    let genres = '';
-    if (genresId) {
-      for (const id of genresId) {
-        if (id === genresId[genresId.length - 1]) {
-          genres += MOVIE_GENRES[id];
-        } else {
-          genres += MOVIE_GENRES[id] + ', ';
-        }
-      }
-    }
-    return genres;
-  }
-
   // Methods for the loading
   registerLoading(): void {
     this._loadingService.register('discover');
@@ -376,5 +382,4 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
     this._loadingService.setValue('discover', value);
   }
-
 }

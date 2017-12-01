@@ -37,22 +37,26 @@ td-layout.page mat-sidenav-container.mat-drawer-container {
   font-weight: 500;
 }
 
+.sidenav mat-toolbar {
+  background-color: #424242 !important;
+}
+
 .sidenav-item:hover {
   background-color: #757575;
 }
 
-mat-sidenav-container mat-sidenav a.active {
+a.sidenav-item.active {
   color: #424242 !important;
   font-size: 16px;
-  background-color: #69f0ae;
+  background-color: #69f0ae !important;
   font-weight: bold;
 }
 
-mat-sidenav-container mat-sidenav a.active mat-icon {
+a.sidenav-item.active mat-icon {
   color: #424242 !important;
 }
 
-a.title {
+a.page-title {
   text-decoration: none;
   font-size: 24px;
   font-weight: 600;

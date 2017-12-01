@@ -35,4 +35,10 @@ export class AppComponent {
       icon: 'tv',
     },
   ];
+
+  constructor(private _iconRegistry: MatIconRegistry,
+              private _domSanitizer: DomSanitizer) {
+    this._iconRegistry.addSvgIconInNamespace('assets', 'tmdb',
+      this._domSanitizer.bypassSecurityTrustResourceUrl('../assets/img/tmdb.svg'));
+  }
 }

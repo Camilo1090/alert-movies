@@ -39,6 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Used for the pagination
   firstLast = true;
   totalPages: number;
+  totalResults: number;
   totalMovies: number;
   totalSeries: number;
   totalPeople: number;
@@ -99,6 +100,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
           this.totalMovies = response['total_results'];
+          this.totalResults = this.totalMovies;
           this.totalPages = response['total_pages'];
           this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
             this.totalSeries = r['total_results'];
@@ -115,6 +117,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
           this.totalSeries = response['total_results'];
+          this.totalResults = this.totalSeries;
           this.totalPages = response['total_pages'];
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
             this.totalMovies = r['total_results'];
@@ -131,6 +134,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
           this.totalPeople = response['total_results'];
+          this.totalResults = this.totalPeople;
           this.totalPages = response['total_pages'];
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
             this.totalMovies = r['total_results'];

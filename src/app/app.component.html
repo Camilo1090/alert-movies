@@ -1,51 +1,51 @@
-<td-layout #layout class="page">
-  <div class="page-wrapper">
-    <div flex layout-gt-xs="row" layout-xs="column" layout-align="start center" class="header pad-xs bgc-grey-900">
-      <div flex class="push-left-sm">
-        <!--<button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()" hide-xs>-->
-          <!--<mat-icon class="tc-grey-400">menu</mat-icon>-->
-        <!--</button>-->
-        <!--<span hide-gt-xs>-->
-            <!--<a [routerLink]="['/']" class="title tc-grey-100">-->
-              <!--<img class="logo" [src]="logo" />-->
-              <!--<span hide-gt-xs>{{[title]}}</span>-->
-            <!--</a>-->
-          <!--&lt;!&ndash;<md-icon class="md-icon-logo" svgIcon="assets:tmdb"></md-icon>&ndash;&gt;-->
-          <!--</span>-->
-        <span>
-          <a [routerLink]="['/']" class="title tc-grey-100" >
-            <img class="logo" [src]="logo" />
-            <span>{{[title]}}</span>
-          </a>
-        <!--<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>-->
-        </span>
-        <span flex></span>
-      </div>
-      <div flex="30" hide-xs>
-        <app-search-bar></app-search-bar>
-      </div>
-      <div flex layout="row" hide-gt-xs>
-        <app-search-bar></app-search-bar>
-      </div>
-    </div>
-    <div class="main-gt-xs" tdMediaToggle="xs" [mediaClasses]="['main-xs']">
-      <div class="toolbar">
-        <nav mat-tab-nav-bar class="text-upper" flex layout="row"
-             layout-align-gt-xs="start center" layout-align-xs="center center">
-          <a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
-             [active]="ni.isActive" *ngFor="let route of routes">
-            <span hide-xs>{{route['title']}}</span>
-            <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
-          </a>
-        </nav>
-      </div>
-      <div class="bgc-grey-300">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-    <app-footer></app-footer>
-  </div>
-</td-layout>
+<!--<td-layout #layout class="page">-->
+  <!--<div class="page-wrapper">-->
+    <!--<div flex layout-gt-xs="row" layout-xs="column" layout-align="start center" class="header pad-xs bgc-grey-900">-->
+      <!--<div flex class="push-left-sm">-->
+        <!--&lt;!&ndash;<button mat-icon-button class="hidden-mat-up push-left-xs" (click)="sidenav.open()" hide-xs>&ndash;&gt;-->
+          <!--&lt;!&ndash;<mat-icon class="tc-grey-400">menu</mat-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<span hide-gt-xs>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a [routerLink]="['/']" class="title tc-grey-100">&ndash;&gt;-->
+              <!--&lt;!&ndash;<img class="logo" [src]="logo" />&ndash;&gt;-->
+              <!--&lt;!&ndash;<span hide-gt-xs>{{[title]}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<md-icon class="md-icon-logo" svgIcon="assets:tmdb"></md-icon>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;</span>&ndash;&gt;-->
+        <!--<span>-->
+          <!--<a [routerLink]="['/']" class="title tc-grey-100" >-->
+            <!--<img class="logo" [src]="logo" />-->
+            <!--<span>{{[title]}}</span>-->
+          <!--</a>-->
+        <!--&lt;!&ndash;<md-icon class="md-icon-logo tc-deep-orange-500" svgIcon="assets:tmdb"></md-icon>&ndash;&gt;-->
+        <!--</span>-->
+        <!--<span flex></span>-->
+      <!--</div>-->
+      <!--<div flex="30" hide-xs>-->
+        <!--<app-search-bar></app-search-bar>-->
+      <!--</div>-->
+      <!--<div flex layout="row" hide-gt-xs>-->
+        <!--<app-search-bar></app-search-bar>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="main-gt-xs" tdMediaToggle="xs" [mediaClasses]="['main-xs']">-->
+      <!--<div class="toolbar">-->
+        <!--<nav mat-tab-nav-bar class="text-upper" flex layout="row"-->
+             <!--layout-align-gt-xs="start center" layout-align-xs="center center">-->
+          <!--<a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"-->
+             <!--[active]="ni.isActive" *ngFor="let route of routes">-->
+            <!--<span hide-xs>{{route['title']}}</span>-->
+            <!--<span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>-->
+          <!--</a>-->
+        <!--</nav>-->
+      <!--</div>-->
+      <!--<div class="bgc-grey-300">-->
+        <!--<router-outlet></router-outlet>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<app-footer></app-footer>-->
+  <!--</div>-->
+<!--</td-layout>-->
 
 
 <!--<td-layout #layout>-->
@@ -63,3 +63,36 @@
 
   <!--</mat-sidenav-container>-->
 <!--</td-layout>-->
+
+<td-layout>
+  <td-navigation-drawer flex sidenavTitle="Alert Movies" logo="assets:tmdb" class="sidenav bgc-grey-700" #sidenav>
+    <mat-nav-list>
+      <a *ngFor="let item of routes" [routerLink]="item.route" mat-list-item class="sidenav-item"
+         routerLinkActive="active" (click)="sidenav.close()">
+        <mat-icon class="tc-grey-900">{{item.icon}}</mat-icon>{{item.title}}
+      </a>
+    </mat-nav-list>
+  </td-navigation-drawer>
+  <td-layout-nav>
+    <div td-toolbar-content layout-gt-xs="row" layout-xs="column" layout-align="start center"
+         class="pad-none bgc-grey-900" flex>
+      <button mat-icon-button td-menu-button tdLayoutToggle>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>
+        <a [routerLink]="['/']" class="page-title tc-grey-100" >
+          <img class="logo" [src]="logo" />
+          <span>{{[title]}}</span>
+        </a>
+      </span>
+      <span flex></span>
+      <app-search-bar></app-search-bar>
+    </div>
+    <div class="bgc-grey-300">
+      <router-outlet></router-outlet>
+    </div>
+    <td-layout-footer class="pad-none">
+      <app-footer></app-footer>
+    </td-layout-footer>
+  </td-layout-nav>
+</td-layout>

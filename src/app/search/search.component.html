@@ -1,6 +1,6 @@
 <section>
   <div layout="row">
-    <div *ngIf="isDesktop" layout="column" class="filters bgc-grey-800">
+    <div *ngIf="isDesktop" layout="column" class="categories bgc-grey-800">
       <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
         <!--<h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Media Type: </h3>-->
         <div class="media-type-container push-top-sm">
@@ -22,7 +22,7 @@
       </aside>
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs"
-         [mediaClasses]="['results', 'pad-top-sm', 'pad-bottom-md', 'pad-left-md', 'pad-right-md']">
+         [mediaClasses]="['search-results-page', 'pad-top-sm', 'pad-bottom-md', 'pad-left-md', 'pad-right-md']">
       <div layout="row" layout-align="start center">
         <h2>Search</h2>
         <mat-icon class="arrow push-top-sm">keyboard_arrow_right</mat-icon>

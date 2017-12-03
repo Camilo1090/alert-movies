@@ -18,6 +18,7 @@ import 'rxjs/add/operator/do';
 // services
 import { SearchService } from '../shared/search.service';
 import {API} from '../../shared/api/api';
+import {MatAutocomplete, MatInput} from "@angular/material";
 
 @Component({
   selector: 'app-search-bar',
@@ -28,6 +29,7 @@ import {API} from '../../shared/api/api';
 })
 export class SearchBarComponent implements OnInit {
   @ViewChild('searchBar') searchBar: TdSearchBoxComponent;
+  @ViewChild('autoComplete') autoComplete: MatAutocomplete;
 
   private searchInputTerm = new Subject<string>();
   complete: Observable<Array<any>>;

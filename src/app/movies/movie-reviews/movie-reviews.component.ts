@@ -35,7 +35,7 @@ export class MovieReviewsComponent implements OnInit, OnDestroy {
   private _querySubscription: Subscription;
 
   // Used for the pagination
-  event: IPageChangeEvent;
+  currentPage = 1;
   firstLast = true;
   pageSizeAll = false;
   pageLinkCount: number;
@@ -155,7 +155,7 @@ export class MovieReviewsComponent implements OnInit, OnDestroy {
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
-    this.event = event;
+    this.currentPage = event.page;
     this.registerLoading();
     this.updateMovies(event.page);
   }

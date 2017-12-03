@@ -9,7 +9,7 @@ import { CarouselModule } from 'ngx-bootstrap';
 // import { CarouselModule } from 'angular4-carousel';
 
 // Material Components
-import { MatListModule } from '@angular/material';
+import { MatAutocompleteModule, MatListModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatIconRegistry } from '@angular/material';
 import { MatMenuModule } from '@angular/material';
@@ -53,6 +53,7 @@ import { CovalentChipsModule } from '@covalent/core';
     MatToolbarModule,
     MatGridListModule,
     MatSelectModule,
+    MatAutocompleteModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,
@@ -80,6 +81,7 @@ import { CovalentChipsModule } from '@covalent/core';
     MatToolbarModule,
     MatGridListModule,
     MatSelectModule,
+    MatAutocompleteModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,

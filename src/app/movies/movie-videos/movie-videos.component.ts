@@ -59,6 +59,10 @@ export class MovieVideosComponent implements OnInit, OnDestroy {
       });
   }
 
+  getUrl(key: string): any {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.apiVideo + key);
+  }
+
   ngOnDestroy(): void {
     this._querySubscription.unsubscribe();
   }
@@ -139,9 +143,5 @@ export class MovieVideosComponent implements OnInit, OnDestroy {
 
   changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
     this._loadingService.setValue('movieVideos', value);
-  }
-
-  getUrl(key: string): any {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.apiVideo + key);
   }
 }

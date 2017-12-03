@@ -42,14 +42,14 @@
         </div>
       </ng-template>
     </div>
-    <div layout="row" layout-align="center center" layout-align-gt-sm="end center" class="push-top-sm">
-      <td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
-        <div *ngIf="isDesktop">
-          <span td-paging-bar-label hide-xs class="tc-grey-900">Displaying </span>
-          {{pagingBar.range}} <span hide-xs class="tc-grey-900">of {{pagingBar.total}}</span>
-        </div>
-      </td-paging-bar>
-    </div>
+    <!--<div layout="row" layout-align="center center" layout-align-gt-sm="end center" class="push-top-sm">-->
+      <!--<td-paging-bar #pagingBar [pageSize]="[20]" [pageLinkCount]="pageLinkCount" [initialPage]="1"-->
+                     <!--[firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">-->
+        <!--<div *ngIf="isDesktop">-->
+          <!--<span td-paging-bar-label hide-xs class="tc-grey-900">Displaying </span>-->
+          <!--{{pagingBar.range}} <span hide-xs class="tc-grey-900">of {{pagingBar.total}}</span>-->
+        <!--</div>-->
+      <!--</td-paging-bar>-->
+    <!--</div>-->
   </div>
 </div>

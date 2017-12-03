@@ -1,8 +1,9 @@
 <div layout="column" class="search">
   <td-search-box #searchBar class="search-bar tc-grey-50" backIcon="arrow_back"
-                 placeholder="Search for a movie, tv series, person..." [showUnderline]="_mediaService.query('(max-width: 600px)')"
+                 placeholder="Search for a movie, tv series, person..."
+                 [showUnderline]="_mediaService.query('(max-width: 600px)')"
                  [debounce]="300" [alwaysVisible]="_mediaService.query('(max-width: 600px)')"
-                 (searchDebounce)="search($event)" (search)="onEnter($event)" (clear)="clear()" (focusout)="clear()">
+                 (searchDebounce)="search($event)" (search)="onEnter($event)" (clear)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">
     <ul layout="column" class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">
@@ -12,7 +13,7 @@
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
-            <span layout="column" class="push-left-sm">
+            <span class="push-left-sm">
               {{result['title']}} <i class="tc-grey-400">(Movie)</i>
             </span>
           </div>

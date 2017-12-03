@@ -40,7 +40,7 @@ a.search-result:hover {
   right: 0;
   z-index: 999;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0 17px;
   border-width: 1px;
   border-style: solid;
   border-color: #BDBDBD #BDBDBD #BDBDBD;
@@ -110,6 +110,7 @@ a.search-result:hover {
 .search .search-results a span {
   /*margin-top: 2px;*/
   font-weight: 200;
+  max-width: 80%;
 }
 
 .search .search-results a span i {

@@ -41,13 +41,14 @@
         </div>
       </ng-template>
     </div>
-    <div layout="row" layout-align="center center" layout-align-gt-sm="end center" class="push-top-sm">
-      <td-paging-bar #pagingBar [pageSize]="[5]" [pageLinkCount]="pageLinkCount" [initialPage]="1"
-                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-800">
-        <div *ngIf="isDesktop">
-          <span td-paging-bar-label hide-xs>Displaying </span>
-          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
-        </div>
+    <div *ngIf="reviews.length > 0" layout-xs="column" layout-gt-xs="row" layout-align-xs="center center"
+         layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
+      <div>
+        <span>Currently on page: {{currentPage}} of {{totalPages}}</span>
+        <span>({{totalResults}} results)</span>
+      </div>
+      <td-paging-bar #pagingBar [pageSize]="[5]" [pageLinkCount]="0" [initialPage]="currentPage"
+                     [firstLast]="firstLast" [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
       </td-paging-bar>
     </div>
   </div>

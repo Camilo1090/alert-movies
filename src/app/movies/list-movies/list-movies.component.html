@@ -65,13 +65,13 @@
           <span class="tc-grey-900">No results were found.</span>
         </div>
       </ng-template>
-      <div layout-xs="column" layout-gt-xs="row" layout-align-xs="center center" layout-align-sm="center center"
-           layout-align-gt-sm="end center" class="push-top-sm">
+      <div *ngIf="movies.length > 0" layout-xs="column" layout-gt-xs="row" layout-align-xs="center center"
+           layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
         <div>
           <span>Currently on page: {{currentPage}} of {{totalPages}}</span>
           <span>({{totalResults}} results)</span>
         </div>
-        <td-paging-bar #pagingBar *ngIf="movies.length > 0" [pageSize]="[20]"
+        <td-paging-bar #pagingBar [pageSize]="[20]"
                        [pageLinkCount]="0" [initialPage]="currentPage" [firstLast]="firstLast"
                        [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
         </td-paging-bar>

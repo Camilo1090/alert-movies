@@ -23,7 +23,7 @@
   border-top: none;
 }
 
-mat-form-field.category-field {
+.filters mat-form-field.category-field {
   width: 130px;
   /*padding-left: 20px;*/
   /*padding-top: 5px;*/

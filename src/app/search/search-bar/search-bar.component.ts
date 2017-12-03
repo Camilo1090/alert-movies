@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { TdSearchBoxComponent } from '@covalent/core';
+import {TdMediaService, TdSearchBoxComponent} from '@covalent/core';
 
 // Observable class extensions
 import 'rxjs/add/observable/of';
@@ -38,9 +38,9 @@ export class SearchBarComponent implements OnInit {
 
   apiImg = API.apiImg + 'w300';
 
-  constructor(private searchService: SearchService,
+  constructor(public _mediaService: TdMediaService,
+              private searchService: SearchService,
               private router: Router) {
-
   }
 
   ngOnInit() {

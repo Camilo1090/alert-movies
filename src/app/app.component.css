@@ -42,7 +42,7 @@ td-layout.page mat-sidenav-container.mat-drawer-container {
 }
 
 .sidenav mat-toolbar {
-  background-color: #616161 !important;
+  background-color: #212121 !important;
 }
 
 .sidenav mat-toolbar mat-icon {
@@ -53,6 +53,7 @@ td-layout.page mat-sidenav-container.mat-drawer-container {
 .sidenav mat-toolbar span.md-subhead {
   font-size: 24px;
   font-weight: bold;
+  color: #FAFAFA;
 }
 
 .sidenav-item:hover {

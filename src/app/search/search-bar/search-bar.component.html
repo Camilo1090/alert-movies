@@ -1,7 +1,7 @@
-<div layout="column" class="search" tdMediaToggle="gt-xs" [mediaClasses]="['pad-right-xl']">
+<div layout="column" class="search">
   <td-search-box #searchBar class="search-bar tc-grey-50" backIcon="arrow_back"
-                 placeholder="Search for a movie, tv series, person..." [showUnderline]="true"
-                 [debounce]="300" [alwaysVisible]="true" (searchDebounce)="search($event)"
+                 placeholder="Search for a movie, tv series, person..." [showUnderline]="false"
+                 [debounce]="300" [alwaysVisible]="false" (searchDebounce)="search($event)"
                  (search)="onEnter($event)" (clear)="clear()" (focusout)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">

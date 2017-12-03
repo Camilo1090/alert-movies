@@ -1,8 +1,8 @@
 <section>
   <div layout="column">
     <div flex layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="filters bgc-grey-800">
-      <div class="pad-top-xs pad-bottom-sm pad-left-xl pad-right-xl" tdMediaToggle="xs"
-           [mediaClasses]="['pad-top-sm']">
+      <div class="pad-left-xl pad-right-xl" [ngClass]="{'pad-top-xs pad-bottom-sm': _mediaService.query('gt-xs'),
+           'pad-top-sm pad-bottom-md': _mediaService.query('(max-width: 600px)')}">
         <div hide-sm layout-gt-xs="row" layout-xs="column" class="discover-filters col-xs-12">
           <div layout-gt-xs="column" layout-xs="row">
             <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
@@ -184,7 +184,7 @@
     </div>
     <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
          [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">
-      <div layout="row" layout-align="start center">
+      <div layout="row" layout-align-gt-xs="start center" layout-align-xs="center center">
         <h2 [ngSwitch]="selectedCategory">
           <span *ngSwitchCase="'movies'">Discover Movies</span>
           <span *ngSwitchCase="'series'">Discover TV Series</span>
@@ -259,14 +259,15 @@
           <span class="tc-grey-900">No results were found.</span>
         </div>
       </ng-template>
-      <div layout="row" layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
+      <div layout-xs="column" layout-gt-xs="row" layout-align-xs="center center" layout-align-sm="center center"
+           layout-align-gt-sm="end center" class="push-top-sm">
+        <div *ngIf="results.length > 0">
+          <span>Currently on page: {{currentPage}} of {{totalPages}}</span>
+          <span>({{totalResults}} results)</span>
+        </div>
         <td-paging-bar #pagingBar *ngIf="results.length > 0" [pageSize]="[20]"
                        [pageLinkCount]="0" [initialPage]="currentPage" [firstLast]="firstLast"
                        [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
-          <div *ngIf="isDesktop">
-            <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
-            <span hide-xs>({{totalResults}} results)</span>
-          </div>
         </td-paging-bar>
       </div>
     </div>

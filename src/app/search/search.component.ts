@@ -162,18 +162,33 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onMoviesClick() {
-    this.media = 'movie';
-    this.pagingBar.navigateToPage(1);
+    if (this.media === 'movie') {
+      if (this.pagingBar) {
+        this.pagingBar.navigateToPage(1);
+      }
+    } else {
+      this.router.navigate(['/search', 'movie', {'query': this.query, 'page': 1}]);
+    }
   }
 
   onSeriesClick() {
-    this.media = 'series';
-    this.pagingBar.navigateToPage(1);
+    if (this.media === 'series') {
+      if (this.pagingBar) {
+        this.pagingBar.navigateToPage(1);
+      }
+    } else {
+      this.router.navigate(['/search', 'series', {'query': this.query, 'page': 1}]);
+    }
   }
 
   onPeopleClick() {
-    this.media = 'person';
-    this.pagingBar.navigateToPage(1);
+    if (this.media === 'person') {
+      if (this.pagingBar) {
+        this.pagingBar.navigateToPage(1);
+      }
+    } else {
+      this.router.navigate(['/search', 'person', {'query': this.query, 'page': 1}]);
+    }
   }
 
   ngOnDestroy(): void {

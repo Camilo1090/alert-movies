@@ -65,28 +65,42 @@
 <!--</td-layout>-->
 
 <td-layout>
-  <td-navigation-drawer flex sidenavTitle="Alert Movies" logo="assets:tmdb" class="sidenav bgc-grey-700" #sidenav>
+  <td-navigation-drawer flex sidenavTitle="Alert Movies" logo="assets:tmdb" class="sidenav bgc-grey-500" #sidenav>
     <mat-nav-list>
-      <a *ngFor="let item of routes" [routerLink]="item.route" mat-list-item class="sidenav-item"
+      <a *ngFor="let item of routes" [routerLink]="item['route']" mat-list-item class="sidenav-item"
          routerLinkActive="active" (click)="sidenav.close()">
-        <mat-icon class="tc-grey-900">{{item.icon}}</mat-icon>{{item.title}}
+        <mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>{{ item['title'] }}
       </a>
     </mat-nav-list>
   </td-navigation-drawer>
-  <td-layout-nav>
+  <td-layout-nav class="main">
     <div td-toolbar-content layout-gt-xs="row" layout-xs="column" layout-align="start center"
-         class="pad-none bgc-grey-900" flex>
-      <button mat-icon-button td-menu-button tdLayoutToggle>
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>
-        <a [routerLink]="['/']" class="page-title tc-grey-100" >
-          <img class="logo" [src]="logo" />
-          <span>{{[title]}}</span>
+         class="pad-top-xs bgc-grey-900" flex>
+      <div layout="row">
+        <button mat-icon-button td-menu-button tdLayoutToggle>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>
+          <a [routerLink]="['/']" class="page-title tc-grey-100" >
+            <img class="logo" [src]="logo" />
+            <span>{{[title]}}</span>
+          </a>
+        </span>
+      </div>
+      <span hide-xs flex></span>
+      <div flex>
+        <app-search-bar></app-search-bar>
+      </div>
+    </div>
+    <div class="toolbar">
+      <nav mat-tab-nav-bar class="text-upper" flex layout="row" tdMediaToggle="xs" [mediaClasses]="['pad-top-xs']"
+           layout-align-gt-xs="start center" layout-align-xs="center center">
+        <a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
+        [active]="ni.isActive" *ngFor="let route of routes">
+          <span hide-xs>{{route['title']}}</span>
+          <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
         </a>
-      </span>
-      <span flex></span>
-      <app-search-bar></app-search-bar>
+      </nav>
     </div>
     <div class="bgc-grey-300">
       <router-outlet></router-outlet>

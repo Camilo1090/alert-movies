@@ -37,12 +37,26 @@ td-layout.page mat-sidenav-container.mat-drawer-container {
   font-weight: 500;
 }
 
+.sidenav mat-nav-list {
+  padding: 0;
+}
+
 .sidenav mat-toolbar {
-  background-color: #424242 !important;
+  background-color: #616161 !important;
+}
+
+.sidenav mat-toolbar mat-icon {
+  height: 40px !important;
+  width: 50px !important;
+}
+
+.sidenav mat-toolbar span.md-subhead {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .sidenav-item:hover {
-  background-color: #757575;
+  background-color: #757575 !important;
 }
 
 a.sidenav-item.active {
@@ -54,6 +68,15 @@ a.sidenav-item.active {
 
 a.sidenav-item.active mat-icon {
   color: #424242 !important;
+}
+
+.main mat-toolbar-row {
+  height: 100%;
+
+}
+
+.main mat-toolbar {
+  /*padding: 0 !important;*/
 }
 
 a.page-title {

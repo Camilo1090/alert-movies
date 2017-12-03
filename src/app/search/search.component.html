@@ -1,28 +1,37 @@
 <section>
-  <div layout="row">
-    <div *ngIf="isDesktop" layout="column" class="categories bgc-grey-800">
-      <aside tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-md', 'pad-left-md', 'pad-bottom-lg', 'pad-right-md']">
-        <!--<h3 class="title push-bottom-sm tc-teal-A400" tdMediaToggle="xs">Media Type: </h3>-->
-        <div class="media-type-container push-top-sm">
-          <ul mat-tab-nav-bar class="media-type-list pad-left-none">
-            <li>
-              <a mat-tab-link class="text-left pad-left-none" [active]="media == 'movie'"
-                 (click)="onMoviesClick()">Movies <span class="results-length">{{totalMovies}}</span></a>
+  <div layout-sm="column" layout-xs="column" layout-gt-sm="row">
+    <div class="bgc-grey-800" [ngClass]="{'categories': _mediaService.query('gt-sm')}">
+      <aside class="pad-top-md pad-bottom-lg pad-left-md pad-right-md" tdMediaToggle="(max-width: 960px)"
+             [mediaClasses]="['pad-top-xs', 'pad-bottom-xs', 'pad-right-xs']">
+        <div class="media-type-container" tdMediaToggle="gt-sm" [mediaClasses]="['push-top-sm']">
+          <ul mat-tab-nav-bar class="pad-left-none"
+              [ngClass]="{'media-type-list-v': _mediaService.query('gt-sm'),
+              'media-type-list-h': _mediaService.query('(max-width: 960px)')}">
+            <li class="push-right-md">
+              <a mat-tab-link class="pad-none" [active]="media == 'movie'" (click)="onMoviesClick()"
+                 [ngClass]="{'text-left': _mediaService.query('gt-sm')}">
+                Movies <span class="results-length">{{totalMovies}}</span>
+              </a>
+            </li>
+            <li class="push-right-md">
+              <a mat-tab-link class="pad-none" [active]="media == 'series'" (click)="onSeriesClick()"
+                 [ngClass]="{'text-left': _mediaService.query('gt-sm')}">
+                TV Series <span class="results-length">{{totalSeries}}</span>
+              </a>
             </li>
             <li>
-              <a mat-tab-link class="text-left pad-left-none" [active]="media == 'series'"
-                 (click)="onSeriesClick()">TV Series <span class="results-length">{{totalSeries}}</span></a>
-            </li>
-            <li>
-              <a mat-tab-link class="text-left pad-left-none" [active]="media == 'person'"
-                 (click)="onPeopleClick()">People <span class="results-length">{{totalPeople}}</span></a>
+              <a mat-tab-link class="pad-none" [active]="media == 'person'" (click)="onPeopleClick()"
+                 [ngClass]="{'text-left': _mediaService.query('gt-sm')}">
+                People <span class="results-length">{{totalPeople}}</span>
+              </a>
             </li>
           </ul>
         </div>
       </aside>
     </div>
-    <div flex layout="column" tdMediaToggle="gt-xs"
-         [mediaClasses]="['search-results-page', 'pad-top-sm', 'pad-bottom-md', 'pad-left-md', 'pad-right-md']">
+    <div flex layout="column" class="pad-top-md pad-bottom-lg pad-left-md pad-right-md"
+         [ngClass]="{'search-results-page': _mediaService.query('gt-sm')}" tdMediaToggle="(max-width: 960px)"
+         [mediaClasses]="['pad-top-sm', 'pad-bottom-md']">
       <div layout="row" layout-align="start center">
         <h2>Search</h2>
         <mat-icon class="arrow push-top-sm">keyboard_arrow_right</mat-icon>
@@ -32,9 +41,10 @@
           <span *ngSwitchCase="'person'">People Results</span>
         </h2>
       </div>
-      <div flex *tdLoading="'search'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <div flex *ngIf="results.length > 0; else noResultsBlock" [ngSwitch]="media">
-          <mat-grid-list *ngSwitchCase="'movie'" cols="{{columns}}" rowHeight="5:4">
+      <div flex [ngSwitch]="media"
+           *tdLoading="'search'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
+        <div flex *ngSwitchCase="'movie'" >
+          <mat-grid-list *ngIf="totalMovies > 0; else noResultsBlock" cols="{{columns}}" rowHeight="5:4">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
               <mat-card class="movie-series-card bgc-grey-900">
                 <a [routerLink]="['/movie', result['id']]">
@@ -61,7 +71,9 @@
               </mat-card>
             </mat-grid-tile>
           </mat-grid-list>
-          <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="5:4">
+        </div>
+        <div flex *ngSwitchCase="'series'">
+          <mat-grid-list *ngIf="totalSeries > 0; else noResultsBlock" cols="{{columns}}" rowHeight="5:4">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
               <mat-card class="movie-series-card bgc-grey-900">
                 <a [routerLink]="['/series', result['id']]">
@@ -88,7 +100,9 @@
               </mat-card>
             </mat-grid-tile>
           </mat-grid-list>
-          <mat-grid-list *ngSwitchCase="'person'" cols="{{columnsPeople}}" rowHeight="1:1.75">
+        </div>
+        <div flex *ngSwitchCase="'person'">
+          <mat-grid-list *ngIf="totalPeople > 0; else noResultsBlock" cols="{{columnsPeople}}" rowHeight="1:1.75">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
               <mat-card class="person-card bgc-grey-900">
                 <a [routerLink]="['/person', result['id']]">
@@ -127,14 +141,15 @@
           <span class="tc-grey-900">There are no results matching your query.</span>
         </div>
       </ng-template>
-      <div class="push-top-sm">
+      <div layout-xs="column" layout-gt-xs="row" layout-align-xs="center center" layout-align-sm="center center"
+           layout-align-gt-sm="end center" class="push-top-sm">
+        <div *ngIf="results.length > 0">
+          <span>Currently on page: {{currentPage}} of {{totalPages}}</span>
+          <span>({{totalResults}} results)</span>
+        </div>
         <td-paging-bar #pagingBar *ngIf="results.length > 0" [pageSize]="[20]"
                        [pageLinkCount]="0" [initialPage]="currentPage" [firstLast]="firstLast"
                        [total]="totalResults" (change)="changePage($event)" class="tc-grey-900">
-          <div *ngIf="isDesktop">
-            <span td-paging-bar-label hide-xs>Currently on page: {{currentPage}} of {{totalPages}}</span>
-            <span hide-xs>({{totalResults}} results)</span>
-          </div>
         </td-paging-bar>
       </div>
     </div>

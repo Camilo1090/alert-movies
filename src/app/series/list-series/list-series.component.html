@@ -1,12 +1,12 @@
 <section>
   <div layout="column">
     <div layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="filters bgc-grey-800">
-      <div tdMediaToggle="gt-xs"
-           [mediaClasses]="['pad-top-xs', 'pad-left-md', 'pad-bottom-xs', 'pad-right-md']">
+      <div class="pad-top-xs pad-left-xl pad-bottom-xs pad-right-xl">
         <div layout="row">
-          <div layout="column">
-            <p hide-xs class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
-            <mat-form-field class="category-field pad-left-xs">
+          <div layout-gt-xs="column" layout-xs="row">
+            <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+            <mat-form-field class="category-field pad-left-md pad-top-xs" tdMediaToggle="gt-xs"
+                            [mediaClasses]="['pad-left-xs', 'pad-top-none']">
               <mat-select [(ngModel)]="selectedCategory"
                           (ngModelChange)="onCategoryChanged($event)">
                 <mat-option *ngFor="let category of categories" [value]="category['value']">
@@ -65,7 +65,8 @@
           <span class="tc-grey-900">No results were found.</span>
         </div>
       </ng-template>
-      <div layout="row" layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
+      <div layout="row" layout-align-xs="center center" layout-align-sm="center center"
+           layout-align-gt-sm="end center" class="push-top-sm">
         <td-paging-bar #pagingBar *ngIf="series.length > 0" [pageSize]="[20]" [pageLinkCount]="0"
                        [initialPage]="currentPage" [firstLast]="firstLast" [total]="totalResults"
                        (change)="changePage($event)" class="tc-grey-900">

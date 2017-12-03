@@ -13,13 +13,11 @@
   background-color: #212121;
 
   .row {
-    padding: 10px 0;
-
     .links {
       a {
         transition: padding 0.5s;
         display: inline-block;
-        padding: 20px 5px;
+        //padding: 20px 5px;
         color: #F5F5F5;
 
         &:hover {

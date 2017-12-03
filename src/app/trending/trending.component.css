@@ -12,6 +12,10 @@
   margin: auto;
 }
 
+.carousel-indicators {
+  z-index: 5;
+}
+
 .img-slide {
   margin: auto;
 }

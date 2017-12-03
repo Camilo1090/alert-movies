@@ -5,37 +5,34 @@
                  (searchDebounce)="search($event)" (search)="onEnter($event)" (clear)="clear()" (focusout)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">
-    <ul class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">
+    <ul layout="column" class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">
       <li *ngFor="let result of results | slice:0:5" [ngSwitch]="result['media_type']" class="search-result">
         <a *ngSwitchCase="'movie'" class="search-result"
-           [routerLink]="['/movie', result['id']]" (click)="clear()">
-          <div layout="row" layout-align="left center">
-            <!--<mat-icon>local_movies</mat-icon>-->
+           [routerLink]="['/movie', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+          <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
-            <span class="push-left-sm">
+            <span layout="column" class="push-left-sm">
               {{result['title']}} <i class="tc-grey-400">(Movie)</i>
             </span>
           </div>
         </a>
         <a *ngSwitchCase="'tv'" class="search-result"
-           [routerLink]="['/series', result['id']]" (click)="clear()">
-          <div layout="row" layout-align="left center">
-            <!--<mat-icon>tv</mat-icon>-->
+           [routerLink]="['/series', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+          <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
-            <span class="push-left-sm">
+            <span layout="column" class="push-left-sm">
               {{result['name']}} <i class="tc-grey-400">(TV Show)</i>
             </span>
           </div>
         </a>
         <a *ngSwitchCase="'person'" class="search-result"
-           [routerLink]="['/person', result['id']]" (click)="clear()">
-          <div layout="row" layout-align="left center">
-            <!--<mat-icon>person</mat-icon>-->
+           [routerLink]="['/person', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+          <div layout="row" layout-align="start start">
             <img *ngIf="result['profile_path']; else elseBlock"
                  [src]="apiImg + result['profile_path']" class="img-responsive" />
-            <span class="push-left-sm">
+            <span layout="column" class="push-left-sm" flex>
               {{result['name']}} <i class="tc-grey-400">(Person)</i>
             </span>
           </div>

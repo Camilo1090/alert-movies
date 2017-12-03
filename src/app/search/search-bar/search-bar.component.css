@@ -35,10 +35,10 @@ a.search-result:hover {
 .search-results {
   /*display: none;*/
   position: absolute;
-  top: 60px;
+  /*top: 60px;*/
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 999;
   padding: 0;
   margin: 0;
   border-width: 1px;
@@ -46,7 +46,7 @@ a.search-result:hover {
   border-color: #BDBDBD #BDBDBD #BDBDBD;
   border-radius: 3px;
   background-color: #757575;
-  max-width: 80%;
+  max-width: 90%;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -99,7 +99,7 @@ a.search-result:hover {
   display: block;
   position: relative;
   margin: 0 -1px;
-  padding: 6px 40px 6px 10px;
+  padding: 6px 10px 6px 10px;
   color: #FAFAFA;
   font-weight: 500;
   /*text-shadow: 0 1px #fff;*/
@@ -108,8 +108,13 @@ a.search-result:hover {
 }
 
 .search .search-results a span {
-  margin-top: 2px;
-  font-weight: 200
+  /*margin-top: 2px;*/
+  font-weight: 200;
+}
+
+.search .search-results a span i {
+  font-size: 12px;
+  font-weight: 200;
 }
 
 .search .search-results a img {

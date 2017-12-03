@@ -77,7 +77,7 @@ a.sidenav-item.active mat-icon {
 }
 
 .main mat-toolbar {
-  /*padding: 0 !important;*/
+  z-index: 20;
 }
 
 a.page-title {

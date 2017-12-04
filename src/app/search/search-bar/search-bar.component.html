@@ -13,7 +13,7 @@
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
-            <span class="push-left-sm">
+            <span class="push-left-sm push-top-xs">
               {{result['title']}} <i class="tc-grey-400">(Movie)</i>
             </span>
           </div>
@@ -23,7 +23,7 @@
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
-            <span layout="column" class="push-left-sm">
+            <span class="push-left-sm">
               {{result['name']}} <i class="tc-grey-400">(TV Show)</i>
             </span>
           </div>
@@ -33,7 +33,7 @@
           <div layout="row" layout-align="start start">
             <img *ngIf="result['profile_path']; else elseBlock"
                  [src]="apiImg + result['profile_path']" class="img-responsive" />
-            <span layout="column" class="push-left-sm" flex>
+            <span class="push-left-sm" flex>
               {{result['name']}} <i class="tc-grey-400">(Person)</i>
             </span>
           </div>

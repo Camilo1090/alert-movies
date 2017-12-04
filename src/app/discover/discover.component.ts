@@ -145,8 +145,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
           } else {
             this.results = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);
@@ -159,8 +159,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
           } else {
             this.results = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);
@@ -172,7 +172,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   updateParams(): void {
     this.params = [];
     if (this.selectedYear !== 0) {
-      this.params.push({name: 'primary_release_year', value: this.selectedYear});
+      if (this.selectedCategory === 'movies') {
+        this.params.push({name: 'primary_release_year', value: this.selectedYear});
+      } else {
+        this.params.push({name: 'first_air_date_year', value: this.selectedYear});
+      }
     }
     this.params.push({name: 'sort_by', value: this.selectedSort});
     if (this.genresModel.length > 0) {
@@ -259,6 +263,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   onCategoryChanged(): void {
     this.genresModel = [];
     this.updateGenres();
+    this.updateParams();
     this.pagingBar.navigateToPage(1);
     // this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
   }

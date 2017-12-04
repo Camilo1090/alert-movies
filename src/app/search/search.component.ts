@@ -99,14 +99,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'movie': {
         this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalMovies = response['total_results'];
+          this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalResults = this.totalMovies;
-          this.totalPages = response['total_pages'];
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
-            this.totalSeries = r['total_results'];
+            this.totalSeries = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
-            this.totalPeople = r['total_results'];
+            this.totalPeople = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.resolveLoading();
         }, err => {
@@ -116,14 +116,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'series': {
         this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalSeries = response['total_results'];
+          this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalResults = this.totalSeries;
-          this.totalPages = response['total_pages'];
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
-            this.totalMovies = r['total_results'];
+            this.totalMovies = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
-            this.totalPeople = r['total_results'];
+            this.totalPeople = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.resolveLoading();
         }, err => {
@@ -133,14 +133,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       case 'person': {
         this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
           this.results = response['results'];
-          this.totalPeople = response['total_results'];
+          this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalResults = this.totalPeople;
-          this.totalPages = response['total_pages'];
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
-            this.totalMovies = r['total_results'];
+            this.totalMovies = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
-            this.totalSeries = r['total_results'];
+            this.totalSeries = r['total_results'] <= 20000 ? r['total_results'] : 20000;
           });
           this.resolveLoading();
         }, err => {

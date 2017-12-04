@@ -102,9 +102,7 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonCombinedCredits(params['id']))
       .subscribe(response => {
-        console.log(response);
         this.featuredCredit = response['cast'].sort((a, b) => b['popularity'] - a['popularity'])[0];
-        console.log(this.featuredCredit);
         this.resolveLoading();
       }, err => {
         console.log(err);

@@ -162,31 +162,28 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onMoviesClick() {
-    if (this.media === 'movie') {
-      if (this.pagingBar) {
-        this.pagingBar.navigateToPage(1);
-      }
-    } else {
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    }
+    if (this.media !== 'movie') {
       this.router.navigate(['/search', 'movie', {'query': this.query, 'page': 1}]);
     }
   }
 
   onSeriesClick() {
-    if (this.media === 'series') {
-      if (this.pagingBar) {
-        this.pagingBar.navigateToPage(1);
-      }
-    } else {
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    }
+    if (this.media !== 'series') {
       this.router.navigate(['/search', 'series', {'query': this.query, 'page': 1}]);
     }
   }
 
   onPeopleClick() {
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    }
     if (this.media === 'person') {
-      if (this.pagingBar) {
-        this.pagingBar.navigateToPage(1);
-      }
-    } else {
       this.router.navigate(['/search', 'person', {'query': this.query, 'page': 1}]);
     }
   }

@@ -3,13 +3,13 @@
                  placeholder="Search for a movie, tv series, person..."
                  [showUnderline]="_mediaService.query('(max-width: 600px)')"
                  [debounce]="300" [alwaysVisible]="_mediaService.query('(max-width: 600px)')"
-                 (searchDebounce)="search($event)" (search)="onEnter($event)" (clear)="clear()">
+                 (searchDebounce)="search($event)" (search)="onEnter($event)" (clear)="clear()" (focusout)="clear()">
   </td-search-box>
   <div *ngIf="(complete | async)?.length > 0">
     <ul layout="column" class="search-results" tdMediaToggle="xs" [mediaClasses]="['search-results-xs']">
       <li *ngFor="let result of results | slice:0:5" [ngSwitch]="result['media_type']" class="search-result">
         <a *ngSwitchCase="'movie'" class="search-result"
-           [routerLink]="['/movie', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+           [routerLink]="['/movie', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
@@ -19,7 +19,7 @@
           </div>
         </a>
         <a *ngSwitchCase="'tv'" class="search-result"
-           [routerLink]="['/series', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+           [routerLink]="['/series', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
                  [src]="apiImg + result['poster_path']" class="img-responsive" />
@@ -29,7 +29,7 @@
           </div>
         </a>
         <a *ngSwitchCase="'person'" class="search-result"
-           [routerLink]="['/person', result['id']]" (click)="clear(); searchBar.toggleVisibility()">
+           [routerLink]="['/person', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['profile_path']; else elseBlock"
                  [src]="apiImg + result['profile_path']" class="img-responsive" />

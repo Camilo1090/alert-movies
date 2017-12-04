@@ -63,7 +63,9 @@ export class SearchBarComponent implements OnInit {
   clear() {
     this.searchBar.value = '';
     this.searchInputTerm.next('');
-    // this.searchBar.toggleVisibility();
+    if (this.searchBar.searchVisible) {
+      this.searchBar.toggleVisibility();
+    }
   }
 
   onEnter($event: string) {

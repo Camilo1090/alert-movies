@@ -56,10 +56,11 @@ export class PersonMoviesComponent implements OnInit, OnDestroy {
       .getPersonMovies(params['id']))
       .subscribe(response => {
         if (response['cast'].length >= response['crew'].length) {
-          this.movies = response['cast'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.movies = response['cast'].sort((a, b) => b['vote_average'] - a['vote_average']);
         } else {
-          this.movies = response['crew'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.movies = response['crew'].sort((a, b) => b['vote_average'] - a['vote_average']);
         }
+        this.movies = this.movies.slice(0, 20);
         this.resolveLoading();
       });
   }

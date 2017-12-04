@@ -56,10 +56,11 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
       .getPersonSeries(params['id']))
       .subscribe(response => {
         if (response['cast'].length >= response['crew'].length) {
-          this.series = response['cast'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.series = response['cast'].sort((a, b) => b['vote_average'] - a['vote_average']);
         } else {
-          this.series = response['crew'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.series = response['crew'].sort((a, b) => b['vote_average'] - a['vote_average']);
         }
+        this.series = this.series.slice(0, 20);
         this.resolveLoading();
       });
   }

@@ -75,4 +75,8 @@ export class SearchBarComponent implements OnInit {
     this.router.navigate(['/search', 'movie', {'query': query, 'page': 1}]);
   }
 
+  onFocusOut() {
+    this.searchInputTerm.next('');
+  }
+
 }

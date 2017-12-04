@@ -7,13 +7,13 @@
           <ul mat-tab-nav-bar class="pad-left-none"
               [ngClass]="{'media-type-list-v': _mediaService.query('gt-sm'),
               'media-type-list-h': _mediaService.query('(max-width: 960px)')}">
-            <li class="push-right-md">
+            <li tdMediaToggle="(max-width: 960px)" [mediaClasses]="['push-right-md']">
               <a mat-tab-link class="pad-none" [active]="media == 'movie'" (click)="onMoviesClick()"
                  [ngClass]="{'text-left': _mediaService.query('gt-sm')}">
                 Movies <span class="results-length">{{totalMovies}}</span>
               </a>
             </li>
-            <li class="push-right-md">
+            <li tdMediaToggle="(max-width: 960px)" [mediaClasses]="['push-right-md']">
               <a mat-tab-link class="pad-none" [active]="media == 'series'" (click)="onSeriesClick()"
                  [ngClass]="{'text-left': _mediaService.query('gt-sm')}">
                 TV Series <span class="results-length">{{totalSeries}}</span>

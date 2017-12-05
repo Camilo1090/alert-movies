@@ -108,7 +108,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   constructor(private discoverService: DiscoverService,
               private route: ActivatedRoute,
               private router: Router,
-              private _mediaService: TdMediaService,
+              public _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }

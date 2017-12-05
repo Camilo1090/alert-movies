@@ -52,7 +52,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(private searchService: SearchService,
               private route: ActivatedRoute,
               private router: Router,
-              private _mediaService: TdMediaService,
+              public _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }

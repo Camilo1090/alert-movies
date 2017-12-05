@@ -101,8 +101,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           } else {
             this.movies = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);
@@ -115,8 +115,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           } else {
             this.movies = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);
@@ -129,8 +129,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           } else {
             this.movies = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);
@@ -143,8 +143,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           } else {
             this.movies = [];
           }
-          this.totalResults = response['total_results'];
-          this.totalPages = response['total_pages'];
+          this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveMoviesLoading();
         }, err => {
           console.log(err);

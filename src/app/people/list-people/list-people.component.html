@@ -23,7 +23,12 @@
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
             <mat-card class="person-card bgc-grey-900">
               <a [routerLink]="['/person', person.id]">
-                <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
+                <div *ngIf="person['profile_path']; else elseBlock">
+                  <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
+                </div>
+                <ng-template #elseBlock>
+                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+                </ng-template>
               </a>
               <mat-card-content>
                 <div flex layout="column">
@@ -33,7 +38,7 @@
                         {{person['name']}}</h3>
                     </a>
                   </div>
-                  <div layout="row">
+                  <div layout="row" *ngIf="person['known_for'] && person['known_for'].length > 0">
                     <i flex class="text-micro tc-grey-300">{{person['known_for'][0]['title']}}</i>
                   </div>
                 </div>

@@ -11,7 +11,7 @@ import {TdMediaService} from "@covalent/core";
 })
 export class AppComponent {
   title = 'Alert Movies';
-  logo = '../assets/img/tmdb.svg';
+  logo = 'assets/img/tmdb.svg';
 
   routes: Object[] = [
     {

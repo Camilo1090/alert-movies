@@ -74,8 +74,8 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       } else {
         this.people = [];
       }
-      this.totalResults = response['total_results'];
-      this.totalPages = response['total_pages'];
+      this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+      this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
       this.resolveLoading();
     }, err => {
       console.log(err);

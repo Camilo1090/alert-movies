@@ -183,7 +183,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
     }
-    if (this.media === 'person') {
+    if (this.media !== 'person') {
       this.router.navigate(['/search', 'person', {'query': this.query, 'page': 1}]);
     }
   }

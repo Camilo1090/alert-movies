@@ -32,14 +32,12 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
   private _querySubscription: Subscription;
 
   // Used for the pagination
-  event: IPageChangeEvent;
+  currentPage = 1;
   firstLast = true;
   pageSizeAll = false;
-  pageLinkCount: number;
   totalPages: number;
   totalResults: number;
 
-  response = [];
   recommendations = [];
 
   apiImg = API.apiImg + 'w500';
@@ -64,10 +62,9 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieRecommendations(params['id'], page))
       .subscribe(response => {
-        this.response = response;
         this.recommendations = response['results'];
-        this.totalPages = response['total_pages'];
-        this.totalResults = response['total_results'];
+        this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+        this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
         this.resolveLoading();
       });
   }
@@ -85,22 +82,18 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
         this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
         this.isDesktop = true;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
         this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
     });
   }
@@ -116,7 +109,6 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
           if (matches) {
             this.columns = 1;
             this.isDesktop = false;
-            this.pageLinkCount = 1;
           }
         });
       });
@@ -125,7 +117,6 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 2;
           this.isDesktop = true;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -134,7 +125,6 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 3;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -143,7 +133,6 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
         if (matches) {
           this.columns = 4;
           this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -154,7 +143,6 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
-    this.event = event;
     this.registerLoading();
     this.updateMovieRecommendations(event.page);
   }

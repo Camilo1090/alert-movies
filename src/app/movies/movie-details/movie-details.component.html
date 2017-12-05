@@ -1,7 +1,6 @@
 <section flex class="bgc-grey-800"
          *tdLoading="'movie-details'; type:'circular'; mode:'indeterminate'; strategy:'replace'; color:'primary'">
   <div layout="column" class="parent">
-    <!-- *************** Image section *************** -->
     <div *ngIf="movie['backdrop_path'] && isDesktop" class="bg-image"
          [ngStyle]="{'background-image': 'url(' + apiImgBack + movie['backdrop_path'] + ')'}"></div>
     <div layout-gt-sm="row" layout-xs="column" layout-align="center" class="custom-bg"

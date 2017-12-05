@@ -40,6 +40,6 @@ export class AppComponent {
   constructor(private _iconRegistry: MatIconRegistry,
               private _domSanitizer: DomSanitizer) {
     this._iconRegistry.addSvgIconInNamespace('assets', 'tmdb',
-      this._domSanitizer.bypassSecurityTrustResourceUrl('./assets/img/tmdb.svg'));
+      this._domSanitizer.bypassSecurityTrustResourceUrl('assets/img/tmdb.svg'));
   }
 }

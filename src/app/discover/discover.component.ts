@@ -131,11 +131,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       } else {
         this.currentPage = 1;
       }
+      this.updateGenres();
+      this.filterGenres('');
       this.updateResults();
     });
 
-    this.updateGenres();
-    this.filterGenres('');
     this.checkScreen();
     this.watchScreen();
   }

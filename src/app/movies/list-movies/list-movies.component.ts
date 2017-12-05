@@ -58,7 +58,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   totalResults: number;
   totalPages: number;
 
-  response = [];
   movies = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
@@ -103,7 +102,8 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.resolveMoviesLoading();
+          this.resolveLoading();
+          console.log(this.movies);
         }, err => {
           console.log(err);
         });
@@ -117,7 +117,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.resolveMoviesLoading();
+          this.resolveLoading();
         }, err => {
           console.log(err);
         });
@@ -131,7 +131,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.resolveMoviesLoading();
+          this.resolveLoading();
         }, err => {
           console.log(err);
         });
@@ -145,10 +145,14 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.resolveMoviesLoading();
+          this.resolveLoading();
         }, err => {
           console.log(err);
         });
+      } break;
+      default: {
+        this.resolveLoading();
+        this.router.navigate(['/404']);
       } break;
     }
   }
@@ -242,7 +246,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     this._loadingService.register('movies');
   }
 
-  resolveMoviesLoading(): void {
+  resolveLoading(): void {
     this._loadingService.resolve('movies');
   }
 

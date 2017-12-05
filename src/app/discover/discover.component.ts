@@ -180,6 +180,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
           this.resolveLoading();
         });
       } break;
+      default: {
+        this.resolveLoading();
+        this.router.navigate(['/404']);
+      } break;
     }
   }
 

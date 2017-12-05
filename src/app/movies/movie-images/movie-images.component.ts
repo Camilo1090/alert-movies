@@ -59,6 +59,8 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
         this.movieBackdrops = response['backdrops'].slice(0, 12);
         this.moviePosters = response['posters'].slice(0, 12);
         this.resolveLoading();
+      }, err => {
+        console.log(err);
       });
   }
 

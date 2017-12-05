@@ -223,7 +223,8 @@
             </mat-grid-tile>
           </mat-grid-list>
           <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="5:4">
-            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+            <div *ngFor="let result of results">
+              <mat-grid-tile *ngIf="result" [colspan]="1" [rowspan]="1">
               <mat-card class="card">
                 <a [routerLink]="['/series', result.id]">
                   <div *ngIf="result['backdrop_path']; else elseBlock">
@@ -251,6 +252,7 @@
                 </mat-card-content>
               </mat-card>
             </mat-grid-tile>
+            </div>
           </mat-grid-list>
         </div>
       </div>

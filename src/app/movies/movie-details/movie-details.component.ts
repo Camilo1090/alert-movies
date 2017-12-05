@@ -68,11 +68,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
-    this.router.events
-      .filter(e => e instanceof NavigationEnd)
-      .subscribe(() => {
-        window.scroll(0, 0);
-      });
   }
 
   ngOnInit() {

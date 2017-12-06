@@ -6,9 +6,9 @@
          [ngStyle]="{'background-image': 'url(' + apiImgBack + featuredCredit['backdrop_path'] + ')'}"></div>
     <div layout-gt-sm="row" layout-sm="column" layout-align="center" class="custom-bg"
          tdMediaToggle="gt-xs" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
-      <div layout-gt-sm="row" layout-sm="column" layout-align="center"
+      <div flex layout-gt-sm="row" layout-sm="column" layout-align="center"
            tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
-        <div layout-gt-sm="row" layout-sm="column" layout-align="center"
+        <div flex layout-gt-sm="row" layout-sm="column" layout-align="center"
              tdMediaToggle="gt-md" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
           <div *ngIf="isDesktop; then desktop else mobile;"></div>
           <ng-template #desktop>
@@ -24,30 +24,20 @@
                    src="{{apiImgProf + person['profile_path']}}" class="img-responsive img-rounded">
             </div>
           </ng-template>
-          <div flex-gt-md="50" layout="column" class="pad-top-xs pad-left-md pad-bottom-md pad-right-md"
+          <div flex layout="column" class="pad-top-xs pad-left-md pad-bottom-md pad-right-md"
                tdMediaToggle="gt-sm" [mediaClasses]="['push-lg', 'push-left-none']">
-            <div layout="row">
-              <div layout="row" layout-align="left" class="date-title col-xs-8">
-                <!--<div hide-xs class="date text-center col-xs-2">-->
-                  <!--<span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>-->
-                  <!--<span class="tc-grey-400" layout="column">-->
-                  <!--{{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}-->
-                <!--</span>-->
-                <!--</div>-->
-                <div class="col-xs-12 pad-left-none">
-                  <h1 class="tc-grey-400">
-                    <b class="tc-teal-A400">{{person['name']}} </b>
-                  </h1>
-                  <!--<i class="tc-grey-500">{{getGenres(movie['genres'])}}</i>-->
-                </div>
+            <div layout="row" layout-align="start center">
+              <div layout="row" class="date-title" flex="75">
+                <h1 class="tc-grey-400 pad-left-sm">
+                  <b class="tc-teal-A400">{{person['name']}}</b>
+                </h1>
               </div>
-
-              <div layout="row" layout-align="end center" class="rating col-xs-4">
+              <div layout="row" layout-align="end center" class="pad-right-sm" flex="25">
                 <h1 class="tc-grey-300">
                   <b>{{person['popularity'] | number:'1.0-0'}}</b>
                   <span aria-hidden="true" class="tc-blue-500">
-                  <i aria-hidden="true" class="fa fa-thumbs-up star"></i>
-                </span>
+                    <i aria-hidden="true" class="fa fa-thumbs-up star"></i>
+                  </span>
                 </h1>
               </div>
             </div>
@@ -101,7 +91,7 @@
                 <!-- ***************** Homepage *******************-->
                 <div layout="column" class="pad-xs col-xs-6 col-sm-3">
                   <span class=" tc-white">Official Site</span>
-                  <a *ngIf="person['homepage']; else elseBlock" class="mat-body-1" href="{{person['homepage']}}">
+                  <a *ngIf="person['homepage']; else elseBlock" class="homepage mat-body-1" href="{{person['homepage']}}">
                     {{person['homepage']}}
                   </a>
                 </div>

@@ -36,8 +36,12 @@
 }
 
 .date-title {
-  padding-left: 10px;
-  padding-right: 30px;
+  /*padding-left: 10px;*/
+  padding-right: 10px;
+}
+
+.homepage {
+  overflow-wrap: break-word;
 }
 
 .rating {

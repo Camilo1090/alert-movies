@@ -35,12 +35,16 @@
 }
 
 .date-title {
-  padding-left: 10px;
-  padding-right: 30px;
+  /*padding-left: 10px;*/
+  padding-right: 10px;
 }
 
 .rating {
   padding-right: 25px;
+}
+
+.homepage {
+  overflow-wrap: break-word;
 }
 
 a.crew {

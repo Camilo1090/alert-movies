@@ -3,68 +3,69 @@
   <div layout="column" class="parent">
     <div *ngIf="series['backdrop_path'] && isDesktop" class="bg-image"
          [ngStyle]="{'background-image': 'url(' + apiImgBack + series['backdrop_path'] + ')'}"></div>
-    <div layout-gt-sm="row" layout-xs="column" layout-align="center" class="custom-bg"
+    <div flex layout-gt-sm="row" layout-xs="column" layout-align="center" class="custom-bg"
          tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
-        <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none" flex-gt-xs="50">
-          <img *ngIf="series['poster_path'] && isDesktop" src="{{apiImgOrig + series['poster_path']}}"
-               class="img-responsive img-rounded">
+        <div *ngIf="series['poster_path'] && isDesktop" layout="column" layout-align="center center"
+             class="poster-image push-lg push-right-none">
+          <img src="{{apiImgOrig + series['poster_path']}}" class="img-responsive img-rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
-        <div flex class="pad-none" layout="row" layout-align="center center">
-          <img flex *ngIf="series['backdrop_path'] && !isDesktop"
-               src="{{apiImgOrig + series['backdrop_path']}}" class="img-responsive">
+        <div flex class="pad-none" layout="row" layout-align="center center"
+             *ngIf="series['backdrop_path'] && !isDesktop">
+          <img flex src="{{apiImgOrig + series['backdrop_path']}}" class="img-responsive">
         </div>
       </ng-template>
-      <div flex-gt-md="50" layout="column" class="push-lg" tdMediaToggle="gt-xs"
+      <div layout="row" layout-align="center center" class="push-lg" tdMediaToggle="gt-xs"
            [mediaClasses]="['pad-top-xs']">
-        <div layout="row">
-          <div layout="row" layout-align="left" class="date-title col-xs-9">
-            <div hide-xs class="date text-center col-xs-2">
-              <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
-              <span class="tc-grey-400" layout="column">
-                {{series['first_air_date'] | date:'d'}} {{series['first_air_date'] | date:'MMM'}}
-              </span>
+        <div flex layout="column">
+          <div layout="row">
+            <div layout="row" layout-align="start" class="date-title" flex="70">
+              <div *ngIf="series['first_air_date']" hide-xs layout="column" layout-align="center center"
+                   class="date text-center" flex="15">
+                <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
+                <span class="tc-grey-400">
+                  {{series['first_air_date'] | date:'d'}} {{series['first_air_date'] | date:'MMM'}}
+                </span>
+              </div>
+              <div flex="85" class="pad-left-sm pad-right-sm">
+                <h1 class="tc-grey-400">
+                  <b class="tc-teal-A400">{{series['name']}} </b>
+                  <span *ngIf="series['first_air_date']">({{series['first_air_date'] | date:'yyyy'}})</span>
+                </h1>
+                <i class="tc-grey-500">{{getGenres(series['genres'])}}</i>
+              </div>
             </div>
-            <div class="col-xs-10">
-              <h1 class="tc-grey-400">
-                <b class="tc-teal-A400">{{series['name']}} </b>
-                ({{series['first_air_date'] | date:'yyyy'}})
+            <div layout="row" layout-align="end center" class="rating pad-left-sm" flex="30">
+              <h1 class="tc-grey-300">
+                <b>{{series['vote_average']}}</b>
+                <span aria-hidden="true" class="tc-amber-300">
+                  <i aria-hidden="true" class="fa fa-star star"></i>
+                </span>
               </h1>
-              <i class="tc-grey-500">{{getGenres(series['genres'])}}</i>
             </div>
           </div>
-
-          <div layout="row" layout-align="end center" class="rating col-xs-3">
-            <h1 class="tc-grey-300">
-              <b>{{series['vote_average']}}</b>
-              <span aria-hidden="true" class="tc-amber-300">
-                <i aria-hidden="true" class="fa fa-star star"></i>
-              </span>
-            </h1>
+          <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+          <div layout="column">
+            <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
+            <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
           </div>
-        </div>
-        <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-        <div layout="column">
-          <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
-          <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
-        </div>
-        <div layout="column" *ngIf="crew.length > 0">
-          <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
-          <div class="row push-left-xs">
-            <div *ngFor="let person of crew | slice:0:6">
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-                <a [routerLink]="['/person', person.id]" class="crew">
-                  <strong class="tc-white">{{person['name']}}</strong>
-                </a>
-                <span class="tc-grey-400">{{person['job']}}</span>
+          <div layout="column" *ngIf="crew.length > 0">
+            <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
+            <div class="row push-left-xs">
+              <div *ngFor="let person of crew | slice:0:6">
+                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+                  <a [routerLink]="['/person', person.id]" class="crew">
+                    <strong class="tc-white">{{person['name']}}</strong>
+                  </a>
+                  <span class="tc-grey-400">{{person['job']}}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div layout="column">
+          <div layout="column">
           <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Show Facts</strong></h3>
           <div class="row push-left-xs">
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
@@ -90,7 +91,7 @@
 
             <div layout="column" class="pad-xs col-xs-6 col-sm-3">
               <span class=" tc-grey-400">Homepage</span>
-              <a *ngIf="series['homepage']; else elseBlock" class="mat-body-1" href="{{series['homepage']}}">
+              <a *ngIf="series['homepage']; else elseBlock" class="homepage mat-body-1" href="{{series['homepage']}}">
                 {{series['homepage']}}
               </a>
             </div>
@@ -129,6 +130,7 @@
               -
             </span>
           </ng-template>
+        </div>
         </div>
       </div>
     </div>

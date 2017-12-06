@@ -118,9 +118,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this.registerLoading();
       // console.log(params);
       if (params['category']) {
-        this.selectedCategory = params['category'];
-      } else {
-        this.selectedCategory = 'movies';
+        if (params['category'] !== this.selectedCategory) {
+          this.selectedCategory = params['category'];
+          this.updateGenres();
+          this.filterGenres('');
+        }
       }
       if (params['page']) {
         if (params['page'] <= 1000) {
@@ -131,11 +133,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       } else {
         this.currentPage = 1;
       }
-      this.updateGenres();
-      this.filterGenres('');
+      this.updateParams();
       this.updateResults();
     });
-
+    this.updateGenres();
+    this.filterGenres('');
     this.checkScreen();
     this.watchScreen();
   }

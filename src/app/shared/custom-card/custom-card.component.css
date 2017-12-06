@@ -50,23 +50,23 @@
   transform: scale(1.2,1.2);
 }
 
-.card-content {
+.custom-card .card-content {
   background: rgba(0, 0, 0, 0.85);
   font-size: 16px;
 }
 
-.card:hover .hovereffect {
+.custom-card:hover .hovereffect {
   -webkit-box-shadow: 0 10px 6px -6px #777;
   -moz-box-shadow: 0 10px 6px -6px #777;
   box-shadow: 0 10px 6px -6px #777;
 }
 
-.card {
+.custom-card {
   /*-webkit-transition: all 0.3s ease-in-out;*/
   /*transition: all 0.3s ease-in-out;*/
 }
 
-.card:hover {
+.custom-card:hover {
   /*-ms-transform: scale(1.02,1.02); !* IE 9 *!*/
   /*-webkit-transform: scale(1.02,1.02); !* Safari *!*/
   /*transform: scale(1.02,1.02);*/
@@ -82,11 +82,11 @@
   /*transition: all 0.3s ease-in-out;*/
 }
 
-.rating {
+.custom-card .media-rating {
   /*padding-right: 10px;*/
 }
 
-.star {
+.custom-card .media-rating-star {
   font-size: 19px;
   /*padding-left: 5px;*/
 }

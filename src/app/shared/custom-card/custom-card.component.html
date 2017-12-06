@@ -10,7 +10,7 @@
   <!--</div>-->
 <!--</div>-->
 
-<mat-card class="card">
+<mat-card class="custom-card">
   <div class="hovereffect">
     <div class="card-image">
       <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
@@ -23,11 +23,11 @@
             </p>
           </div>
           <div layout="row" layout-align="end center" flex="20">
-            <div layout="row" layout-align="end center" class="rating">
+            <div layout="row" layout-align="end center" class="media-rating">
               <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                 {{ rating }}
               </p>
-              <mat-icon class="star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+              <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
             </div>
           </div>
       </div>

@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { TdLoadingService } from '@covalent/core';
 
 // carousel config
-import { CarouselConfig } from 'ngx-bootstrap';
+import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 // api
 import { API} from '../shared/api/api';
@@ -23,10 +23,7 @@ import { SeriesService } from '../series/shared/series.service';
   selector: 'app-trending',
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css'],
-  providers: [ MoviesService,
-    SeriesService,
-    { provide: CarouselConfig, useValue: { interval: 3000, noPause: false } },
-  ]
+  providers: [ MoviesService, SeriesService, NgbCarouselConfig ]
 })
 export class TrendingComponent implements OnInit, OnDestroy {
   // Used for responsive services
@@ -41,9 +38,11 @@ export class TrendingComponent implements OnInit, OnDestroy {
 
   constructor(private moviesService: MoviesService,
               private seriesService: SeriesService,
+              private carouselConfig: NgbCarouselConfig,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
+    carouselConfig.interval = 2000;
   }
 
   ngOnInit(): void {

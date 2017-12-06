@@ -7,15 +7,15 @@
       <ng-template #backdropsBlock>
         <mat-grid-list layout="row" cols="{{columns}}" rowHeight="5:4">
           <mat-grid-tile *ngFor="let backdrop of movieBackdrops" [colspan]="1" [rowspan]="1">
-            <mat-card class="card bgc-grey-900">
-              <a href="{{apiImgOrig + backdrop['file_path']}}">
-                <div *ngIf="backdrop['file_path']; else noImageBlock">
-                  <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
-                </div>
-                <ng-template #noImageBlock>
+            <mat-card class="card bgc-grey-900" (click)="openModal(template)">
+              <div *ngIf="backdrop['file_path']; else noImageBlock">
+                <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
+              </div>
+              <ng-template #noImageBlock>
+                <div>
                   <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                </ng-template>
-              </a>
+                </div>
+              </ng-template>
               <mat-card-content class="bgc-grey-900 text-center">
                 <i class="tc-grey-200">Size: {{backdrop['width']}}x{{backdrop['height']}}</i>
               </mat-card-content>
@@ -53,3 +53,15 @@
     </div>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+</ng-template>

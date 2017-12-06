@@ -44,6 +44,10 @@ export class SearchBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.updateSearch();
+  }
+
+  updateSearch(): void {
     this.complete = this.searchInputTerm
       .debounceTime(300)
       .distinctUntilChanged()

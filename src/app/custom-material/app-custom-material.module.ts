@@ -34,13 +34,15 @@ import { CovalentNotificationsModule } from '@covalent/core';
 import { CovalentPagingModule } from '@covalent/core';
 import { CovalentLoadingModule } from '@covalent/core';
 import { CovalentChipsModule } from '@covalent/core';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
     FormsModule,
     BrowserAnimationsModule,
     CarouselModule,
-    ModalModule,
+    ModalModule.forRoot(),
+    NgbModule.forRoot(),
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,
@@ -70,6 +72,7 @@ import { CovalentChipsModule } from '@covalent/core';
     BrowserAnimationsModule,
     CarouselModule,
     ModalModule,
+    NgbModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,

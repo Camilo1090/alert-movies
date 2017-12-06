@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // ngx bootstrap components
-import { CarouselModule } from 'ngx-bootstrap';
+import {CarouselModule, ModalModule} from 'ngx-bootstrap';
 // import { CarouselModule } from 'angular4-carousel';
 
 // Material Components
@@ -40,6 +40,7 @@ import { CovalentChipsModule } from '@covalent/core';
     FormsModule,
     BrowserAnimationsModule,
     CarouselModule,
+    ModalModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,
@@ -68,6 +69,7 @@ import { CovalentChipsModule } from '@covalent/core';
     FormsModule,
     BrowserAnimationsModule,
     CarouselModule,
+    ModalModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,

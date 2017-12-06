@@ -1,0 +1,67 @@
+<!--<div>-->
+  <!--<div class="hovereffect">-->
+    <!--<img class="img-responsive" [src]="_src" alt="">-->
+    <!--<div class="overlay">-->
+      <!--<div class="content-container">-->
+        <!--<span>{{ _title }}</span>-->
+      <!--</div>-->
+      <!--<a class="info" href="#">link here</a>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+<mat-card class="card">
+  <div class="hovereffect">
+    <div class="card-image">
+      <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+    </div>
+    <div class="overlay" layout="row" layout-align="center end">
+        <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+          <div layout="row" layout-align="start center" flex="80">
+            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+              {{ title }}
+            </p>
+          </div>
+          <div layout="row" layout-align="end center" flex="20">
+            <div layout="row" layout-align="end center" class="rating">
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                {{ rating }}
+              </p>
+              <mat-icon class="star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<!--<mat-card class="card">-->
+  <!--<a [routerLink]="['/series', serie.id]">-->
+    <!--<div *ngIf="serie['backdrop_path']; else elseBlock">-->
+      <!--<img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />-->
+    <!--</div>-->
+    <!--<ng-template #elseBlock>-->
+      <!--<img mat-card-image src="assets/img/no-img.png" class="img-responsive" />-->
+    <!--</ng-template>-->
+  <!--</a>-->
+  <!--<mat-card-content class="bgc-grey-900">-->
+    <!--<div layout="row">-->
+      <!--<div class="col-xs-10">-->
+        <!--<p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">-->
+          <!--{{serie['name']}}</p>-->
+      <!--</div>-->
+      <!--<div class="col-xs-offset-1">-->
+        <!--<div layout="row" class="rating">-->
+          <!--<p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">-->
+            <!--{{serie['vote_average']}}-->
+          <!--</p>-->
+          <!--<mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</mat-card-content>-->
+<!--</mat-card>-->
+
+<ng-template #elseBlock>
+  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+</ng-template>

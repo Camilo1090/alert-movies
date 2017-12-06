@@ -35,6 +35,7 @@ import { SearchComponent } from './search/search.component';
 import { SearchBarComponent } from './search/search-bar/search-bar.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DiscoverComponent } from './discover/discover.component';
+import { CustomCardComponent } from './shared/custom-card/custom-card.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { DiscoverComponent } from './discover/discover.component';
     SearchComponent,
     SearchBarComponent,
     NotFoundComponent,
-    DiscoverComponent
+    DiscoverComponent,
+    CustomCardComponent
   ],
   imports: [
     BrowserModule,

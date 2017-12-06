@@ -207,8 +207,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   updateGenres() {
     this.genres = [];
-    this.genresModel = [];
-    this.genresInputPlaceholder = 'Filter by genres...';
     switch (this.selectedCategory) {
       case 'movies': {
         for (const key in MOVIE_GENRES) {
@@ -274,6 +272,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChanged(): void {
+    this.genresModel = [];
+    this.genresInputPlaceholder = 'Filter by genres...';
     this.updateGenres();
     this.updateParams();
     if (this.pagingBar) {
@@ -286,6 +286,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   onFilterOptionsChanged() {
     this.updateParams();
     this.updateResults();
+    this.currentPage = 1;
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    }
   }
 
   /**

@@ -8,7 +8,7 @@
             <mat-form-field class="category-field pad-left-md pad-top-xs" tdMediaToggle="gt-xs"
                             [mediaClasses]="['pad-left-xs', 'pad-top-none']">
               <mat-select [(ngModel)]="selectedCategory"
-                          (ngModelChange)="onCategoryChanged($event)">
+                          (ngModelChange)="onCategoryChanged()">
                 <mat-option *ngFor="let category of categories" [value]="category['value']">
                   {{ category['viewValue'] }}
                 </mat-option>
@@ -29,10 +29,10 @@
         </h2>
       </div>
       <div flex *tdLoading="'movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list *ngIf="movies.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="7:4">
+        <mat-grid-list *ngIf="movies.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
           <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
-            <a [routerLink]="['/movie', movie.id]">
-              <app-custom-card [img]="movie['backdrop_path']" [title]="movie['title']"
+            <a [routerLink]="['/movie', movie['id']]">
+              <app-custom-card [media]="'movie'" [img]="movie['backdrop_path']" [title]="movie['title']"
                                [rating]="movie['vote_average']"></app-custom-card>
             </a>
           </mat-grid-tile>

@@ -4,28 +4,12 @@
     <div flex *tdLoading="'movie-cast'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="seriesCast.length > 0; then castBlock else elseBlock"></div>
       <ng-template #castBlock>
-        <mat-grid-list layout="row" cols="{{columns}}" rowHeight="1:1.75">
-          <mat-grid-tile *ngFor="let person of seriesCast" [colspan]="1" [rowspan]="1">
-            <mat-card class="card">
-              <a [routerLink]="['/person', person['id']]">
-                <div *ngIf="person['profile_path']; else elseBlock">
-                  <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive" />
-                </div>
-                <ng-template #elseBlock>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                </ng-template>
-              </a>
-              <mat-card-content class="bgc-grey-900">
-                <div layout="column">
-                  <div layout="row">
-                    <h3 class="tc-grey-400 push-top-none push-bottom-none">{{person['name']}}</h3>
-                  </div>
-                  <div layout="row">
-                    <i class="tc-grey-400 push-left-sm push-bottom-none">as {{person['character']}}</i>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+        <mat-grid-list layout="row" cols="{{columns}}" rowHeight="500:750">
+          <mat-grid-tile *ngFor="let person of seriesCast" [colspan]="1" [rowspan]="1" layout-align="center start">
+            <a [routerLink]="['/person', person['id']]">
+              <app-custom-card [media]="'person'" [img]="person['profile_path']" [title]="person['name']"
+                               [subText]="'as '+person['character']"></app-custom-card>
+            </a>
           </mat-grid-tile>
         </mat-grid-list>
       </ng-template>

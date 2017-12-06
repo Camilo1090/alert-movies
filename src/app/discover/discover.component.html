@@ -192,65 +192,21 @@
       </div>
       <div flex *tdLoading="'discover'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <div *ngIf="results.length > 0; else noResultsBlock" [ngSwitch]="selectedCategory">
-          <mat-grid-list *ngSwitchCase="'movies'" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-list *ngSwitchCase="'movies'" cols="{{columns}}" rowHeight="6.5:4">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <mat-card class="card">
-                <a [routerLink]="['/movie', result.id]">
-                  <div *ngIf="result['backdrop_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
-                  </div>
-                  <ng-template #elseBlock>
-                    <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                  </ng-template>
-                </a>
-                <mat-card-content class="bgc-grey-900">
-                  <div layout="row">
-                    <div class="col-xs-10">
-                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['title']}}</p>
-                    </div>
-                    <div class="col-xs-offset-1">
-                      <div layout="row" class="rating">
-                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{result['vote_average']}}
-                        </p>
-                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                      </div>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
+              <a [routerLink]="['/movie', result['id']]">
+                <app-custom-card [media]="'movie'" [img]="result['backdrop_path']" [title]="result['title']"
+                                 [rating]="result['vote_average']"></app-custom-card>
+              </a>
             </mat-grid-tile>
           </mat-grid-list>
-          <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-list *ngSwitchCase="'series'" cols="{{columns}}" rowHeight="6.5:4">
             <div *ngFor="let result of results">
               <mat-grid-tile *ngIf="result" [colspan]="1" [rowspan]="1">
-              <mat-card class="card">
-                <a [routerLink]="['/series', result.id]">
-                  <div *ngIf="result['backdrop_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-responsive" />
-                  </div>
-                  <ng-template #elseBlock>
-                    <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                  </ng-template>
+                <a [routerLink]="['/series', result['id']]">
+                  <app-custom-card [media]="'movie'" [img]="result['backdrop_path']" [title]="result['name']"
+                                   [rating]="result['vote_average']"></app-custom-card>
                 </a>
-                <mat-card-content class="bgc-grey-900">
-                  <div layout="row">
-                    <div class="col-xs-10">
-                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['name']}}</p>
-                    </div>
-                    <div class="col-xs-offset-1">
-                      <div layout="row" class="rating">
-                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{result['vote_average']}}
-                        </p>
-                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                      </div>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
             </mat-grid-tile>
             </div>
           </mat-grid-list>

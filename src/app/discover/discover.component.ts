@@ -276,8 +276,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   onCategoryChanged(): void {
     this.updateGenres();
     this.updateParams();
-    this.pagingBar.navigateToPage(1);
-    // this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    } else {
+      this.router.navigate(['/discover', {'category': this.selectedCategory, 'page': 1}]);
+    }
   }
 
   onFilterOptionsChanged() {

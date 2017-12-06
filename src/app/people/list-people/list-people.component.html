@@ -19,31 +19,12 @@
         <h2>Popular People</h2>
       </div>
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list *ngIf="people.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="1:1.8">
+        <mat-grid-list *ngIf="people.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="500:750">
           <mat-grid-tile *ngFor="let person of people" [colspan]="1" [rowspan]="1">
-            <mat-card class="person-card bgc-grey-900">
-              <a [routerLink]="['/person', person.id]">
-                <div *ngIf="person['profile_path']; else elseBlock">
-                  <img mat-card-image [src]="apiImg + person['profile_path']" class="img-responsive image" />
-                </div>
-                <ng-template #elseBlock>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                </ng-template>
-              </a>
-              <mat-card-content>
-                <div flex layout="column">
-                  <div layout="row">
-                    <a flex [routerLink]="['/person', person['id']]">
-                      <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{person['name']}}</h3>
-                    </a>
-                  </div>
-                  <div layout="row" *ngIf="person['known_for'] && person['known_for'].length > 0">
-                    <i flex class="text-micro tc-grey-300">{{person['known_for'][0]['title']}}</i>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+            <a [routerLink]="['/person', person['id']]">
+              <app-custom-card [media]="'person'" [img]="person['profile_path']" [title]="person['name']"
+                               [subText]="getKnownFor(person)"></app-custom-card>
+            </a>
           </mat-grid-tile>
         </mat-grid-list>
       </div>

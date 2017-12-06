@@ -157,10 +157,12 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCategoryChanged(newValue: string): void {
-    this.selectedCategory = newValue;
-    this.pagingBar.navigateToPage(1);
-    // this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
+  onCategoryChanged(): void {
+    if (this.pagingBar) {
+      this.pagingBar.navigateToPage(1);
+    } else {
+      this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
+    }
   }
 
   /**

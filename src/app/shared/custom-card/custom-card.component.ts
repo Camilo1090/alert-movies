@@ -10,15 +10,6 @@ export class CustomCardComponent implements OnInit {
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  _img: string;
-  @Input()
-  get img(): string {
-    return this._img;
-  }
-  set img(value: string) {
-    this._img = value;
-  }
-
   _media: string;
   @Input()
   get media() {
@@ -26,6 +17,15 @@ export class CustomCardComponent implements OnInit {
   }
   set media(value: string) {
     this._media = value;
+  }
+
+  _img: string;
+  @Input()
+  get img(): string {
+    return this._img;
+  }
+  set img(value: string) {
+    this._img = value;
   }
 
   _title: string;
@@ -44,6 +44,15 @@ export class CustomCardComponent implements OnInit {
   }
   set rating(value: string) {
     this._rating = value;
+  }
+
+  _subText: string;
+  @Input()
+  get subText() {
+    return this._subText;
+  }
+  set subText(value: string) {
+    this._subText = value;
   }
 
   constructor() { }

@@ -33,9 +33,21 @@
   transition: all 0.3s ease-in-out;
 }
 
-.hovereffect img {
+.custom-card .hovereffect .card-image img {
   display: block;
   position: relative;
+  max-width: 500px;
+  max-height: 281px;
+  /*-webkit-transform: scale(1.1);*/
+  /*-ms-transform: scale(1.1);*/
+  /*transform: scale(1.1);*/
+}
+
+.custom-card .hovereffect .card-image-person img {
+  display: block;
+  position: relative;
+  max-width: 500px;
+  max-height: 750px;
   /*-webkit-transform: scale(1.1);*/
   /*-ms-transform: scale(1.1);*/
   /*transform: scale(1.1);*/
@@ -56,9 +68,9 @@
 }
 
 .custom-card:hover .hovereffect {
-  -webkit-box-shadow: 0 10px 6px -6px #777;
-  -moz-box-shadow: 0 10px 6px -6px #777;
-  box-shadow: 0 10px 6px -6px #777;
+  -webkit-box-shadow: 0.05px 2px 7px black;
+  -moz-box-shadow: 0.05px 2px 7px black;
+  box-shadow: 0.05px 2px 7px black;
 }
 
 .custom-card {

@@ -10,12 +10,37 @@
   <!--</div>-->
 <!--</div>-->
 
-<mat-card class="custom-card">
+<div [ngSwitch]="media">
+  <mat-card *ngSwitchCase="'movie'" class="custom-card">
   <div class="hovereffect">
     <div class="card-image">
       <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
     </div>
     <div class="overlay" layout="row" layout-align="center end">
+      <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+        <div layout="row" layout-align="start center" flex="80">
+          <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+            {{ title }}
+          </p>
+        </div>
+        <div layout="row" layout-align="end center" flex="20">
+          <div layout="row" layout-align="end center" class="media-rating">
+            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+              {{ rating }}
+            </p>
+            <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+  <mat-card *ngSwitchCase="'series'" class="custom-card">
+    <div class="hovereffect">
+      <div class="card-image">
+        <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+      </div>
+      <div class="overlay" layout="row" layout-align="center end">
         <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
           <div layout="row" layout-align="start center" flex="80">
             <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
@@ -30,10 +55,32 @@
               <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
             </div>
           </div>
+        </div>
       </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
+  <mat-card *ngSwitchCase="'person'" class="custom-card">
+    <div class="hovereffect">
+      <div class="card-image-person">
+        <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+      </div>
+      <div class="overlay" layout="row" layout-align="center end">
+        <div class="card-content pad-top-sm pad-bottom-sm pad-left-sm pad-right-sm" layout="column" flex>
+          <div layout="row" layout-align="start center" flex>
+            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+              {{ title }}
+            </p>
+          </div>
+          <div layout="row" layout-align="start center" *ngIf="subText">
+            <p class="text-micro tc-grey-400 push-left-sm push-bottom-none">
+              <i>{{ subText }}</i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
 
 <!--<mat-card class="card">-->
   <!--<a [routerLink]="['/series', serie.id]">-->
@@ -64,4 +111,8 @@
 
 <ng-template #elseBlock>
   <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+</ng-template>
+
+<ng-template #elseProfileBlock>
+  <img mat-card-image src="assets/img/no-profile.jpg" class="img-responsive" />
 </ng-template>

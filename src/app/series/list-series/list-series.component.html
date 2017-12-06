@@ -8,7 +8,7 @@
             <mat-form-field class="category-field pad-left-md pad-top-xs" tdMediaToggle="gt-xs"
                             [mediaClasses]="['pad-left-xs', 'pad-top-none']">
               <mat-select [(ngModel)]="selectedCategory"
-                          (ngModelChange)="onCategoryChanged($event)">
+                          (ngModelChange)="onCategoryChanged()">
                 <mat-option *ngFor="let category of categories" [value]="category['value']">
                   {{ category['viewValue'] }}
                 </mat-option>
@@ -29,34 +29,12 @@
         </h2>
       </div>
       <div flex *tdLoading="'series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <mat-grid-list *ngIf="series.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="5:4">
-          <mat-grid-tile *ngFor="let serie of series" [colspan]="1" [rowspan]="1">
-            <mat-card class="card">
-              <a [routerLink]="['/series', serie.id]">
-                <div *ngIf="serie['backdrop_path']; else elseBlock">
-                  <img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />
-                </div>
-                <ng-template #elseBlock>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
-                </ng-template>
-              </a>
-              <mat-card-content class="bgc-grey-900">
-                <div layout="row">
-                  <div class="col-xs-10">
-                    <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                      {{serie['name']}}</p>
-                  </div>
-                  <div class="col-xs-offset-1">
-                    <div layout="row" class="rating">
-                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{serie['vote_average']}}
-                      </p>
-                      <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                    </div>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+        <mat-grid-list *ngIf="series.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
+          <mat-grid-tile *ngFor="let s of series" [colspan]="1" [rowspan]="1">
+            <a [routerLink]="['/series', s['id']]">
+              <app-custom-card [media]="'series'" [img]="s['backdrop_path']" [title]="s['name']"
+                               [rating]="s['vote_average']"></app-custom-card>
+            </a>
           </mat-grid-tile>
         </mat-grid-list>
       </div>

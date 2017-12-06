@@ -91,6 +91,19 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     this.router.navigate(['/list-people', {'page': this.currentPage}]);
   }
 
+  getKnownFor(person: any): string {
+    let result = '';
+    if (person['known_for'] && person['known_for'].length > 0) {
+      if (person['known_for'][0]['media_type'] === 'movie') {
+        result = person['known_for'][0]['title'];
+      } else {
+        result = person['known_for'][0]['name'];
+      }
+    }
+    return result;
+  }
+
+
   ngOnDestroy(): void {
     this._querySubscription.unsubscribe();
   }

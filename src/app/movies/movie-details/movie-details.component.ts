@@ -15,6 +15,7 @@ import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-movie-details',
@@ -32,6 +33,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   movie = [];
   credits = [];
+  creditsObservable: Observable<any[]>;
 
   routes: Object[] = [
     {
@@ -96,8 +98,10 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateCredits(): void {
-    this.route.params.switchMap((params: Params) => this.moviesService
-      .getMovieCredits(params['id']))
+    this.creditsObservable = this.route.params
+      .switchMap((params: Params) => this.moviesService
+        .getMovieCredits(params['id']));
+    this.creditsObservable
       .subscribe(credits => {
         this.credits = credits;
         this.resolveLoading();

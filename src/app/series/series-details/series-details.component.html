@@ -4,7 +4,7 @@
     <div *ngIf="series['backdrop_path'] && isDesktop" class="bg-image"
          [ngStyle]="{'background-image': 'url(' + apiImgBack + series['backdrop_path'] + ')'}"></div>
     <div flex layout-gt-sm="row" layout-xs="column" layout-align="center" class="custom-bg"
-         tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-md', 'pad-right-md']">
+         tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
         <div *ngIf="series['poster_path'] && isDesktop" layout="column" layout-align="center center"
@@ -18,19 +18,20 @@
           <img flex src="{{apiImgOrig + series['backdrop_path']}}" class="img-fluid">
         </div>
       </ng-template>
-      <div layout="row" class="push-lg" tdMediaToggle="gt-xs"
-           [mediaClasses]="['pad-top-xs']">
+      <div layout="row" class="push-lg" tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-xs']">
         <div flex layout="column">
-          <div layout="row">
-            <div layout="row" layout-align="start" class="date-title" flex="70">
+          <div layout="column" layout-gt-xs="row">
+            <div layout="row" layout-align="center center" layout-align-gt-xs="start"
+                 flex="70" flex-lg="80" flex-gt-lg="85">
               <div *ngIf="series['first_air_date']" hide-xs layout="column" layout-align="center center"
-                   class="date text-center" flex="15">
+                   class="pad-top-sm pad-left-sm pad-right-sm text-center" flex="15" flex-md="20">
                 <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
                 <span class="tc-grey-400">
                   {{series['first_air_date'] | date:'d'}} {{series['first_air_date'] | date:'MMM'}}
                 </span>
               </div>
-              <div flex="85" class="pad-left-sm pad-right-sm">
+              <div [ngClass]="{'text-center': _mediaService.query('xs'), 'pad-right-sm': _mediaService.query('gt-xs')}"
+                   flex="85" flex-md="80">
                 <h1 class="tc-grey-400">
                   <b class="tc-teal-A400">{{series['name']}} </b>
                   <span *ngIf="series['first_air_date']">({{series['first_air_date'] | date:'yyyy'}})</span>
@@ -38,7 +39,8 @@
                 <i class="tc-grey-500">{{getGenres(series['genres'])}}</i>
               </div>
             </div>
-            <div layout="row" layout-align="end center" class="rating pad-left-sm" flex="30">
+            <div layout="row" layout-align="center center" layout-align-gt-sm="end center" tdMediaToggle="gt-xs"
+                 [mediaClasses]="['rating', 'pad-left-sm']" flex="30" flex-lg="20" flex-gt-lg="15">
               <h1 class="tc-grey-300">
                 <b>{{series['vote_average']}}</b>
                 <span aria-hidden="true" class="tc-amber-300">
@@ -47,23 +49,24 @@
               </h1>
             </div>
           </div>
-          <div layout="row"><hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+          <div layout="row"><hr flex class="bgc-grey-50"></div>
           <div layout="column">
             <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
             <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
           </div>
-          <div layout="column" *ngIf="crew.length > 0">
+          <div layout="column" *ngIf="crewObservable | async">
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
-            <div class="row push-left-xs">
-              <div *ngFor="let person of crew | slice:0:6">
-                <div layout="column" class="pad-xs col-xs-6 col-sm-3">
-                  <a [routerLink]="['/person', person.id]" class="crew">
-                    <strong class="tc-white">{{person['name']}}</strong>
-                  </a>
-                  <span class="tc-grey-400">{{person['job']}}</span>
-                </div>
+            <div layout="row" class="row push-left-xs" *ngIf="crew.length > 0; else noCrewBlock">
+              <div *ngFor="let person of crew | slice:0:6" layout="column" class="pad-xs col-xs-6 col-sm-3">
+                <a [routerLink]="['/person', person.id]" class="crew">
+                  <strong class="tc-white">{{person['name']}}</strong>
+                </a>
+                <span class="tc-grey-400">{{person['job']}}</span>
               </div>
             </div>
+            <ng-template #noCrewBlock>
+              <div class="push-left-sm"><span class="tc-grey-50">-</span></div>
+            </ng-template>
           </div>
           <div layout="column">
           <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Show Facts</strong></h3>

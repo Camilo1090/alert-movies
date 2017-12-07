@@ -15,6 +15,7 @@ import { SERIES_GENRES } from '../../shared/api/genres';
 
 // services
 import { SeriesService } from '../shared/series.service';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-series-details',
@@ -32,6 +33,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   series = [];
   crew = [];
+  crewObservable: Observable<any[]>;
   networks = [];
   companies = [];
 
@@ -61,7 +63,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   constructor(private seriesService: SeriesService,
               private router: Router,
               private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
+              public _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }
@@ -94,8 +96,10 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateSeriesCredits(): void {
-    this.route.params.switchMap((params: Params) => this.seriesService
-      .getSeriesCredits(params['id']))
+    this.crewObservable = this.route.params
+      .switchMap((params: Params) => this.seriesService
+        .getSeriesCredits(params['id']));
+    this.crewObservable
       .subscribe(response => {
         this.crew = response['crew'];
         this.resolveLoading();

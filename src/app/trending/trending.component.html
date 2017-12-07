@@ -11,7 +11,8 @@
                 <img src="{{apiImg + movie['backdrop_path']}}" class="img-slide img-fluid">
               </a>
               <div class="carousel-caption tc-grey-50">
-                <h3>{{movie['original_title']}}</h3>
+                <h1 hide-xs>{{movie['original_title']}}</h1>
+                <h4 hide-gt-xs>{{movie['original_title']}}</h4>
                 <div class="carousel-caption-date">
                   <mat-icon class="mat-24 fa-mat tc-grey-50" fontSet="fa" fontIcon="fa-calendar"></mat-icon>
                   <small layout-align="center center" class="tc-grey-50">
@@ -28,7 +29,7 @@
     </div>
   </div>
   <div layout="row">
-    <mat-divider class="divider col-xs-12"></mat-divider>
+    <mat-divider class="divider col-12"></mat-divider>
   </div>
   <div layout="row" class="bgc-grey-800">
     <div flex class="pad" tdMediaToggle="gt-xs">
@@ -43,7 +44,8 @@
                 <img src="{{apiImg + s['backdrop_path']}}" class="img-slide img-fluid">
               </a>
               <div class="carousel-caption tc-grey-50">
-                <h3>{{s['name']}}</h3>
+                <h1 hide-xs>{{s['name']}}</h1>
+                <h4 hide-gt-xs>{{s['name']}}</h4>
               </div>
             </ng-template>
           </ngb-carousel>

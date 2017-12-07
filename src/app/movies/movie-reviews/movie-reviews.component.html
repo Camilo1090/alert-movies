@@ -11,7 +11,7 @@
                     [mediaClasses]="['push-left-xl', 'push-right-xl']">
             <mat-card-content layout="column" class="bgc-grey-100">
               <div layout="row">
-                <div layout="column" layout-align="left" class="col-xs-12">
+                <div layout="column" layout-align="left" class="col-12">
                   <h3 class="tc-grey-800">
                     Review by
                     <i class="tc-grey-900"><strong>{{review['author']}}</strong></i>
@@ -26,7 +26,7 @@
                   </a>
                 </i>
               </div>
-              <!--<div layout="row"><hr class="col-xs-12"></div>-->
+              <!--<div layout="row"><hr class="col-12"></div>-->
               <div layout="row">
                 <span class="tc-grey-800 push-left-xs push-right-xs content"
                       innerHTML="{{review['content'] | formatString:'markdown'}}"></span>

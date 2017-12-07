@@ -3,11 +3,11 @@
     <div flex layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="bgc-grey-800">
       <div class="pad-left-xl pad-right-xl" [ngClass]="{'pad-top-xs pad-bottom-sm': _mediaService.query('gt-xs'),
            'pad-top-sm pad-bottom-md': _mediaService.query('(max-width: 600px)')}">
-        <div hide-sm layout-gt-xs="row" layout-xs="column" class="discover-filters col-xs-12">
+        <div hide-sm layout-gt-xs="row" layout-xs="column" class="discover-filters col-12">
           <div layout-gt-xs="column" layout-xs="row">
             <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-xs-5', 'push-top-xs']">Category: </p>
-            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+               [mediaClasses]="['col-5', 'push-top-xs']">Category: </p>
+            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
               <mat-select [(ngModel)]="selectedCategory"
                           (ngModelChange)="onCategoryChanged()">
                 <mat-option *ngFor="let category of categories" [value]="category['value']">
@@ -19,8 +19,8 @@
           <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                [mediaClasses]="['pad-left-md']">
             <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-xs-5', 'push-top-xs']">Year: </p>
-            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+               [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
+            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
               <mat-select [(ngModel)]="selectedYear"
                           (ngModelChange)="onFilterOptionsChanged()">
                 <mat-option *ngFor="let y of years" [value]="y.value">
@@ -32,8 +32,8 @@
           <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                [mediaClasses]="['pad-left-md']">
             <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-xs-5', 'push-top-xs']">Sort By: </p>
-            <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+               [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
+            <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
               <mat-select [(ngModel)]="selectedSort"
                           (ngModelChange)="onFilterOptionsChanged()">
                 <mat-option *ngFor="let sort of sorts" [value]="sort.value">
@@ -45,8 +45,8 @@
           <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                [mediaClasses]="['pad-left-md']">
             <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-xs-5', 'push-top-xs']">Genres: </p>
-            <td-chips class="genres-field" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']" [items]="filteredGenres"
+               [mediaClasses]="['col-5', 'push-top-xs']">Genres: </p>
+            <td-chips class="genres-field" tdMediaToggle="xs" [mediaClasses]="['col-7']" [items]="filteredGenres"
                       [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
                       (inputChange)="onGenresInputChanged($event)" (ngModelChange)="onFilterOptionsChanged()"
                       (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
@@ -61,11 +61,11 @@
             </td-chips>
           </div>
         </div>
-        <div hide-xs hide-gt-sm *ngIf="!filter" layout="column" class="discover-filters col-xs-12">
+        <div hide-xs hide-gt-sm *ngIf="!filter" layout="column" class="discover-filters col-12">
           <div layout="row">
             <div layout-gt-xs="column" layout-xs="row">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedCategory"
                             (ngModelChange)="onCategoryChanged()">
                   <mat-option *ngFor="let category of categories" [value]="category['value']">
@@ -77,8 +77,8 @@
             <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                  [mediaClasses]="['pad-left-md']">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-xs-5', 'push-top-xs']">Year: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+                 [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
+              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedYear"
                             (ngModelChange)="onFilterOptionsChanged()">
                   <mat-option *ngFor="let y of years" [value]="y.value">
@@ -90,8 +90,8 @@
             <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                  [mediaClasses]="['pad-left-md']">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-xs-5', 'push-top-xs']">Sort By: </p>
-              <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+                 [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
+              <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedSort"
                             (ngModelChange)="onFilterOptionsChanged()">
                   <mat-option *ngFor="let sort of sorts" [value]="sort.value">
@@ -120,11 +120,11 @@
             </div>
           </div>
         </div>
-        <div hide-xs *ngIf="filter" layout="column" class="discover-filters col-xs-12">
+        <div hide-xs *ngIf="filter" layout="column" class="discover-filters col-12">
           <div layout="row">
             <div layout-gt-xs="column" layout-xs="row">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedCategory"
                             (ngModelChange)="onCategoryChanged()">
                   <mat-option *ngFor="let category of categories" [value]="category['value']">
@@ -136,8 +136,8 @@
             <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                  [mediaClasses]="['pad-left-md']">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-xs-5', 'push-top-xs']">Year: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+                 [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
+              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedYear"
                             (ngModelChange)="onFilterOptionsChanged()">
                   <mat-option *ngFor="let y of years" [value]="y.value">
@@ -151,8 +151,8 @@
             <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
                  [mediaClasses]="['pad-left-none']">
               <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-xs-5', 'push-top-xs']">Sort By: </p>
-              <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-xs-7']">
+                 [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
+              <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedSort"
                             (ngModelChange)="onFilterOptionsChanged()">
                   <mat-option *ngFor="let sort of sorts" [value]="sort.value">

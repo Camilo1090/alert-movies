@@ -57,7 +57,7 @@
           <div layout="column" *ngIf="creditsObservable | async">
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
             <div layout="row" class="row push-left-xs">
-              <div *ngFor="let crew of credits['crew'] | slice:0:6" layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div *ngFor="let crew of credits['crew'] | slice:0:6" layout="column" class="pad-xs col-6 col-sm-3">
                 <a [routerLink]="['/person', crew.id]" class="crew">
                   <strong class="tc-white">{{crew['name']}}</strong>
                 </a>
@@ -69,7 +69,7 @@
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Movie Facts</strong></h3>
             <div class="row push-left-xs">
               <!-- ***************** Runtime *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class="tc-grey-400">Runtime</span>
                 <span *ngIf="movie['runtime']; else elseBlock" class="mat-body-1 tc-white fact">
                   {{convertTime(movie['runtime'])}}
@@ -77,7 +77,7 @@
               </div>
 
               <!-- ***************** Budget *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class="tc-white">Budget</span>
                 <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-white fact">
                   {{convertMoney(movie['budget'])}}
@@ -85,7 +85,7 @@
               </div>
 
               <!-- ***************** Revenue *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class="tc-white">Revenue</span>
                 <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-white fact">
                   {{convertMoney(movie['revenue'])}}
@@ -93,7 +93,7 @@
               </div>
 
               <!-- ***************** Homepage *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class=" tc-white">Homepage</span>
                 <a *ngIf="movie['homepage']; else elseBlock" class="homepage mat-body-1" href="{{movie['homepage']}}">
                   {{movie['homepage']}}
@@ -101,7 +101,7 @@
               </div>
 
               <!-- ***************** Original language *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class=" tc-white">Original Language</span>
                 <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
                   {{movie['original_language']}}
@@ -109,7 +109,7 @@
               </div>
 
               <!-- ***************** Status *******************-->
-              <div layout="column" class="pad-xs col-xs-6 col-sm-3">
+              <div layout="column" class="pad-xs col-6 col-sm-3">
                 <span class=" tc-white">Status</span>
                 <span *ngIf="movie['status']; else elseBlock" class="mat-body-1 tc-white fact">
                   {{movie['status']}}

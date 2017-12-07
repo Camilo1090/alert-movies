@@ -42,7 +42,7 @@ export class TrendingComponent implements OnInit, OnDestroy {
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
-    carouselConfig.interval = 2000;
+    carouselConfig.interval = 3000;
   }
 
   ngOnInit(): void {

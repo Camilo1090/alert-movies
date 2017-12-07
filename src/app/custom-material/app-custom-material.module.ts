@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Modules for UI elements
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+// ng bootstrap components
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-// ngx bootstrap components
-import {CarouselModule, ModalModule} from 'ngx-bootstrap';
-// import { CarouselModule } from 'angular4-carousel';
-
-// Material Components
+// Material components
 import { MatAutocompleteModule, MatListModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatIconRegistry } from '@angular/material';
@@ -24,7 +21,7 @@ import { MatDialogModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
 
-// Covalent Components
+// Covalent components
 import { CovalentLayoutModule } from '@covalent/core';
 import { CovalentMenuModule } from '@covalent/core';
 import { CovalentSearchModule } from '@covalent/core';
@@ -34,14 +31,11 @@ import { CovalentNotificationsModule } from '@covalent/core';
 import { CovalentPagingModule } from '@covalent/core';
 import { CovalentLoadingModule } from '@covalent/core';
 import { CovalentChipsModule } from '@covalent/core';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
     FormsModule,
     BrowserAnimationsModule,
-    CarouselModule,
-    ModalModule.forRoot(),
     NgbModule.forRoot(),
     MatButtonModule,
     MatSidenavModule,
@@ -70,8 +64,6 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
   exports: [
     FormsModule,
     BrowserAnimationsModule,
-    CarouselModule,
-    ModalModule,
     NgbModule,
     MatButtonModule,
     MatSidenavModule,

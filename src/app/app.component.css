@@ -103,6 +103,10 @@ a.toolbar-item.mat-tab-label-active {
   color: #69f0ae !important;
 }
 
+.toolbar mat-ink-bar {
+  background-color: #69f0ae !important;
+}
+
 .toolbar {
   background-color: #303030;
   border-bottom: 1px solid hsla(0,0%,100%,.12);

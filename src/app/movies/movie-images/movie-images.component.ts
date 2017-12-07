@@ -15,13 +15,12 @@ import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-movie-images',
   templateUrl: './movie-images.component.html',
   styleUrls: ['./movie-images.component.css'],
-  providers: [ MoviesService, TdMediaService, NgbModal ]
+  providers: [ MoviesService, TdMediaService ]
 })
 export class MovieImagesComponent implements OnInit, OnDestroy {
 
@@ -38,7 +37,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
 
   constructor(private moviesService: MoviesService,
               private route: ActivatedRoute,
-              private modalService: NgbModal,
               private _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
@@ -64,10 +62,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
       }, err => {
         console.log(err);
       });
-  }
-
-  openModal(template) {
-    this.modalService.open(template);
   }
 
   ngOnDestroy(): void {

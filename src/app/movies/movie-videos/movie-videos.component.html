@@ -4,21 +4,22 @@
     <div flex *tdLoading="'movie-videos'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="movieVideos.length > 0; then videosBlock else elseBlock"></div>
       <ng-template #videosBlock>
-        <div *ngFor="let video of movieVideos"
-             class="col-12 col-md-6 col-lg-4">
-          <mat-card class="bgc-grey-900">
-            <iframe mat-card-image [src]="getUrl(video['key'])" height="300" frameborder="0" allowfullscreen></iframe>
-            <mat-card-content class="bgc-grey-900">
-              <div layout="row">
-                <div class="col-9">
-                  <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">{{video['name']}}</h3>
+        <div class="row">
+          <div *ngFor="let video of movieVideos" class="col-12 col-sm-12 col-md-12 col-lg-6">
+            <mat-card class="bgc-grey-900">
+              <iframe mat-card-image [src]="getUrl(video['key'])" height="300" frameborder="0" allowfullscreen></iframe>
+              <mat-card-content class="bgc-grey-900">
+                <div layout="row">
+                  <div class="col-9">
+                    <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">{{video['name']}}</h3>
+                  </div>
+                  <div class="col-3">
+                    <i flex class="text-micro tc-grey-200">Size: {{video['size']}}</i>
+                  </div>
                 </div>
-                <div class="col-3">
-                  <i flex class="text-micro tc-grey-200">Size: {{video['size']}}</i>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </ng-template>
       <ng-template #elseBlock>

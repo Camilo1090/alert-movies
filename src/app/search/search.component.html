@@ -34,7 +34,7 @@
          [mediaClasses]="['pad-top-sm', 'pad-bottom-md']">
       <div layout="row" layout-align="start center">
         <h2>Search</h2>
-        <mat-icon class="arrow push-top-sm">keyboard_arrow_right</mat-icon>
+        <mat-icon class="arrow">keyboard_arrow_right</mat-icon>
         <h2 [ngSwitch]="media">
           <span *ngSwitchCase="'movie'">Movies Results</span>
           <span *ngSwitchCase="'series'">TV Series Results</span>
@@ -44,91 +44,32 @@
       <div flex [ngSwitch]="media"
            *tdLoading="'search'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <div flex *ngSwitchCase="'movie'" >
-          <mat-grid-list *ngIf="totalMovies > 0; else noResultsBlock" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-list *ngIf="totalMovies > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <mat-card class="movie-series-card bgc-grey-900">
-                <a [routerLink]="['/movie', result['id']]">
-                  <div *ngIf="result['backdrop_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-fluid" />
-                  </div>
-                </a>
-                <mat-card-content class="bgc-grey-900">
-                  <div layout="row">
-                    <div class="col-10">
-                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['title']}}</p>
-                    </div>
-                    <div class="col-offset-1">
-                      <div layout="row" class="rating">
-                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{result['vote_average']}}
-                        </p>
-                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                      </div>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
+              <a [routerLink]="['/movie', result['id']]">
+                <app-custom-card [media]="'movie'" [img]="result['backdrop_path']" [title]="result['title']"
+                                 [rating]="result['vote_average']"></app-custom-card>
+              </a>
             </mat-grid-tile>
           </mat-grid-list>
         </div>
         <div flex *ngSwitchCase="'series'">
-          <mat-grid-list *ngIf="totalSeries > 0; else noResultsBlock" cols="{{columns}}" rowHeight="5:4">
+          <mat-grid-list *ngIf="totalSeries > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <mat-card class="movie-series-card bgc-grey-900">
-                <a [routerLink]="['/series', result['id']]">
-                  <div *ngIf="result['backdrop_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + result['backdrop_path']" class="img-fluid" />
-                  </div>
-                </a>
-                <mat-card-content class="bgc-grey-900">
-                  <div layout="row">
-                    <div class="col-10">
-                      <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                        {{result['name']}}</p>
-                    </div>
-                    <div class="col-offset-1">
-                      <div layout="row" class="rating">
-                        <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{result['vote_average']}}
-                        </p>
-                        <mat-icon class="star tc-amber-300" aria-hidden="true">star</mat-icon>
-                      </div>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
+              <a [routerLink]="['/series', result['id']]">
+                <app-custom-card [media]="'series'" [img]="result['backdrop_path']" [title]="result['name']"
+                                 [rating]="result['vote_average']"></app-custom-card>
+              </a>
             </mat-grid-tile>
           </mat-grid-list>
         </div>
         <div flex *ngSwitchCase="'person'">
-          <mat-grid-list *ngIf="totalPeople > 0; else noResultsBlock" cols="{{columnsPeople}}" rowHeight="1:1.75">
+          <mat-grid-list *ngIf="totalPeople > 0; else noResultsBlock" cols="{{columnsPeople}}" rowHeight="500:750">
             <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <mat-card class="person-card bgc-grey-900">
-                <a [routerLink]="['/person', result['id']]">
-                  <div *ngIf="result['profile_path']; else elseBlock">
-                    <img mat-card-image [src]="apiImg + result['profile_path']" class="img-fluid image" />
-                  </div>
-                </a>
-                <mat-card-content>
-                  <div flex layout="column">
-                    <div layout="row">
-                      <a flex [routerLink]="['/person', result['id']]">
-                        <h3 class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                          {{result['name']}}</h3>
-                      </a>
-                    </div>
-                    <div *ngIf="result['known_for'] && result['known_for'][0]" layout="row">
-                      <i *ngIf="result['known_for'][0]['title']" flex class="text-micro tc-grey-300">
-                        {{result['known_for'][0]['title']}}
-                      </i>
-                      <i *ngIf="result['known_for'][0]['name']" flex class="text-micro tc-grey-300">
-                        {{result['known_for'][0]['name']}}
-                      </i>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </mat-card>
+              <a [routerLink]="['/person', result['id']]">
+                <app-custom-card [media]="'person'" [img]="result['profile_path']" [title]="result['name']"
+                                 [subText]="getKnownFor(result)"></app-custom-card>
+              </a>
             </mat-grid-tile>
           </mat-grid-list>
         </div>

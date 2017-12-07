@@ -57,6 +57,8 @@
                         class="tc-teal-A400 pad-right-sm pad-top-sm">
                     <i *ngIf="gender === 'Male'" aria-hidden="true" class="fa fa-mars fa-lg"></i>
                     <i *ngIf="gender === 'Female'" aria-hidden="true" class="fa fa-venus fa-lg"></i>
+                    <i *ngIf="gender !== 'Female' && gender !== 'Male'" aria-hidden="true"
+                       class="fa fa-venus-mars fa-lg"></i>
                   </span>
                   <div layout="column">
                     <span class="tc-grey-400">Gender</span>

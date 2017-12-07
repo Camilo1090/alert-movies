@@ -8,7 +8,7 @@
           <mat-grid-tile *ngFor="let person of movieCast" [colspan]="1" [rowspan]="1">
             <a [routerLink]="['/person', person['id']]">
               <app-custom-card [media]="'person'" [img]="person['profile_path']" [title]="person['name']"
-                               [subText]="'as '+person['character']"></app-custom-card>
+                               [subText]="getCharacter(person)"></app-custom-card>
             </a>
           </mat-grid-tile>
         </mat-grid-list>

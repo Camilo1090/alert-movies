@@ -1,10 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {API} from '../api/api';
+import { Component, Input, OnInit } from '@angular/core';
+import { API } from '../api/api';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-custom-card',
   templateUrl: './custom-card.component.html',
-  styleUrls: ['./custom-card.component.css']
+  styleUrls: ['./custom-card.component.css'],
+  providers: [ NgbModal ]
 })
 export class CustomCardComponent implements OnInit {
   apiImg = API.apiImg + 'w500';
@@ -55,9 +57,14 @@ export class CustomCardComponent implements OnInit {
     this._subText = value;
   }
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+
+  openModal(template) {
+    this.modalService.open(template);
+    document.body.getElementsByClassName('modal-content')[0].setAttribute('style', 'border: none;');
   }
 
 }

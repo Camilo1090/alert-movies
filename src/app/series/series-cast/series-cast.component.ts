@@ -56,6 +56,14 @@ export class SeriesCastComponent implements OnInit, OnDestroy {
       });
   }
 
+  getCharacter(person: any): string {
+    let character = '';
+    if (person['character']) {
+      character = 'as ' + person['character'];
+    }
+    return character;
+  }
+
   ngOnDestroy(): void {
     this._querySubscription.unsubscribe();
   }

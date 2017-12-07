@@ -12,31 +12,31 @@
 
 <div [ngSwitch]="media">
   <mat-card *ngSwitchCase="'movie'" class="custom-card">
-  <div class="hovereffect">
-    <div class="card-image">
-      <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
-    </div>
-    <div class="overlay" layout="row" layout-align="center end">
-      <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
-        <div layout="row" layout-align="start center" flex="80">
-          <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-            {{ title }}
-          </p>
-        </div>
-        <div layout="row" layout-align="end center" flex="20">
-          <div layout="row" layout-align="end center" class="media-rating">
+    <div class="hovereffect backdrop">
+      <div class="card-image">
+        <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
+      </div>
+      <div class="overlay" layout="row" layout-align="center end">
+        <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+          <div layout="row" layout-align="start center" flex="80">
             <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-              {{ rating }}
+              {{ title }}
             </p>
-            <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+          </div>
+          <div layout="row" layout-align="end center" flex="20">
+            <div layout="row" layout-align="end center" class="media-rating">
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                {{ rating }}
+              </p>
+              <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
   <mat-card *ngSwitchCase="'series'" class="custom-card">
-    <div class="hovereffect">
+    <div class="hovereffect backdrop">
       <div class="card-image">
         <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
       </div>
@@ -80,6 +80,42 @@
       </div>
     </div>
   </mat-card>
+  <a *ngSwitchCase="'backdrop'" [href]="apiImgOrig + img">
+    <mat-card class="custom-card pointer">
+      <div class="hovereffect backdrop">
+        <div class="card-image">
+          <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
+        </div>
+        <div class="overlay" layout="row" layout-align="center end">
+          <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+            <div layout="row" layout-align="center center" flex>
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                <i>{{ title }}</i>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </a>
+  <a *ngSwitchCase="'poster'" [href]="apiImgOrig + img">
+    <mat-card class="custom-card pointer">
+      <div class="hovereffect">
+        <div class="card-image-person">
+          <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
+        </div>
+        <div class="overlay" layout="row" layout-align="center end">
+          <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+            <div layout="row" layout-align="center center" flex>
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                <i>{{ title }}</i>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </a>
 </div>
 
 <!--<mat-card class="card">-->
@@ -115,4 +151,22 @@
 
 <ng-template #elseProfileBlock>
   <img mat-card-image src="assets/img/no-profile.jpg" class="img-fluid" />
+</ng-template>
+
+<ng-template #modalTemplate let-c="close" let-d="dismiss">
+  <div flex layout="column" layout-align="center center">
+    <img *ngIf="img; else elseBlock" [src]="apiImgOrig + img" class="img-fluid" />
+  </div>
+  <!--<div class="modal-header">-->
+    <!--<h4 class="modal-title">Modal title</h4>-->
+    <!--<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">-->
+      <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+  <!--</div>-->
+  <!--<div class="modal-body">-->
+    <!--<p>One fine body&hellip;</p>-->
+  <!--</div>-->
+  <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>-->
+  <!--</div>-->
 </ng-template>

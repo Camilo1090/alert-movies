@@ -103,7 +103,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     return result;
   }
 
-
   ngOnDestroy(): void {
     this._querySubscription.unsubscribe();
   }

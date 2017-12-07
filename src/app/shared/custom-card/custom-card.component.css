@@ -36,8 +36,8 @@
 .custom-card .hovereffect .card-image img {
   display: block;
   position: relative;
-  max-width: 500px;
-  max-height: 281px;
+  /*max-width: 500px;*/
+  /*max-height: 281px;*/
   /*-webkit-transform: scale(1.1);*/
   /*-ms-transform: scale(1.1);*/
   /*transform: scale(1.1);*/
@@ -46,11 +46,16 @@
 .custom-card .hovereffect .card-image-person img {
   display: block;
   position: relative;
-  max-width: 500px;
   max-height: 750px;
+  max-width: 500px;
   /*-webkit-transform: scale(1.1);*/
   /*-ms-transform: scale(1.1);*/
   /*transform: scale(1.1);*/
+}
+
+.backdrop {
+  max-height: 281px;
+  max-width: 500px;
 }
 
 .hovereffect:hover img {
@@ -71,6 +76,10 @@
   -webkit-box-shadow: 0.05px 2px 7px black;
   -moz-box-shadow: 0.05px 2px 7px black;
   box-shadow: 0.05px 2px 7px black;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .custom-card {

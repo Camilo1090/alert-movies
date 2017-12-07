@@ -10,7 +10,7 @@
             <mat-card class="card bgc-grey-900">
               <a href="{{apiImgOrig + backdrop['file_path']}}">
                 <div *ngIf="backdrop['file_path']; else noImageBlock">
-                  <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
+                  <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-fluid" />
                 </div>
               </a>
               <mat-card-content class="bgc-grey-900 text-center">
@@ -29,7 +29,7 @@
             <mat-card class="card">
               <a href="{{apiImgOrig + poster['file_path']}}">
                 <div *ngIf="poster['file_path']; else noImageBlock">
-                  <img mat-card-image [src]="apiImg + poster['file_path']" class="img-responsive" />
+                  <img mat-card-image [src]="apiImg + poster['file_path']" class="img-fluid" />
                 </div>
               </a>
               <mat-card-content class="bgc-grey-900 text-center">
@@ -45,7 +45,7 @@
         </div>
       </ng-template>
       <ng-template #noImageBlock>
-        <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+        <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
       </ng-template>
     </div>
   </div>

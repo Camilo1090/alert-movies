@@ -9,10 +9,10 @@
             <mat-card class="card bgc-grey-900">
               <a href="{{apiImg + image['file_path']}}">
                 <div *ngIf="image['file_path']; else elseBlock">
-                  <img mat-card-image [src]="apiImg + image['file_path']" class="img-responsive" />
+                  <img mat-card-image [src]="apiImg + image['file_path']" class="img-fluid" />
                 </div>
                 <ng-template #elseBlock>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+                  <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
                 </ng-template>
               </a>
               <mat-card-content class="bgc-grey-900 text-center">

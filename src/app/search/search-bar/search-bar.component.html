@@ -12,7 +12,7 @@
            [routerLink]="['/movie', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
-                 [src]="apiImg + result['poster_path']" class="img-responsive" />
+                 [src]="apiImg + result['poster_path']" class="img-fluid" />
             <span class="push-left-sm push-top-xs">
               {{result['title']}} <i class="tc-grey-400">(Movie)</i>
             </span>
@@ -22,7 +22,7 @@
            [routerLink]="['/series', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['poster_path']; else elseBlock"
-                 [src]="apiImg + result['poster_path']" class="img-responsive" />
+                 [src]="apiImg + result['poster_path']" class="img-fluid" />
             <span class="push-left-sm">
               {{result['name']}} <i class="tc-grey-400">(TV Show)</i>
             </span>
@@ -32,7 +32,7 @@
            [routerLink]="['/person', result['id']]" (click)="clear()">
           <div layout="row" layout-align="start start">
             <img *ngIf="result['profile_path']; else elseBlock"
-                 [src]="apiImg + result['profile_path']" class="img-responsive" />
+                 [src]="apiImg + result['profile_path']" class="img-fluid" />
             <span class="push-left-sm" flex>
               {{result['name']}} <i class="tc-grey-400">(Person)</i>
             </span>
@@ -41,7 +41,7 @@
       </li>
     </ul>
     <ng-template #elseBlock>
-      <img src="assets/img/no-img.png" class="img-responsive" />
+      <img src="assets/img/no-img.png" class="img-fluid" />
     </ng-template>
   </div>
 </div>

@@ -9,13 +9,13 @@
       <ng-template #desktop>
         <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none"
              *ngIf="movie['poster_path'] && isDesktop">
-          <img src="{{apiImgOrig + movie['poster_path']}}" class="img-responsive img-rounded">
+          <img src="{{apiImgOrig + movie['poster_path']}}" class="img-fluid rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
         <div flex class="pad-none" layout="row" layout-align="center center"
              *ngIf="movie['backdrop_path'] && !isDesktop">
-          <img flex src="{{apiImgOrig + movie['backdrop_path']}}" class="img-responsive">
+          <img flex src="{{apiImgOrig + movie['backdrop_path']}}" class="img-fluid">
         </div>
       </ng-template>
       <div flex layout="column" class="push-lg" tdMediaToggle="gt-xs"
@@ -23,7 +23,7 @@
         <div layout="row">
           <div layout="row" layout-align="start" class="date-title" flex="70">
             <div hide-xs layout="column" layout-align="center center"
-                 class="date text-center pad-left-sm pad-right-sm" flex="15">
+                 class="date text-center" flex="15">
               <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
               <span class="tc-grey-400">
                 {{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}

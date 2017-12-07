@@ -1,6 +1,6 @@
 <!--<div>-->
   <!--<div class="hovereffect">-->
-    <!--<img class="img-responsive" [src]="_src" alt="">-->
+    <!--<img class="img-fluid" [src]="_src" alt="">-->
     <!--<div class="overlay">-->
       <!--<div class="content-container">-->
         <!--<span>{{ _title }}</span>-->
@@ -14,7 +14,7 @@
   <mat-card *ngSwitchCase="'movie'" class="custom-card">
   <div class="hovereffect">
     <div class="card-image">
-      <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+      <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
     </div>
     <div class="overlay" layout="row" layout-align="center end">
       <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
@@ -38,7 +38,7 @@
   <mat-card *ngSwitchCase="'series'" class="custom-card">
     <div class="hovereffect">
       <div class="card-image">
-        <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+        <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
       </div>
       <div class="overlay" layout="row" layout-align="center end">
         <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
@@ -62,7 +62,7 @@
   <mat-card *ngSwitchCase="'person'" class="custom-card">
     <div class="hovereffect">
       <div class="card-image-person">
-        <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-responsive" />
+        <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
       </div>
       <div class="overlay" layout="row" layout-align="center end">
         <div class="card-content pad-top-sm pad-bottom-sm pad-left-sm pad-right-sm" layout="column" flex>
@@ -85,10 +85,10 @@
 <!--<mat-card class="card">-->
   <!--<a [routerLink]="['/series', serie.id]">-->
     <!--<div *ngIf="serie['backdrop_path']; else elseBlock">-->
-      <!--<img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-responsive" />-->
+      <!--<img mat-card-image [src]="apiImg + serie['backdrop_path']" class="img-fluid" />-->
     <!--</div>-->
     <!--<ng-template #elseBlock>-->
-      <!--<img mat-card-image src="assets/img/no-img.png" class="img-responsive" />-->
+      <!--<img mat-card-image src="assets/img/no-img.png" class="img-fluid" />-->
     <!--</ng-template>-->
   <!--</a>-->
   <!--<mat-card-content class="bgc-grey-900">-->
@@ -110,9 +110,9 @@
 <!--</mat-card>-->
 
 <ng-template #elseBlock>
-  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+  <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
 </ng-template>
 
 <ng-template #elseProfileBlock>
-  <img mat-card-image src="assets/img/no-profile.jpg" class="img-responsive" />
+  <img mat-card-image src="assets/img/no-profile.jpg" class="img-fluid" />
 </ng-template>

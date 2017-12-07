@@ -14,14 +14,14 @@
           <ng-template #desktop>
             <div layout="row" layout-align="center center" class="poster-image push-lg push-right-none">
               <img *ngIf="person['profile_path']" src="{{apiImgOrig + person['profile_path']}}"
-                   class="img-responsive img-rounded">
+                   class="img-fluid rounded">
             </div>
           </ng-template>
           <ng-template #mobile>
             <div flex class="push-top-md push-left-none push-bottom-none push-right-none"
                  layout="column" layout-align="center center">
               <img flex *ngIf="person['profile_path'] && !isDesktop"
-                   src="{{apiImgProf + person['profile_path']}}" class="img-responsive img-rounded">
+                   src="{{apiImgProf + person['profile_path']}}" class="img-fluid rounded">
             </div>
           </ng-template>
           <div flex layout="column" class="pad-top-xs pad-left-md pad-bottom-md pad-right-md"

@@ -9,11 +9,11 @@
           <mat-grid-tile *ngFor="let backdrop of movieBackdrops" [colspan]="1" [rowspan]="1">
             <mat-card class="card bgc-grey-900" (click)="openModal(template)">
               <div *ngIf="backdrop['file_path']; else noImageBlock">
-                <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-responsive" />
+                <img mat-card-image [src]="apiImg + backdrop['file_path']" class="img-fluid" />
               </div>
               <ng-template #noImageBlock>
                 <div>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+                  <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
                 </div>
               </ng-template>
               <mat-card-content class="bgc-grey-900 text-center">
@@ -32,10 +32,10 @@
             <mat-card class="card">
               <a href="{{apiImgOrig + poster['file_path']}}">
                 <div *ngIf="poster['file_path']; else noImageBlock">
-                  <img mat-card-image [src]="apiImg + poster['file_path']" class="img-responsive" />
+                  <img mat-card-image [src]="apiImg + poster['file_path']" class="img-fluid" />
                 </div>
                 <ng-template #noImageBlock>
-                  <img mat-card-image src="assets/img/no-img.png" class="img-responsive" />
+                  <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
                 </ng-template>
               </a>
               <mat-card-content class="bgc-grey-900 text-center">
@@ -54,14 +54,17 @@
   </div>
 </div>
 
-<ng-template #template>
+<ng-template #template let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    This is a modal.
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>

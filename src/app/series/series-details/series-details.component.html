@@ -9,13 +9,13 @@
       <ng-template #desktop>
         <div *ngIf="series['poster_path'] && isDesktop" layout="column" layout-align="center center"
              class="poster-image push-lg push-right-none">
-          <img src="{{apiImgOrig + series['poster_path']}}" class="img-responsive img-rounded">
+          <img src="{{apiImgOrig + series['poster_path']}}" class="img-fluid rounded">
         </div>
       </ng-template>
       <ng-template #mobile>
         <div flex class="pad-none" layout="row" layout-align="center center"
              *ngIf="series['backdrop_path'] && !isDesktop">
-          <img flex src="{{apiImgOrig + series['backdrop_path']}}" class="img-responsive">
+          <img flex src="{{apiImgOrig + series['backdrop_path']}}" class="img-fluid">
         </div>
       </ng-template>
       <div layout="row" class="push-lg" tdMediaToggle="gt-xs"

@@ -40,7 +40,7 @@
 }
 
 .homepage {
-  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .rating {

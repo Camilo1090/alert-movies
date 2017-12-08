@@ -18,7 +18,8 @@
           <img flex src="{{apiImgOrig + series['backdrop_path']}}" class="img-fluid">
         </div>
       </ng-template>
-      <div layout="row" class="push-lg" tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-xs']">
+      <div layout="row"
+           [ngClass]="{'push-md': _mediaService.query('xs'), 'pad-top-xs push-lg': _mediaService.query('gt-xs')}">
         <div flex layout="column">
           <div layout="column" layout-gt-xs="row">
             <div layout="row" layout-align="center center" layout-align-gt-xs="start"
@@ -34,10 +35,16 @@
                    flex="85" flex-md="80">
                 <h1 class="tc-grey-400">
                   <b class="tc-teal-A400">{{series['name']}} </b>
-                  <span *ngIf="series['first_air_date']">({{series['first_air_date'] | date:'yyyy'}})</span>
+                  <span *ngIf="series['first_air_date']" hide-xs>({{series['first_air_date'] | date:'yyyy'}})</span>
                 </h1>
                 <i class="tc-grey-500">{{getGenres(series['genres'])}}</i>
               </div>
+            </div>
+            <div hide-gt-xs layout="row" layout-align="center center" class="pad-top-sm pad-bottom-sm">
+              <span class="tc-grey-400">
+                <i aria-hidden="true" class="fa fa-calendar"></i>
+                {{ series['first_air_date'] }}
+              </span>
             </div>
             <div layout="row" layout-align="center center" layout-align-gt-sm="end center" tdMediaToggle="gt-xs"
                  [mediaClasses]="['rating', 'pad-left-sm']" flex="30" flex-lg="20" flex-gt-lg="15">
@@ -50,14 +57,21 @@
             </div>
           </div>
           <div layout="row"><hr flex class="bgc-grey-50"></div>
-          <div layout="column">
+          <div layout="column" tdMediaToggle="xs" [mediaClasses]="['text-center']">
             <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
             <span class="push-left-xs tc-grey-300">{{series['overview']}}</span>
           </div>
           <div layout="column" *ngIf="crewObservable | async">
-            <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Featured Crew</strong></h3>
-            <div layout="row" class="row push-left-xs" *ngIf="crew.length > 0; else noCrewBlock">
-              <div *ngFor="let person of crew | slice:0:6" layout="column" class="pad-xs col-6 col-sm-3">
+            <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
+                [mediaClasses]="['text-center']">
+              <strong>Featured Crew</strong>
+            </h3>
+            <div *ngIf="crew.length > 0; else noCrewBlock" class="row" tdMediaToggle="gt-xs"
+                 [mediaClasses]="['push-left-xs']">
+              <div *ngFor="let person of crew | slice:0:8" layout="column" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 299px)'),
+                   'col-6': _mediaService.query('(min-width: 300px)')}">
                 <a [routerLink]="['/person', person.id]" class="crew">
                   <strong class="tc-white">{{person['name']}}</strong>
                 </a>
@@ -65,75 +79,153 @@
               </div>
             </div>
             <ng-template #noCrewBlock>
-              <div class="push-left-sm"><span class="tc-grey-50">-</span></div>
+              <div class="push-left-sm" tdMediaToggle="xs" [mediaClasses]="['text-center']">
+                <span class="tc-grey-50">-</span>
+              </div>
             </ng-template>
           </div>
           <div layout="column">
-          <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Show Facts</strong></h3>
-          <div class="row push-left-xs">
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class="tc-grey-400">Episode Runtime</span>
-              <span *ngIf="series['episode_run_time']; else elseBlock" class="mat-body-1 tc-white fact">
-                {{convertTime(series['episode_run_time'][0])}}
+            <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
+                [mediaClasses]="['text-center']">
+              <strong>Show Facts</strong>
+            </h3>
+            <div class="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-left-xs']">
+              <!-- ***************** Episode Runtime *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-clock-o fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class="tc-grey-400">Episode Runtime</span>
+                  <span *ngIf="series['episode_run_time']; else elseBlock" class="mat-body-1 tc-white fact">
+                    {{convertTime(series['episode_run_time'][0])}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Number of Seasons *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-television fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class="tc-grey-400">Seasons</span>
+                  <span *ngIf="series['number_of_seasons']; else elseBlock" class="mat-body-1 tc-white fact">
+                    {{series['number_of_seasons']}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Number of Episodes *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-list-ol fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class="tc-grey-400">Episodes</span>
+                  <span *ngIf="series['number_of_episodes']; else elseBlock" class="mat-body-1 tc-white fact">
+                    {{series['number_of_episodes']}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Homepage *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-link fa-lg"></i>
+                </span>
+                <div layout="column" flex="75">
+                  <span class=" tc-grey-400">Homepage</span>
+                  <a *ngIf="series['homepage']; else elseBlock" class="homepage mat-body-1" href="{{series['homepage']}}">
+                    {{series['homepage']}}
+                  </a>
+                </div>
+              </div>
+              <!-- ***************** Network *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-briefcase fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class=" tc-grey-400">Network</span>
+                  <span *ngIf="networks.length > 0; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
+                    {{networks[0]['name']}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Company *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-building-o fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class=" tc-grey-400">Company</span>
+                  <span *ngIf="companies.length > 0; else elseBlock"
+                        class="mat-body-1 text-uppercase tc-white fact">
+                    {{companies[0]['name']}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Language *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-language fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class=" tc-grey-400">Original Language</span>
+                  <span *ngIf="series['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
+                    {{series['original_language']}}
+                  </span>
+                </div>
+              </div>
+              <!-- ***************** Status *******************-->
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-right-sm pad-top-sm">
+                  <i aria-hidden="true" class="fa fa-flag fa-lg"></i>
+                </span>
+                <div layout="column">
+                  <span class=" tc-grey-400">Status</span>
+                  <span *ngIf="series['status']; else elseBlock" class="mat-body-1 tc-white fact">
+                    {{series['status']}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <ng-template #elseBlock>
+              <span class="mat-body-1 tc-white fact">
+                -
               </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class="tc-grey-400">Seasons</span>
-              <span *ngIf="series['number_of_seasons']; else elseBlock" class="mat-body-1 tc-white fact">
-                {{series['number_of_seasons']}}
-              </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class="tc-grey-400">Episodes</span>
-              <span *ngIf="series['number_of_episodes']; else elseBlock" class="mat-body-1 tc-white fact">
-                {{series['number_of_episodes']}}
-              </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class=" tc-grey-400">Homepage</span>
-              <a *ngIf="series['homepage']; else elseBlock" class="homepage mat-body-1" href="{{series['homepage']}}">
-                {{series['homepage']}}
-              </a>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class=" tc-grey-400">Network</span>
-              <span *ngIf="networks.length > 0; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
-                {{networks[0]['name']}}
-              </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class=" tc-grey-400">Company</span>
-              <span *ngIf="companies.length > 0; else elseBlock"
-                    class="mat-body-1 text-uppercase tc-white fact">
-                {{companies[0]['name']}}
-              </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class=" tc-grey-400">Original Language</span>
-              <span *ngIf="series['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
-                {{series['original_language']}}
-              </span>
-            </div>
-
-            <div layout="column" class="pad-xs col-6 col-sm-3">
-              <span class=" tc-grey-400">Status</span>
-              <span *ngIf="series['status']; else elseBlock" class="mat-body-1 tc-white fact">
-                {{series['status']}}
-              </span>
-            </div>
+            </ng-template>
           </div>
-          <ng-template #elseBlock>
-            <span class="mat-body-1 tc-white fact">
-              -
-            </span>
-          </ng-template>
-        </div>
         </div>
       </div>
     </div>

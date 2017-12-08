@@ -7,8 +7,8 @@
          tdMediaToggle="gt-sm" [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
       <div *ngIf="isDesktop; then desktop else mobile;"></div>
       <ng-template #desktop>
-        <div layout="column" layout-align="center center" class="poster-image push-lg push-right-none"
-             *ngIf="movie['poster_path'] && isDesktop">
+        <div *ngIf="movie['poster_path'] && isDesktop" layout="column" layout-align="center center"
+             class="poster-image push-lg push-right-none">
           <img src="{{apiImgOrig + movie['poster_path']}}" class="img-fluid rounded">
         </div>
       </ng-template>
@@ -18,8 +18,9 @@
           <img flex src="{{apiImgOrig + movie['backdrop_path']}}" class="img-fluid">
         </div>
       </ng-template>
-      <div layout="row" class="push-lg" tdMediaToggle="gt-xs" [mediaClasses]="['pad-top-xs']">
-        <div flex layout="column">
+      <div layout="row"
+           [ngClass]="{'push-md': _mediaService.query('xs'), 'pad-top-xs push-lg': _mediaService.query('gt-xs')}">
+        <div layout="column">
           <div layout="column" layout-gt-xs="row">
             <div layout="row" layout-align="center center" layout-align-gt-xs="start"
                  flex="70" flex-lg="80" flex-gt-lg="85">
@@ -27,14 +28,14 @@
                    class="pad-top-sm pad-left-sm pad-right-sm text-center" flex="15" flex-md="20">
                 <span class="tc-grey-400"><i aria-hidden="true" class="fa fa-calendar fa-2x"></i></span>
                 <span class="tc-grey-400">
-                    {{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}
-                  </span>
+                  {{movie['release_date'] | date:'d'}} {{movie['release_date'] | date:'MMM'}}
+                </span>
               </div>
               <div [ngClass]="{'text-center': _mediaService.query('xs'), 'pad-right-sm': _mediaService.query('gt-xs')}"
                    flex="85" flex-md="80">
                 <h1 class="tc-grey-400">
                   <b class="tc-teal-A400">{{movie['title']}} </b>
-                  <span hide-xs>({{movie['release_date'] | date:'yyyy'}})</span>
+                  <span *ngIf="movie['release_date']" hide-xs>({{movie['release_date'] | date:'yyyy'}})</span>
                 </h1>
                 <i class="tc-grey-500">{{getGenres(movie['genres'])}}</i>
               </div>
@@ -50,38 +51,52 @@
               <h1 class="tc-grey-300">
                 <b>{{movie['vote_average']}}</b>
                 <span aria-hidden="true" class="tc-amber-300">
-                    <i aria-hidden="true" class="fa fa-star star"></i>
-                  </span>
+                  <i aria-hidden="true" class="fa fa-star star"></i>
+                </span>
               </h1>
             </div>
           </div>
           <div layout="row"><hr flex class="bgc-grey-50"></div>
           <div layout="column" tdMediaToggle="xs" [mediaClasses]="['text-center']">
             <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Overview</strong></h3>
-            <span class="push-left-xs tc-grey-300">{{movie['overview']}}</span>
+            <span class="tc-grey-300" tdMediaToggle="gt-xs" [mediaClasses]="['push-left-xs']">
+              {{movie['overview']}}
+            </span>
           </div>
           <div layout="column" *ngIf="creditsObservable | async">
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
                 [mediaClasses]="['text-center']">
               <strong>Featured Crew</strong>
             </h3>
-            <div layout="row" class="row push-left-xs">
-              <div *ngFor="let crew of credits['crew'] | slice:0:6" layout="column" class="pad-xs col-6 col-sm-3">
+            <div *ngIf="credits.length > 0; else noCrewBlock" class="row" tdMediaToggle="gt-xs"
+                 [mediaClasses]="['push-left-xs']">
+              <div *ngFor="let crew of credits['crew'] | slice:0:8" layout="column" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <a [routerLink]="['/person', crew.id]" class="crew">
                   <strong class="tc-white">{{crew['name']}}</strong>
                 </a>
                 <span class="tc-grey-400">{{crew['job']}}</span>
               </div>
             </div>
+            <ng-template #noCrewBlock>
+              <div class="push-left-sm" tdMediaToggle="xs" [mediaClasses]="['text-center']">
+                <span class="tc-grey-50">-</span>
+              </div>
+            </ng-template>
           </div>
           <div layout="column">
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
                 [mediaClasses]="['text-center']">
               <strong>Movie Facts</strong>
             </h3>
-            <div class="row push-left-xs">
+            <div class="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-left-xs']">
               <!-- ***************** Runtime *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-clock-o fa-lg"></i>
@@ -94,7 +109,10 @@
                 </div>
               </div>
               <!-- ***************** Budget *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-usd fa-lg"></i>
@@ -107,7 +125,10 @@
                 </div>
               </div>
               <!-- ***************** Revenue *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-money fa-lg"></i>
@@ -120,12 +141,15 @@
                 </div>
               </div>
               <!-- ***************** Homepage *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-link fa-lg"></i>
                 </span>
-                <div layout="column" flex="75">
+                <div layout="column">
                   <span class="tc-white">Homepage</span>
                   <a *ngIf="movie['homepage']; else elseBlock" class="homepage mat-body-1" href="{{movie['homepage']}}">
                     {{movie['homepage']}}
@@ -133,7 +157,10 @@
                 </div>
               </div>
               <!-- ***************** Country *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-globe fa-lg"></i>
@@ -147,7 +174,10 @@
                 </div>
               </div>
               <!-- ***************** Original language *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-language fa-lg"></i>
@@ -160,7 +190,10 @@
                 </div>
               </div>
               <!-- ***************** Status *******************-->
-              <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
+              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
+                   [ngClass]="{
+                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
                   <i aria-hidden="true" class="fa fa-flag fa-lg"></i>
@@ -178,7 +211,7 @@
             </ng-template>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
   <div layout="column">

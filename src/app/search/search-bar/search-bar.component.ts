@@ -52,10 +52,11 @@ export class SearchBarComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .switchMap(query => query ?
-        this.searchService.searchMulti(query, 1).map(response => response['results']) :
+        this.searchService.searchMulti(query, 1)
+          .map(response => response['results'].sort((a, b) => b['popularity'] - a['popularity'])) :
         Observable.of<Array<any>>([])).do(response => {
-        this.results = response;
-      });
+          this.results = response;
+        });
   }
 
   search(event: string): void {

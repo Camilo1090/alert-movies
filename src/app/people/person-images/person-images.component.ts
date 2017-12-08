@@ -15,6 +15,7 @@ import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { PeopleService } from '../shared/people.service';
+import {Image, ImageModalEvent} from "angular-modal-gallery";
 
 @Component({
   selector: 'app-person-images',
@@ -29,9 +30,14 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
   columns: number;
   private _querySubscription: Subscription;
 
-  images = [];
+  personImages = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
+
+  // image gallery
+  images: Image[] = [];
+  openModalWindow = false;
+  imagePointer = 0;
 
   constructor(private peopleService: PeopleService,
               private route: ActivatedRoute,
@@ -53,9 +59,27 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonImages(params['id']))
       .subscribe(response => {
-        this.images = response['profiles'].slice(0, 12);
+        this.personImages = response['profiles'].slice(0, 12);
+        this.buildImagesArray();
         this.resolveLoading();
       });
+  }
+
+  buildImagesArray() {
+    for (let i = 0; i < this.personImages.length; i++) {
+      const imgUrl = this.apiImgOrig + this.personImages[i]['file_path'];
+      const image = new Image(imgUrl, null, null, null);
+      this.images.push(image);
+    }
+  }
+
+  openImageModal(index: number) {
+    this.imagePointer = index;
+    this.openModalWindow = true;
+  }
+
+  onCloseImageModal(event: ImageModalEvent) {
+    this.openModalWindow = false;
   }
 
   ngOnDestroy(): void {

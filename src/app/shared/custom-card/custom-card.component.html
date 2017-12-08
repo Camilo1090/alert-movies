@@ -80,42 +80,38 @@
       </div>
     </div>
   </mat-card>
-  <a *ngSwitchCase="'backdrop'" [href]="apiImgOrig + img">
-    <mat-card class="custom-card pointer">
-      <div class="hovereffect backdrop">
-        <div class="card-image">
-          <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
-        </div>
-        <div class="overlay" layout="row" layout-align="center end">
-          <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
-            <div layout="row" layout-align="center center" flex>
-              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                <i>{{ title }}</i>
-              </p>
-            </div>
+  <mat-card *ngSwitchCase="'backdrop'" class="custom-card pointer">
+    <div class="hovereffect backdrop">
+      <div class="card-image">
+        <img *ngIf="img; else elseBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
+      </div>
+      <div class="overlay" layout="row" layout-align="center end">
+        <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+          <div layout="row" layout-align="center center" flex>
+            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+              <i>{{ title }}</i>
+            </p>
           </div>
         </div>
       </div>
-    </mat-card>
-  </a>
-  <a *ngSwitchCase="'poster'" [href]="apiImgOrig + img">
-    <mat-card class="custom-card pointer">
-      <div class="hovereffect">
-        <div class="card-image-person">
-          <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
-        </div>
-        <div class="overlay" layout="row" layout-align="center end">
-          <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
-            <div layout="row" layout-align="center center" flex>
-              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-                <i>{{ title }}</i>
-              </p>
-            </div>
+    </div>
+  </mat-card>
+  <mat-card *ngSwitchCase="'poster'" class="custom-card pointer">
+    <div class="hovereffect">
+      <div class="card-image-person">
+        <img *ngIf="img; else elseProfileBlock" mat-card-image [src]="apiImg + img" class="img-fluid" />
+      </div>
+      <div class="overlay" layout="row" layout-align="center end">
+        <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
+          <div layout="row" layout-align="center center" flex>
+            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+              <i>{{ title }}</i>
+            </p>
           </div>
         </div>
       </div>
-    </mat-card>
-  </a>
+    </div>
+  </mat-card>
 </div>
 
 <!--<mat-card class="card">-->

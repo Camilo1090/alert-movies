@@ -15,6 +15,7 @@ import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
+import {Image, ImageModalEvent} from 'angular-modal-gallery';
 
 @Component({
   selector: 'app-movie-images',
@@ -29,11 +30,15 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   columns: number;
   private _querySubscription: Subscription;
 
-  response = [];
   movieBackdrops = [];
   moviePosters = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
+
+  // image gallery
+  images: Image[] = [];
+  openModalWindow = false;
+  imagePointer = 0;
 
   constructor(private moviesService: MoviesService,
               private route: ActivatedRoute,
@@ -55,13 +60,35 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieImages(params['id']))
       .subscribe(response => {
-        this.response = response;
         this.movieBackdrops = response['backdrops'].slice(0, 12);
         this.moviePosters = response['posters'].slice(0, 12);
+        this.buildImagesArray();
         this.resolveLoading();
       }, err => {
         console.log(err);
       });
+  }
+
+  buildImagesArray() {
+    for (let i = 0; i < this.movieBackdrops.length; i++) {
+      const imgUrl = this.apiImgOrig + this.movieBackdrops[i]['file_path'];
+      const image = new Image(imgUrl, null, null, null);
+      this.images.push(image);
+    }
+    for (let i = 0; i < this.moviePosters.length; i++) {
+      const imgUrl = this.apiImgOrig + this.moviePosters[i]['file_path'];
+      const image = new Image(imgUrl, null, null, null);
+      this.images.push(image);
+    }
+  }
+
+  openImageModal(index: number) {
+    this.imagePointer = index;
+    this.openModalWindow = true;
+  }
+
+  onCloseImageModal(event: ImageModalEvent) {
+    this.openModalWindow = false;
   }
 
   ngOnDestroy(): void {

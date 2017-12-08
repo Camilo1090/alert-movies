@@ -8,9 +8,11 @@
       <div *ngIf="movieBackdrops.length > 0; then backdropsBlock else elseBlock"></div>
       <ng-template #backdropsBlock>
         <mat-grid-list layout="row" cols="{{columns}}" rowHeight="6.5:4">
-          <mat-grid-tile *ngFor="let backdrop of movieBackdrops" [colspan]="1" [rowspan]="1">
-            <app-custom-card [media]="'backdrop'" [img]="backdrop['file_path']"
-                             [title]="backdrop['width']+'x'+backdrop['height']"></app-custom-card>
+          <mat-grid-tile *ngFor="let backdrop of movieBackdrops; let i = index" [colspan]="1" [rowspan]="1">
+            <div (click)="openImageModal(i)">
+              <app-custom-card [media]="'backdrop'" [img]="backdrop['file_path']"
+                               [title]="backdrop['width']+'x'+backdrop['height']"></app-custom-card>
+            </div>
           </mat-grid-tile>
         </mat-grid-list>
       </ng-template>
@@ -21,9 +23,11 @@
       <div *ngIf="moviePosters.length > 0; then postersBlock else elseBlock"></div>
       <ng-template #postersBlock>
         <mat-grid-list layout="row" cols="{{columns}}" rowHeight="500:750">
-          <mat-grid-tile *ngFor="let poster of moviePosters" [colspan]="1" [rowspan]="1">
-            <app-custom-card [media]="'poster'" [img]="poster['file_path']"
-                             [title]="poster['width']+'x'+poster['height']"></app-custom-card>
+          <mat-grid-tile *ngFor="let poster of moviePosters; let i = index" [colspan]="1" [rowspan]="1">
+            <div (click)="openImageModal(i + movieBackdrops.length)">
+              <app-custom-card [media]="'poster'" [img]="poster['file_path']"
+                               [title]="poster['width']+'x'+poster['height']"></app-custom-card>
+            </div>
           </mat-grid-tile>
         </mat-grid-list>
       </ng-template>
@@ -34,4 +38,11 @@
       </ng-template>
     </div>
   </div>
+</div>
+
+<div *ngIf="openModalWindow">
+  <modal-gallery [modalImages]="images"
+                 [imagePointer]="imagePointer"
+                 [enableCloseOutside]="true"
+                 (close)="onCloseImageModal($event)"></modal-gallery>
 </div>

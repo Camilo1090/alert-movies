@@ -15,6 +15,7 @@ import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { SeriesService } from '../shared/series.service';
+import {Image, ImageModalEvent} from "angular-modal-gallery";
 
 @Component({
   selector: 'app-series-images',
@@ -29,11 +30,15 @@ export class SeriesImagesComponent implements OnInit, OnDestroy {
   columns: number;
   private _querySubscription: Subscription;
 
-  response = [];
   seriesBackdrops = [];
   seriesPosters = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
+
+  // image gallery
+  images: Image[] = [];
+  openModalWindow = false;
+  imagePointer = 0;
 
   constructor(private seriesService: SeriesService,
               private route: ActivatedRoute,
@@ -55,11 +60,33 @@ export class SeriesImagesComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.seriesService
       .getSeriesImages(params['id']))
       .subscribe(response => {
-        this.response = response;
         this.seriesBackdrops = response['backdrops'].slice(0, 12);
         this.seriesPosters = response['posters'].slice(0, 12);
+        this.buildImagesArray();
         this.resolveLoading();
       });
+  }
+
+  buildImagesArray() {
+    for (let i = 0; i < this.seriesBackdrops.length; i++) {
+      const imgUrl = this.apiImgOrig + this.seriesBackdrops[i]['file_path'];
+      const image = new Image(imgUrl, null, null, null);
+      this.images.push(image);
+    }
+    for (let i = 0; i < this.seriesPosters.length; i++) {
+      const imgUrl = this.apiImgOrig + this.seriesPosters[i]['file_path'];
+      const image = new Image(imgUrl, null, null, null);
+      this.images.push(image);
+    }
+  }
+
+  openImageModal(index: number) {
+    this.imagePointer = index;
+    this.openModalWindow = true;
+  }
+
+  onCloseImageModal(event: ImageModalEvent) {
+    this.openModalWindow = false;
   }
 
   ngOnDestroy(): void {

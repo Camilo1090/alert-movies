@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ng bootstrap components
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalGalleryModule } from 'angular-modal-gallery';
 
 // Material components
 import { MatAutocompleteModule, MatListModule } from '@angular/material';
@@ -37,6 +38,7 @@ import { CovalentChipsModule } from '@covalent/core';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
+    ModalGalleryModule.forRoot(),
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,
@@ -65,6 +67,7 @@ import { CovalentChipsModule } from '@covalent/core';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
+    ModalGalleryModule,
     MatButtonModule,
     MatSidenavModule,
     MatTooltipModule,

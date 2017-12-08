@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import 'hammerjs';
+import 'mousetrap';
+
 // modules for ui components
 import { AppCustomMaterialModule } from './custom-material/app-custom-material.module';
 

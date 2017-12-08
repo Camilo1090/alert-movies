@@ -4,7 +4,10 @@
     <div flex
          *tdLoading="'person-movies'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="movies.length > 0; then moviesBlock else elseBlock"></div>
-      <ng-template #moviesBlock >
+      <ng-template #moviesBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Movies</h3>
+        </div>
         <mat-grid-list cols="{{columns}}" rowHeight="6.5:4">
           <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
             <a [routerLink]="['/movie', movie['id']]">

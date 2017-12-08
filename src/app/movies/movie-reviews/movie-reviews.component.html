@@ -5,6 +5,9 @@
          *tdLoading="'movie-reviews'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="reviews.length > 0; then reviewsBlock else elseBlock"></div>
       <ng-template #reviewsBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Reviews</h3>
+        </div>
         <div layout="column" tdMediaToggle="gt-sm"
              [mediaClasses]="['pad-left-xl', 'pad-right-xl']">
           <mat-card *ngFor="let review of reviews" tdMediaToggle="gt-md"

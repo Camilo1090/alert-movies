@@ -16,7 +16,7 @@
     <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
          [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">
       <div layout="row" layout-align-gt-xs="start center" layout-align-xs="center center">
-        <h2>Popular People</h2>
+        <h2 tdMediaToggle="xs" [mediaClasses]="['push-bottom-none', 'push-top-sm']">Popular People</h2>
       </div>
       <div flex *tdLoading="'people'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
         <mat-grid-list *ngIf="people.length > 0; else noResultsBlock" cols="{{columns}}" rowHeight="500:750">

@@ -4,7 +4,10 @@
     <div flex
          *tdLoading="'person-series'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="series.length > 0; then seriesBlock else elseBlock"></div>
-      <ng-template #seriesBlock >
+      <ng-template #seriesBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">TV Series</h3>
+        </div>
         <mat-grid-list cols="{{columns}}" rowHeight="6.5:4">
           <mat-grid-tile *ngFor="let s of series" [colspan]="1" [rowspan]="1">
             <a [routerLink]="['/series', s['id']]">

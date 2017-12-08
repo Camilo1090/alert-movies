@@ -4,6 +4,9 @@
     <div flex *tdLoading="'movie-cast'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="seriesCast.length > 0; then castBlock else elseBlock"></div>
       <ng-template #castBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Cast</h3>
+        </div>
         <mat-grid-list layout="row" cols="{{columns}}" rowHeight="500:750">
           <mat-grid-tile *ngFor="let person of seriesCast" [colspan]="1" [rowspan]="1" layout-align="center start">
             <a [routerLink]="['/person', person['id']]">

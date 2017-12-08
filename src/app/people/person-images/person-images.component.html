@@ -3,7 +3,10 @@
   <div flex layout="column">
     <div flex *tdLoading="'person-images'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="images.length > 0; then imagesBlock else elseBlock"></div>
-      <ng-template #imagesBlock >
+      <ng-template #imagesBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Images</h3>
+        </div>
         <mat-grid-list layout="row" cols="{{columns}}" rowHeight="500:750">
           <mat-grid-tile *ngFor="let image of images" [colspan]="1" [rowspan]="1">
             <app-custom-card [media]="'poster'" [img]="image['file_path']"

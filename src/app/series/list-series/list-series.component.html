@@ -21,7 +21,7 @@
     <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
          [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">
       <div layout="row" layout-align-gt-xs="start center" layout-align-xs="center center">
-        <h2 [ngSwitch]="selectedCategory">
+        <h2 [ngSwitch]="selectedCategory" tdMediaToggle="xs" [mediaClasses]="['push-bottom-none', 'push-top-sm']">
           <span *ngSwitchCase="'popular'">Popular TV Series</span>
           <span *ngSwitchCase="'air'">On The Air TV Series </span>
           <span *ngSwitchCase="'latest'">Latest TV Series</span>

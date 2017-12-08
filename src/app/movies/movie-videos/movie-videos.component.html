@@ -4,6 +4,9 @@
     <div flex *tdLoading="'movie-videos'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="movieVideos.length > 0; then videosBlock else elseBlock"></div>
       <ng-template #videosBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Videos</h3>
+        </div>
         <div class="row">
           <div *ngFor="let video of movieVideos" class="col-12 col-sm-12 col-md-12 col-lg-6">
             <mat-card class="bgc-grey-900">

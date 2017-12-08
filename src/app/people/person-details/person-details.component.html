@@ -27,7 +27,7 @@
             <div layout="column" layout-gt-xs="row" layout-align="start center">
               <div layout="row" layout-align="center center" layout-align-gt-xs="start" tdMediaToggle="gt-xs"
                    [mediaClasses]="['pad-left-sm']" flex="70" flex-lg="80" flex-gt-lg="85">
-                <h1 class="tc-grey-400">
+                <h1 class="tc-grey-400" tdMediaToggle="xs" [mediaClasses]="['text-center']">
                   <b class="tc-teal-A400">{{person['name']}}</b>
                 </h1>
               </div>
@@ -42,14 +42,18 @@
               </div>
             </div>
             <div layout="row"><hr flex class="bgc-grey-50"></div>
-            <div layout="column">
+            <div layout="column" tdMediaToggle="xs" [mediaClasses]="['text-center']">
               <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Biography</strong></h3>
-              <span *ngIf="person['biography']; else elseBlock" class="push-left-xs tc-grey-300">
+              <span *ngIf="person['biography']; else elseBlock" class="tc-grey-300" tdMediaToggle="gt-xs"
+                    [mediaClasses]="['push-left-xs']">
                 {{person['biography']}}
               </span>
             </div>
             <div layout="column">
-              <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs"><strong>Personal Info</strong></h3>
+              <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
+                  [mediaClasses]="['text-center']">
+                <strong>Personal Info</strong>
+              </h3>
               <div class="row push-left-xs">
                 <!-- ***************** Runtime *******************-->
                 <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">

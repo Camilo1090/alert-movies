@@ -1,5 +1,5 @@
 <section>
-  <div layout-sm="column" layout-xs="column" layout-gt-sm="row">
+  <div layout="column" layout-gt-sm="row">
     <div class="bgc-grey-800" [ngClass]="{'categories': _mediaService.query('gt-sm')}">
       <aside class="pad-top-md pad-bottom-lg pad-left-md pad-right-md" tdMediaToggle="(max-width: 960px)"
              [mediaClasses]="['pad-top-xs', 'pad-bottom-xs', 'pad-right-xs']">
@@ -32,7 +32,7 @@
     <div flex layout="column" class="pad-top-md pad-bottom-lg pad-left-md pad-right-md"
          [ngClass]="{'search-results-page': _mediaService.query('gt-sm')}" tdMediaToggle="(max-width: 960px)"
          [mediaClasses]="['pad-top-sm', 'pad-bottom-md']">
-      <div layout="row" layout-align="start center">
+      <div layout="row" layout-align="center center" layout-align-gt-xs="start center">
         <h2>Search</h2>
         <mat-icon class="arrow">keyboard_arrow_right</mat-icon>
         <h2 [ngSwitch]="media">

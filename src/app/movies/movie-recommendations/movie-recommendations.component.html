@@ -4,7 +4,10 @@
     <div flex
          *tdLoading="'movie-recommendations'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
       <div *ngIf="recommendations.length > 0; then recommendationsBlock else elseBlock"></div>
-      <ng-template #recommendationsBlock >
+      <ng-template #recommendationsBlock>
+        <div flex hide-gt-xs layout="row" layout-align-xs="center">
+          <h3 class="title tc-grey-900">Recommendations</h3>
+        </div>
         <mat-grid-list cols="{{columns}}" rowHeight="6.5:4">
           <mat-grid-tile *ngFor="let result of recommendations" [colspan]="1" [rowspan]="1">
             <a [routerLink]="['/movie', result['id']]">

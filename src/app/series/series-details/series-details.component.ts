@@ -33,7 +33,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   series = [];
   crew = [];
-  crewObservable: Observable<any[]>;
+  creditsObservable: Observable<any[]>;
   networks = [];
   companies = [];
 
@@ -69,9 +69,10 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.registerLoading();
-
-    this.updateSeriesDetails();
+    this.route.params.subscribe(params => {
+      this.registerLoading();
+      this.updateSeriesDetails();
+    });
 
     this.checkScreen();
     this.watchScreen();
@@ -96,42 +97,22 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateSeriesCredits(): void {
-    this.crewObservable = this.route.params
+    this.creditsObservable = this.route.params
       .switchMap((params: Params) => this.seriesService
         .getSeriesCredits(params['id']));
-    this.crewObservable
+    this.creditsObservable
       .subscribe(response => {
         this.crew = response['crew'];
         this.resolveLoading();
       });
   }
 
-  ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+  changeTab(tab: number): void {
+    this.currentTab = tab;
   }
 
   /**
-   * checks the size of the screen
-   */
-  checkScreen(): void {
-    this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query('gt-sm');
-    });
-  }
-
-  /**
-   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
-   */
-  watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        this.isDesktop = matches;
-      });
-    });
-  }
-
-  /**
-   * gets an array of genres and returns them separated by commas
+   * gets an array of genres and returns them separated by comma
    * @param genres: Array of genres
    * @returns {string}: List of genres separated by comma
    */
@@ -189,8 +170,28 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
     return text;
   }
 
-  changeTab(tab: number): void {
-    this.currentTab = tab;
+  ngOnDestroy(): void {
+    this._querySubscription.unsubscribe();
+  }
+
+  /**
+   * checks the size of the screen
+   */
+  checkScreen(): void {
+    this._ngZone.run(() => {
+      this.isDesktop = this._mediaService.query('gt-sm');
+    });
+  }
+
+  /**
+   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
+   */
+  watchScreen(): void {
+    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        this.isDesktop = matches;
+      });
+    });
   }
 
   // Methods for the loading

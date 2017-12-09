@@ -39,6 +39,7 @@ import { SearchBarComponent } from './search/search-bar/search-bar.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { CustomCardComponent } from './shared/custom-card/custom-card.component';
+import { LimitTextComponent } from './shared/limit-text/limit-text.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { CustomCardComponent } from './shared/custom-card/custom-card.component'
     SearchBarComponent,
     NotFoundComponent,
     DiscoverComponent,
-    CustomCardComponent
+    CustomCardComponent,
+    LimitTextComponent
   ],
   imports: [
     BrowserModule,

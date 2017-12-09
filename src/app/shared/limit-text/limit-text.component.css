@@ -1,0 +1,12 @@
+.text-container {
+  transition: all 1s ease-in-out;
+}
+
+a.view {
+  color: #007bff;
+  cursor: pointer;
+}
+
+a.view:hover {
+  color: #0056b3;
+}

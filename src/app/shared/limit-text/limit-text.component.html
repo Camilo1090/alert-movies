@@ -1,0 +1,19 @@
+<div class="text-container">
+  <p>
+    <span *ngIf="toggleNeeded; then withToggle else withoutToggle"></span>
+    <ng-template #withToggle>
+      <span *ngIf="isToggled; then toggled else notToggled"></span>
+      <ng-template #toggled>
+        {{ originalText }}
+        <a class="view" (click)="toggle()">view less</a>
+      </ng-template>
+      <ng-template #notToggled>
+        {{ text }}
+        <a class="view" (click)="toggle()">view more</a>
+      </ng-template>
+    </ng-template>
+    <ng-template #withoutToggle>
+      <span>{{ text }}</span>
+    </ng-template>
+  </p>
+</div>

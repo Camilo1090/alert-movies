@@ -68,25 +68,25 @@
                 [mediaClasses]="['text-center']">
               <strong>Featured Crew</strong>
             </h3>
-            <div *ngIf="credits.length > 0; else noCrewBlock" class="row" tdMediaToggle="gt-xs"
+            <div *ngIf="crew.length > 0; else noCrewBlock" class="row" tdMediaToggle="gt-xs"
                  [mediaClasses]="['push-left-xs']">
-              <div *ngFor="let crew of credits['crew'] | slice:0:8" layout="column" class="pad-xs col-sm-4 col-xl-3"
+              <div *ngFor="let person of crew | slice:0:8" layout="column" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-12': _mediaService.query('(max-width: 360px)'),
+                   'col-12 text-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
-                <a [routerLink]="['/person', crew.id]" class="crew">
-                  <strong class="tc-white">{{crew['name']}}</strong>
+                <a [routerLink]="['/person', person.id]" class="crew">
+                  <strong class="tc-white">{{person['name']}}</strong>
                 </a>
-                <span class="tc-grey-400">{{crew['job']}}</span>
+                <span class="tc-grey-400">{{person['job']}}</span>
               </div>
             </div>
             <ng-template #noCrewBlock>
-              <div class="push-left-sm" tdMediaToggle="xs" [mediaClasses]="['text-center']">
+              <div [ngClass]="{'text-center': _mediaService.query('xs'), 'push-left-sm': _mediaService.query('gt-xs')}">
                 <span class="tc-grey-50">-</span>
               </div>
             </ng-template>
           </div>
-          <div layout="column">
+          <div layout="column" flex>
             <h3 class="mat-headline tc-grey-300 push-top-sm push-bottom-xs" tdMediaToggle="xs"
                 [mediaClasses]="['text-center']">
               <strong>Movie Facts</strong>
@@ -95,7 +95,7 @@
               <!-- ***************** Runtime *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -111,7 +111,7 @@
               <!-- ***************** Budget *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -127,7 +127,7 @@
               <!-- ***************** Revenue *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -141,25 +141,25 @@
                 </div>
               </div>
               <!-- ***************** Homepage *******************-->
-              <div layout="row" class="pad-xs col-sm-4 col-xl-3"
-                   [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
-                   'col-6': _mediaService.query('(min-width: 361px)')}">
-                <span aria-hidden="true" layout="column" layout-align="start center"
-                      class="tc-teal-A400 pad-right-sm pad-top-sm">
-                  <i aria-hidden="true" class="fa fa-link fa-lg"></i>
-                </span>
-                <div layout="column">
-                  <span class="tc-white">Homepage</span>
-                  <a *ngIf="movie['homepage']; else elseBlock" class="homepage mat-body-1" href="{{movie['homepage']}}">
-                    {{movie['homepage']}}
-                  </a>
-                </div>
-              </div>
+              <!--<div layout="row" class="pad-xs col-sm-4 col-xl-3"-->
+                   <!--[ngClass]="{-->
+                   <!--'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),-->
+                   <!--'col-6': _mediaService.query('(min-width: 361px)')}">-->
+                <!--<span aria-hidden="true" layout="column" layout-align="start center"-->
+                      <!--class="tc-teal-A400 pad-right-sm pad-top-sm">-->
+                  <!--<i aria-hidden="true" class="fa fa-link fa-lg"></i>-->
+                <!--</span>-->
+                <!--<div layout="column">-->
+                  <!--<span class="tc-white">Homepage</span>-->
+                  <!--<a *ngIf="movie['homepage']; else elseBlock" class="homepage mat-body-1" href="{{movie['homepage']}}">-->
+                    <!--{{movie['homepage']}}-->
+                  <!--</a>-->
+                <!--</div>-->
+              <!--</div>-->
               <!-- ***************** Country *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -169,14 +169,14 @@
                   <span class=" tc-white">Production Country</span>
                   <span *ngIf="movie['production_countries'] && movie['production_countries'][0]; else elseBlock"
                         class="mat-body-1 text-uppercase tc-white fact">
-                    {{movie['production_countries'][0]['iso_3166_1']}}
+                    {{movie['production_countries'][0]['name']}}
                   </span>
                 </div>
               </div>
               <!-- ***************** Original language *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -184,15 +184,16 @@
                 </span>
                 <div layout="column">
                   <span class=" tc-white">Original Language</span>
-                  <span *ngIf="movie['original_language']; else elseBlock" class="mat-body-1 text-uppercase tc-white fact">
-                    {{movie['original_language']}}
+                  <span *ngIf="movie['spoken_languages'] && movie['spoken_languages'][0]; else elseBlock"
+                        class="mat-body-1 text-uppercase tc-white fact">
+                    {{movie['spoken_languages'][0]['name']}}
                   </span>
                 </div>
               </div>
               <!-- ***************** Status *******************-->
               <div layout="row" class="pad-xs col-sm-4 col-xl-3"
                    [ngClass]="{
-                   'col-10': _mediaService.query('(max-width: 360px)'),
+                   'col-12 align-content-center justify-content-center': _mediaService.query('(max-width: 360px)'),
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
@@ -209,6 +210,23 @@
             <ng-template #elseBlock>
               <span class="mat-body-1 tc-white fact">-</span>
             </ng-template>
+          </div>
+          <div layout="row"><hr flex class="bgc-grey-50"></div>
+          <div layout="row">
+            <div layout="column" class="push-left-xs push-right-xs" flex>
+              <div layout="row" layout-align="center center" layout-align-gt-sm="end center">
+                <span aria-hidden="true" layout="column" layout-align="start center"
+                      class="tc-teal-A400 pad-top-xs pad-right-xs">
+                  <i aria-hidden="true" class="fa fa-external-link"></i>
+                </span>
+                <span class="tc-white">Homepage</span>
+              </div>
+              <div layout="row" layout-align="center center" layout-align-gt-sm="end center">
+                <a *ngIf="movie['homepage']; else elseBlock" class="homepage mat-body-1" href="{{movie['homepage']}}">
+                  {{movie['homepage']}}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

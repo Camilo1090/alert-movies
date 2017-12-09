@@ -46,7 +46,14 @@
               <h3 class="mat-headline tc-grey-300 push-bottom-xs"><strong>Biography</strong></h3>
               <span *ngIf="person['biography']; else elseBlock" class="tc-grey-300" tdMediaToggle="gt-xs"
                     [mediaClasses]="['push-left-xs']">
-                {{person['biography']}}
+                <span *ngIf="_mediaService.query('xs') || _mediaService.query('md');
+                      then limitBlock else noLimitBlock"></span>
+                <ng-template #limitBlock>
+                  <app-limit-text [text]="person['biography']" [limit]="300"></app-limit-text>
+                </ng-template>
+                <ng-template #noLimitBlock>
+                  {{ person['biography'] }}
+                </ng-template>
               </span>
             </div>
             <div layout="column">
@@ -54,7 +61,7 @@
                   [mediaClasses]="['text-center']">
                 <strong>Personal Info</strong>
               </h3>
-              <div class="row push-left-xs">
+              <div class="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-left-xs']">
                 <!-- ***************** Runtime *******************-->
                 <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
                   <span *ngIf="gender" aria-hidden="true" layout="column" layout-align="start center"
@@ -101,7 +108,7 @@
                 <div layout="row" class="pad-xs col-6 col-sm-4 col-xl-3">
                   <span aria-hidden="true" layout="column" layout-align="start center"
                         class="tc-teal-A400 pad-right-sm pad-top-sm">
-                    <i aria-hidden="true" class="fa fa-link fa-lg"></i>
+                    <i aria-hidden="true" class="fa fa-external-link fa-lg"></i>
                   </span>
                   <div layout="column" flex="75">
                     <span class="tc-white">Official Site</span>

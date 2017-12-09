@@ -32,7 +32,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   apiImgOrig = API.apiImg + 'original';
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
   movie = [];
-  credits = [];
+  crew = [];
   creditsObservable: Observable<any[]>;
 
   routes: Object[] = [
@@ -61,7 +61,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
     },
   ];
 
-  id: number;
   currentTab = 1;
 
   constructor(private moviesService: MoviesService,
@@ -73,9 +72,10 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.registerLoading();
-
-    this.updateMovieDetails();
+    this.route.params.subscribe(params => {
+      this.registerLoading();
+      this.updateMovieDetails();
+    });
 
     this.checkScreen();
     this.watchScreen();
@@ -102,8 +102,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       .switchMap((params: Params) => this.moviesService
         .getMovieCredits(params['id']));
     this.creditsObservable
-      .subscribe(credits => {
-        this.credits = credits;
+      .subscribe(response => {
+        this.crew = response['crew'];
         this.resolveLoading();
       }, err => {
         console.log(err);
@@ -114,32 +114,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
     this.currentTab = tab;
   }
 
-  ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
-  }
-
   /**
-   * checks the size of the screen
-   */
-  checkScreen(): void {
-    this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query('gt-sm');
-    });
-  }
-
-  /**
-   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
-   */
-  watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        this.isDesktop = matches;
-      });
-    });
-  }
-
-  /**
-   * gets an array of genres and returns them separated by commas
+   * gets an array of genres and returns them separated by comma
    * @param genres: Array of genres
    * @returns {string}: List of genres separated by comma
    */
@@ -192,6 +168,30 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       }
     }
     return text;
+  }
+
+  ngOnDestroy(): void {
+    this._querySubscription.unsubscribe();
+  }
+
+  /**
+   * checks the size of the screen
+   */
+  checkScreen(): void {
+    this._ngZone.run(() => {
+      this.isDesktop = this._mediaService.query('gt-sm');
+    });
+  }
+
+  /**
+   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
+   */
+  watchScreen(): void {
+    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
+      this._ngZone.run(() => {
+        this.isDesktop = matches;
+      });
+    });
   }
 
   // Methods for the loading

@@ -39,12 +39,12 @@ export class CustomCardComponent implements OnInit {
     this._title = value;
   }
 
-  _rating: string;
+  _rating: number;
   @Input()
   get rating() {
     return this._rating;
   }
-  set rating(value: string) {
+  set rating(value: number) {
     this._rating = value;
   }
 

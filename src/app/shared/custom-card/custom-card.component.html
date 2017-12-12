@@ -28,7 +28,10 @@
               <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                 {{ rating }}
               </p>
-              <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+              <mat-icon *ngIf="rating > 7" class="media-rating-star tc-amber-300 pad-left-xs"
+                        aria-hidden="true">star</mat-icon>
+              <mat-icon *ngIf="rating <= 7" class="media-rating-star tc-amber-300 pad-left-xs"
+                        aria-hidden="true">star_half</mat-icon>
             </div>
           </div>
         </div>
@@ -52,7 +55,10 @@
               <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
                 {{ rating }}
               </p>
-              <mat-icon class="media-rating-star tc-amber-300 pad-left-xs" aria-hidden="true">star</mat-icon>
+              <mat-icon *ngIf="rating > 7" class="media-rating-star tc-amber-300 pad-left-xs"
+                        aria-hidden="true">star</mat-icon>
+              <mat-icon *ngIf="rating <= 7" class="media-rating-star tc-amber-300 pad-left-xs"
+                        aria-hidden="true">star_half</mat-icon>
             </div>
           </div>
         </div>

@@ -23,7 +23,8 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/@covalent/core/common/platform.scss"
+        "../node_modules/@covalent/core/common/platform.scss",
+        "../node_modules/flag-icon-css/css/flag-icon.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.slim.min.js",

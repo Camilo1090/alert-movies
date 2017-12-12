@@ -150,26 +150,6 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
     return text;
   }
 
-  /**
-   * gets a budget and returns it formatted
-   * @param budget: Integer with the budget
-   * @returns {string}: Budget with the new format
-   */
-  convertMoney(budget: number): string {
-    let text = '$';
-    if (budget) {
-      const buffer = '' + budget;
-      for (let _i = 0; _i < buffer.length; _i++) {
-        if (_i % 3 === 0 && _i !== 0) {
-          text += ',' + buffer[_i];
-        } else {
-          text += buffer[_i];
-        }
-      }
-    }
-    return text;
-  }
-
   ngOnDestroy(): void {
     this._querySubscription.unsubscribe();
   }

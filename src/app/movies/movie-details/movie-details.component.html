@@ -51,7 +51,8 @@
               <h1 class="tc-grey-300">
                 <b>{{movie['vote_average']}}</b>
                 <span aria-hidden="true" class="tc-amber-300">
-                  <i aria-hidden="true" class="fa fa-star star"></i>
+                  <i *ngIf="movie['vote_average'] > 7" aria-hidden="true" class="fa fa-star star"></i>
+                  <i *ngIf="movie['vote_average'] <= 7" aria-hidden="true" class="fa fa-star-half-o star"></i>
                 </span>
               </h1>
             </div>
@@ -120,7 +121,7 @@
                 <div layout="column">
                   <span class="tc-white">Budget</span>
                   <span *ngIf="movie['budget']; else elseBlock" class="mat-body-1 tc-white fact">
-                    {{convertMoney(movie['budget'])}}
+                    {{'$' + (movie['budget'] | number)}}
                   </span>
                 </div>
               </div>
@@ -136,7 +137,7 @@
                 <div layout="column">
                   <span class="tc-white">Revenue</span>
                   <span *ngIf="movie['revenue']; else elseBlock" class="mat-body-1 tc-white fact">
-                    {{convertMoney(movie['revenue'])}}
+                    {{'$' + (movie['revenue'] | number)}}
                   </span>
                 </div>
               </div>
@@ -163,12 +164,21 @@
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
-                  <i aria-hidden="true" class="fa fa-globe fa-lg"></i>
+                  <span *ngIf="movie['production_countries'] && movie['production_countries'][0];
+                        then flagBlock else noFlagBlock"></span>
+                  <ng-template #flagBlock>
+                    <i aria-hidden="true" class="{{'flag-icon '+'flag-icon-'
+                          +(movie['production_countries'][0]['iso_3166_1'] | lowercase)+''}}"></i>
+                  </ng-template>
+                  <ng-template #noFlagBlock>
+                    <i aria-hidden="true" class="fa fa-globe fa-lg"></i>
+                  </ng-template>
                 </span>
                 <div layout="column">
                   <span class=" tc-white">Production Country</span>
                   <span *ngIf="movie['production_countries'] && movie['production_countries'][0]; else elseBlock"
                         class="mat-body-1 text-uppercase tc-white fact">
+                    <span ></span>
                     {{movie['production_countries'][0]['name']}}
                   </span>
                 </div>

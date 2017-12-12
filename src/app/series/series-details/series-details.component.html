@@ -51,7 +51,8 @@
               <h1 class="tc-grey-300">
                 <b>{{series['vote_average']}}</b>
                 <span aria-hidden="true" class="tc-amber-300">
-                  <i aria-hidden="true" class="fa fa-star star"></i>
+                  <i *ngIf="series['vote_average'] > 7" aria-hidden="true" class="fa fa-star star"></i>
+                  <i *ngIf="series['vote_average'] <= 7" aria-hidden="true" class="fa fa-star-half-o star"></i>
                 </span>
               </h1>
             </div>

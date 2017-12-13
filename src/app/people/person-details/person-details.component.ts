@@ -56,7 +56,7 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
   constructor(private peopleService: PeopleService,
               private router: Router,
               private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
+              public _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }
@@ -102,6 +102,23 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         console.log(err);
       });
+  }
+
+  getAge(dateString: string): number {
+    const date1 = new Date(dateString);
+    const date2 = new Date(Date.now());
+    const years = date2.getFullYear() - date1.getFullYear();
+    if (date2.getMonth() > date1.getMonth()) {
+      return years;
+    } else if (date2.getMonth() === date1.getMonth()) {
+      if (date2.getDay() >= date1.getDay()) {
+        return years;
+      } else {
+        return years - 1;
+      }
+    } else {
+      return years - 1;
+    }
   }
 
   ngOnDestroy(): void {

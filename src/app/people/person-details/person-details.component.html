@@ -52,7 +52,7 @@
                   <app-limit-text [text]="person['biography']" [limit]="300"></app-limit-text>
                 </ng-template>
                 <ng-template #noLimitBlock>
-                  {{ person['biography'] }}
+                  <app-limit-text [text]="person['biography']" [limit]="850"></app-limit-text>
                 </ng-template>
               </span>
             </div>
@@ -87,7 +87,7 @@
                   <div layout="column">
                     <span class="tc-white">Birthday</span>
                     <span *ngIf="person['birthday']; else elseBlock" class="mat-body-1 tc-white fact">
-                      {{person['birthday'] | date:'d-MMM-yyyy'}}
+                      {{(person['birthday'] | date:'d-MMM-yyyy')+' ('+getAge(person['birthday'])+')'}}
                     </span>
                   </div>
                 </div>

@@ -160,7 +160,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
     } else {
-      this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': 1}]);
+      this.router.navigate(['/list-movies', this.selectedCategory, {'page': 1}]);
     }
   }
 
@@ -170,7 +170,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
    */
   changePage(event: IPageChangeEvent): void {
     this.currentPage = event.page;
-    this.router.navigate(['/list-movies', {'category': this.selectedCategory, 'page': this.currentPage}]);
+    this.router.navigate(['/list-movies', this.selectedCategory, {'page': this.currentPage}]);
   }
 
   ngOnDestroy(): void {

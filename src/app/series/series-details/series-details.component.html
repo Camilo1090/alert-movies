@@ -196,7 +196,14 @@
                    'col-6': _mediaService.query('(min-width: 361px)')}">
                 <span aria-hidden="true" layout="column" layout-align="start center"
                       class="tc-teal-A400 pad-right-sm pad-top-sm">
-                  <i aria-hidden="true" class="fa fa-globe fa-lg"></i>
+                  <span *ngIf="series['origin_country']; then flagBlock else noFlagBlock"></span>
+                  <ng-template #flagBlock>
+                    <i aria-hidden="true" class="{{'flag-icon '+'flag-icon-'
+                          +(series['origin_country'][0] | lowercase)+''}}"></i>
+                  </ng-template>
+                  <ng-template #noFlagBlock>
+                    <i aria-hidden="true" class="fa fa-globe fa-lg"></i>
+                  </ng-template>
                 </span>
                 <div layout="column">
                   <span class=" tc-white">Production Country</span>

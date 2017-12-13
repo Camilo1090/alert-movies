@@ -40,9 +40,24 @@
 <td-layout>
   <td-navigation-drawer flex sidenavTitle="Alert Movies" logo="assets:tmdb" class="sidenav bgc-grey-500" #sidenav>
     <mat-nav-list>
-      <a *ngFor="let item of routes" [routerLink]="item['route']" mat-list-item class="sidenav-item"
-         routerLinkActive="active" (click)="sidenav.close()">
-        <mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>{{ item['title'] }}
+      <a class="sidenav-item" *ngFor="let item of singular" [routerLink]="item['route']"
+         routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
+        <mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>
+        {{ item['title'] }}
+      </a>
+      <span class="pad-left-sm pad-top-sm pad-bottom-sm">Movies</span>
+      <a class="sidenav-item" *ngFor="let item of movies" [routerLink]="item['route']"
+         routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
+        <!--<mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>-->
+        <mat-icon class="{{'tc-grey-900 fa fa-lg fa-'+item['icon']}}"></mat-icon>
+        {{ item['title'] }}
+      </a>
+      <span class="pad-left-sm pad-top-sm pad-bottom-sm">TV Series</span>
+      <a class="sidenav-item" *ngFor="let item of series" [routerLink]="item['route']"
+         routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
+        <!--<mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>-->
+        <mat-icon class="{{'tc-grey-900 fa fa-lg fa-'+item['icon']}}"></mat-icon>
+        {{ item['title'] }}
       </a>
     </mat-nav-list>
   </td-navigation-drawer>
@@ -68,8 +83,8 @@
     <div class="toolbar">
       <nav mat-tab-nav-bar class="text-upper" flex layout="row" tdMediaToggle="xs" [mediaClasses]="['pad-top-xs']"
            layout-align-gt-xs="start center" layout-align-xs="center center">
-        <a mat-tab-link class="toolbar-item" [routerLink]="[route['route']]" routerLinkActive #ni="routerLinkActive"
-        [active]="ni.isActive" *ngFor="let route of routes">
+        <a mat-tab-link class="toolbar-item" *ngFor="let route of routes" [routerLink]="[route['route']]"
+           routerLinkActive #ni="routerLinkActive" [active]="ni.isActive">
           <span hide-xs>{{route['title']}}</span>
           <span hide-gt-xs><mat-icon>{{route['icon']}}</mat-icon></span>
         </a>

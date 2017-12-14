@@ -40,25 +40,40 @@
 <td-layout>
   <td-navigation-drawer flex sidenavTitle="Alert Movies" logo="assets:tmdb" class="sidenav bgc-grey-500" #sidenav>
     <mat-nav-list>
-      <a class="sidenav-item" *ngFor="let item of singular" [routerLink]="item['route']"
+      <a class="sidenav-item" [routerLink]="trending['route']" routerLinkActive="active"
+         (click)="sidenav.close()" mat-list-item>
+        <mat-icon class="tc-grey-900">{{ trending['icon'] }}</mat-icon>
+        {{ trending['title'] }}
+      </a>
+      <mat-divider class="bgc-grey-800"></mat-divider>
+      <a class="sidenav-item" *ngFor="let item of discover" [routerLink]="item['route']"
          routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
         <mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>
         {{ item['title'] }}
       </a>
-      <span class="pad-left-sm pad-top-sm pad-bottom-sm">Movies</span>
+      <mat-divider class="bgc-grey-800"></mat-divider>
+      <!--<span class="pad-left-sm pad-top-sm pad-bottom-sm">Movies</span>-->
       <a class="sidenav-item" *ngFor="let item of movies" [routerLink]="item['route']"
          routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
         <!--<mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>-->
         <mat-icon class="{{'tc-grey-900 fa fa-lg fa-'+item['icon']}}"></mat-icon>
         {{ item['title'] }}
       </a>
-      <span class="pad-left-sm pad-top-sm pad-bottom-sm">TV Series</span>
+      <mat-divider class="bgc-grey-800"></mat-divider>
+      <!--<span class="pad-left-sm pad-top-sm pad-bottom-sm">TV Series</span>-->
       <a class="sidenav-item" *ngFor="let item of series" [routerLink]="item['route']"
          routerLinkActive="active" (click)="sidenav.close()" mat-list-item>
         <!--<mat-icon class="tc-grey-900">{{ item['icon'] }}</mat-icon>-->
         <mat-icon class="{{'tc-grey-900 fa fa-lg fa-'+item['icon']}}"></mat-icon>
         {{ item['title'] }}
       </a>
+      <mat-divider class="bgc-grey-800"></mat-divider>
+      <a class="sidenav-item" [routerLink]="people['route']" routerLinkActive="active"
+         (click)="sidenav.close()" mat-list-item>
+        <mat-icon class="tc-grey-900">{{ people['icon'] }}</mat-icon>
+        {{ people['title'] }}
+      </a>
+      <mat-divider class="bgc-grey-800"></mat-divider>
     </mat-nav-list>
   </td-navigation-drawer>
   <td-layout-nav class="main">

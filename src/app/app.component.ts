@@ -13,19 +13,27 @@ export class AppComponent {
   title = 'Alert Movies';
   logo = 'assets/img/tmdb.svg';
 
-  singular: Object[] = [
+  trending = {
+    title: 'Trending',
+    route: '/trending',
+    icon: 'whatshot'
+  };
+
+  people = {
+    title: 'People',
+    route: '/list-people',
+    icon: 'people'
+  };
+
+  discover: Object[] = [
     {
-      title: 'Trending',
-      route: '/trending',
-      icon: 'whatshot'
-    }, {
-      title: 'Discover',
-      route: '/discover',
+      title: 'Discover Movies',
+      route: '/discover/movies',
       icon: 'new_releases'
     }, {
-      title: 'People',
-      route: '/list-people',
-      icon: 'people'
+      title: 'Discover TV Series',
+      route: '/discover/series',
+      icon: 'new_releases'
     }
   ];
 
@@ -83,14 +91,14 @@ export class AppComponent {
       route: '/list-movies',
       icon: 'local_movies',
     }, {
-      title: 'People',
-      route: '/list-people',
-      icon: 'people',
-    }, {
       title: 'TV Series',
       route: '/list-series',
       icon: 'tv',
-    },
+    }, {
+      title: 'People',
+      route: '/list-people',
+      icon: 'people',
+    }
   ];
 
   constructor(private _iconRegistry: MatIconRegistry,

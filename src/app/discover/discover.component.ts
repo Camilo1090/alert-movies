@@ -133,6 +133,32 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       } else {
         this.currentPage = 1;
       }
+      if (params['primary_release_year']) {
+        this.selectedYear = +params['primary_release_year'];
+      } else if (params['first_air_date_year']) {
+        this.selectedYear = +params['first_air_date_year'];
+      }
+      if (params['sort_by']) {
+        this.selectedSort = params['sort_by'];
+      } else {
+        this.selectedSort = 'popularity.desc';
+      }
+      // if (params['with_genres']) {
+      //   this.genresModel = [];
+      //   const paramGenres = params['with_genres'].split(',');
+      //   if (this.selectedCategory === 'movies') {
+      //     for (let i = 0; i < paramGenres.length; i++) {
+      //       this.genresModel.push({id: +paramGenres[i], name: MOVIE_GENRES[+paramGenres[i]]});
+      //     }
+      //   } else {
+      //     for (let i = 0; i < paramGenres.length; i++) {
+      //       this.genresModel.push({id: +paramGenres[i], name: SERIES_GENRES[+paramGenres[i]]});
+      //     }
+      //   }
+      //   this.filterGenres('');
+      // } else {
+      //   this.genresModel = [];
+      // }
       this.updateParams();
       this.updateResults();
     });
@@ -142,6 +168,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates results according to params
   updateResults(): void {
     switch (this.selectedCategory) {
       case 'movies': {
@@ -189,6 +216,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     }
   }
 
+  // updates params dictionary when changed in app
   updateParams(): void {
     this.params = [];
     this.params.push({name: 'vote_count.gte', value: 0});
@@ -200,13 +228,15 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.params.push({name: 'sort_by', value: this.selectedSort});
     if (this.genresModel.length > 0) {
       let values = '';
-      for (let i = 0; i < this.genresModel.length; i++) {
+      for (let i = 0; i < this.genresModel.length - 1; i++) {
         values += this.genresModel[i].id + ',';
       }
+      values += this.genresModel[this.genresModel.length - 1].id;
       this.params.push({name: 'with_genres', value: values});
     }
   }
 
+  // updates available genres according to media category (movies, series)
   updateGenres() {
     this.genres = [];
     switch (this.selectedCategory) {
@@ -230,6 +260,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     }
   }
 
+  // filters genres autocomplete according to user input
   filterGenres(value: string) {
     this.filteredGenres = this.genres.filter((obj: any) => {
       if (value) {
@@ -248,6 +279,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     });
   }
 
+  // event handler for genres input changed
   onGenresInputChanged(value: string) {
     // this.updateGenresInputSize(value);
     this.filterGenres(value);
@@ -273,6 +305,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     }
   }
 
+  // event handler for category select
   onCategoryChanged(): void {
     this.genresModel = [];
     this.genresInputPlaceholder = 'Filter by genres...';
@@ -281,27 +314,46 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
     } else {
-      this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
+      const routeParams = this.getRouteParams();
+      routeParams['page'] = 1;
+      this.router.navigate(['/discover', this.selectedCategory, routeParams]);
     }
   }
 
+  // event handler for filter options
   onFilterOptionsChanged() {
     this.updateParams();
     if (this.pagingBar) {
       this.updateResults();
       this.pagingBar.navigateToPage(1);
     } else {
-      this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
+      const routeParams = this.getRouteParams();
+      routeParams['page'] = 1;
+      this.router.navigate(['/discover', this.selectedCategory, routeParams]);
     }
   }
 
   /**
-   * In charge to manage the behavior of the pagination
+   * event handler for pagination component page changed
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
     this.currentPage = event.page;
-    this.router.navigate(['/discover', this.selectedCategory, {'page': this.currentPage}]);
+    this.router.navigate(['/discover', this.selectedCategory, this.getRouteParams()]);
+  }
+
+  getRouteParams(): {[param: string]: any} {
+    const routeParams = {};
+
+    routeParams['page'] = this.currentPage;
+    for (let i = 0; i < this.params.length; i++) {
+      // remove if when with_genres is supported by GET url parameter
+      if (this.params[i].name !== 'with_genres') {
+        routeParams[this.params[i].name] = this.params[i].value;
+      }
+    }
+
+    return routeParams;
   }
 
   ngOnDestroy(): void {

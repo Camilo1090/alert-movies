@@ -1,70 +1,15 @@
 <section>
   <div layout="column">
+    <!-- filters -->
     <div flex layout="row" layout-align-gt-xs="start" layout-align-xs="center" class="bgc-grey-800">
       <div [ngClass]="{'pad-top-xs pad-bottom-sm pad-left-xl pad-right-xl': _mediaService.query('gt-xs'),
            'pad-top-sm pad-bottom-md pad-left-xs pad-right-xs': _mediaService.query('(max-width: 600px)')}">
-        <div hide-sm layout-gt-xs="row" layout-xs="column" class="discover-filters col-12">
-          <div layout-gt-xs="column" layout-xs="row">
-            <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-5', 'push-top-xs']">Category: </p>
-            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-              <mat-select [(ngModel)]="selectedCategory"
-                          (ngModelChange)="onCategoryChanged()">
-                <mat-option *ngFor="let category of categories" [value]="category['value']">
-                  {{ category['viewValue'] }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-               [mediaClasses]="['pad-left-md']">
-            <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
-            <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-              <mat-select [(ngModel)]="selectedYear"
-                          (ngModelChange)="onFilterOptionsChanged()">
-                <mat-option *ngFor="let y of years" [value]="y.value">
-                  {{ y.view }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-               [mediaClasses]="['pad-left-md']">
-            <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
-            <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-              <mat-select [(ngModel)]="selectedSort"
-                          (ngModelChange)="onFilterOptionsChanged()">
-                <mat-option *ngFor="let sort of sorts" [value]="sort.value">
-                  {{ sort.view }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-               [mediaClasses]="['pad-left-md']">
-            <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-               [mediaClasses]="['col-5', 'push-top-xs']">Genres: </p>
-            <td-chips class="genres-field" tdMediaToggle="xs" [mediaClasses]="['col-7']" [items]="filteredGenres"
-                      [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
-                      (inputChange)="onGenresInputChanged($event)" (ngModelChange)="onFilterOptionsChanged()"
-                      (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
-              <ng-template td-chip let-chip="chip">
-                {{ chip.name }}
-              </ng-template>
-              <ng-template td-autocomplete-option let-option="option">
-                <div layout="row" layout-align="start center">
-                  {{ option.name }}
-                </div>
-              </ng-template>
-            </td-chips>
-          </div>
-        </div>
-        <div hide-xs hide-gt-sm *ngIf="!filter" layout="column" class="discover-filters col-12">
-          <div layout="row">
+        <div *ngIf="_mediaService.query('xs') || _mediaService.query('gt-sm'); then firstBlock else secondBlock"></div>
+        <ng-template #firstBlock>
+          <div layout="row" layout-xs="column" class="discover-filters col-12">
             <div layout-gt-xs="column" layout-xs="row">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+              <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                 [mediaClasses]="['col-5', 'push-top-xs']">Category: </p>
               <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
                 <mat-select [(ngModel)]="selectedCategory"
                             (ngModelChange)="onCategoryChanged()">
@@ -100,13 +45,14 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </div>
-          <div layout="row">
-            <div layout-gt-xs="column" layout-xs="row">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400">Genres: </p>
-              <td-chips class="genres-field" [items]="filteredGenres"
+            <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                 [mediaClasses]="['pad-left-md']">
+              <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                 [mediaClasses]="['col-5', 'push-top-xs']">Genres: </p>
+              <td-chips class="genres-field" tdMediaToggle="xs" [mediaClasses]="['col-7']" [items]="filteredGenres"
                         [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
-                        (inputChange)="onGenresInputChanged($event)" (ngModelChange)="onFilterOptionsChanged()"
+                        (inputChange)="onGenresInputChanged($event)" (add)="onFilterOptionsChanged()"
+                        (remove)="onFilterOptionsChanged()"
                         (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
                 <ng-template td-chip let-chip="chip">
                   {{ chip.name }}
@@ -119,69 +65,133 @@
               </td-chips>
             </div>
           </div>
-        </div>
-        <div hide-xs *ngIf="filter" layout="column" class="discover-filters col-12">
-          <div layout="row">
-            <div layout-gt-xs="column" layout-xs="row">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-                <mat-select [(ngModel)]="selectedCategory"
-                            (ngModelChange)="onCategoryChanged()">
-                  <mat-option *ngFor="let category of categories" [value]="category['value']">
-                    {{ category['viewValue'] }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+        </ng-template>
+        <ng-template #secondBlock>
+          <div *ngIf="!filter" layout="column" class="discover-filters col-12">
+            <div layout="row">
+              <div layout-gt-xs="column" layout-xs="row">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+                <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedCategory"
+                              (ngModelChange)="onCategoryChanged()">
+                    <mat-option *ngFor="let category of categories" [value]="category['value']">
+                      {{ category['viewValue'] }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                   [mediaClasses]="['pad-left-md']">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                   [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
+                <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedYear"
+                              (ngModelChange)="onFilterOptionsChanged()">
+                    <mat-option *ngFor="let y of years" [value]="y.value">
+                      {{ y.view }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                   [mediaClasses]="['pad-left-md']">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                   [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
+                <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedSort"
+                              (ngModelChange)="onFilterOptionsChanged()">
+                    <mat-option *ngFor="let sort of sorts" [value]="sort.value">
+                      {{ sort.view }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
-            <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-                 [mediaClasses]="['pad-left-md']">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
-              <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-                <mat-select [(ngModel)]="selectedYear"
-                            (ngModelChange)="onFilterOptionsChanged()">
-                  <mat-option *ngFor="let y of years" [value]="y.value">
-                    {{ y.view }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div layout="row">
+              <div layout-gt-xs="column" layout-xs="row">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400">Genres: </p>
+                <td-chips class="genres-field" [items]="filteredGenres"
+                          [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
+                          (inputChange)="onGenresInputChanged($event)" (add)="onFilterOptionsChanged()"
+                          (remove)="onFilterOptionsChanged()"
+                          (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
+                  <ng-template td-chip let-chip="chip">
+                    {{ chip.name }}
+                  </ng-template>
+                  <ng-template td-autocomplete-option let-option="option">
+                    <div layout="row" layout-align="start center">
+                      {{ option.name }}
+                    </div>
+                  </ng-template>
+                </td-chips>
+              </div>
             </div>
           </div>
-          <div layout="row">
-            <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-                 [mediaClasses]="['pad-left-none']">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
-                 [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
-              <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
-                <mat-select [(ngModel)]="selectedSort"
-                            (ngModelChange)="onFilterOptionsChanged()">
-                  <mat-option *ngFor="let sort of sorts" [value]="sort.value">
-                    {{ sort.view }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+          <div *ngIf="filter" layout="column" class="discover-filters col-12">
+            <div layout="row">
+              <div layout-gt-xs="column" layout-xs="row">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400">Category: </p>
+                <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedCategory"
+                              (ngModelChange)="onCategoryChanged()">
+                    <mat-option *ngFor="let category of categories" [value]="category['value']">
+                      {{ category['viewValue'] }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                   [mediaClasses]="['pad-left-md']">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                   [mediaClasses]="['col-5', 'push-top-xs']">Year: </p>
+                <mat-form-field class="category-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedYear"
+                              (ngModelChange)="onFilterOptionsChanged()">
+                    <mat-option *ngFor="let y of years" [value]="y.value">
+                      {{ y.view }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
-            <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
-                 [mediaClasses]="['pad-left-md']">
-              <p class="title push-bottom-xs push-top-sm tc-teal-A400">Genres: </p>
-              <td-chips class="genres-field" [items]="filteredGenres"
-                        [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
-                        (inputChange)="onGenresInputChanged($event)" (ngModelChange)="onFilterOptionsChanged()"
-                        (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
-                <ng-template td-chip let-chip="chip">
-                  {{ chip.name }}
-                </ng-template>
-                <ng-template td-autocomplete-option let-option="option">
-                  <div layout="row" layout-align="start center">
-                    {{ option.name }}
-                  </div>
-                </ng-template>
-              </td-chips>
+            <div layout="row">
+              <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                   [mediaClasses]="['pad-left-none']">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400" tdMediaToggle="xs"
+                   [mediaClasses]="['col-5', 'push-top-xs']">Sort By: </p>
+                <mat-form-field class="sort-field pad-left-xs" tdMediaToggle="xs" [mediaClasses]="['col-7']">
+                  <mat-select [(ngModel)]="selectedSort"
+                              (ngModelChange)="onFilterOptionsChanged()">
+                    <mat-option *ngFor="let sort of sorts" [value]="sort.value">
+                      {{ sort.view }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div layout-gt-xs="column" layout-xs="row" tdMediaToggle="gt-xs"
+                   [mediaClasses]="['pad-left-md']">
+                <p class="title push-bottom-xs push-top-sm tc-teal-A400">Genres: </p>
+                <td-chips class="genres-field" [items]="filteredGenres"
+                          [(ngModel)]="genresModel" debounce="0" [placeholder]="genresInputPlaceholder" requireMatch
+                          (inputChange)="onGenresInputChanged($event)" (add)="onFilterOptionsChanged()"
+                          (remove)="onFilterOptionsChanged()"
+                          (click)="showAllGenres()" (focusin)="onFocusIn()" (focusout)="onFocusOut()">
+                  <ng-template td-chip let-chip="chip">
+                    {{ chip.name }}
+                  </ng-template>
+                  <ng-template td-autocomplete-option let-option="option">
+                    <div layout="row" layout-align="start center">
+                      {{ option.name }}
+                    </div>
+                  </ng-template>
+                </td-chips>
+              </div>
             </div>
           </div>
-        </div>
+        </ng-template>
       </div>
     </div>
+    <!-- results -->
     <div flex layout="column" tdMediaToggle="gt-xs" class="pad-bottom-md"
          [mediaClasses]="['results', 'pad-top-sm', 'pad-left-md', 'pad-right-md']">
       <div layout="row" layout-align-gt-xs="start center" layout-align-xs="center center">
@@ -212,11 +222,6 @@
           </mat-grid-list>
         </div>
       </div>
-      <ng-template #noResultsBlock>
-        <div class="push-left-md push-top-sm">
-          <span class="tc-grey-900">No results were found.</span>
-        </div>
-      </ng-template>
       <div *ngIf="results.length > 0" layout-xs="column" layout-gt-xs="row" layout-align-xs="center center"
            layout-align-sm="center center" layout-align-gt-sm="end center" class="push-top-sm">
         <div>
@@ -231,3 +236,9 @@
     </div>
   </div>
 </section>
+
+<ng-template #noResultsBlock>
+  <div class="push-left-md push-top-sm">
+    <span class="tc-grey-900">No results were found.</span>
+  </div>
+</ng-template>

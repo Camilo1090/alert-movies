@@ -128,7 +128,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         if (params['page'] <= 1000) {
           this.currentPage = params['page'];
         } else {
-          this.router.navigate(['/discover', {'category': this.selectedCategory, 'page': 1}]);
+          this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
         }
       } else {
         this.currentPage = 1;
@@ -281,16 +281,17 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
     } else {
-      this.router.navigate(['/discover', {'category': this.selectedCategory, 'page': 1}]);
+      this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
     }
   }
 
   onFilterOptionsChanged() {
     this.updateParams();
-    this.updateResults();
-    this.currentPage = 1;
     if (this.pagingBar) {
+      this.updateResults();
       this.pagingBar.navigateToPage(1);
+    } else {
+      this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
     }
   }
 
@@ -300,7 +301,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
    */
   changePage(event: IPageChangeEvent): void {
     this.currentPage = event.page;
-    this.router.navigate(['/discover', {'category': this.selectedCategory, 'page': this.currentPage}]);
+    this.router.navigate(['/discover', this.selectedCategory, {'page': this.currentPage}]);
   }
 
   ngOnDestroy(): void {

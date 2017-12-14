@@ -17,7 +17,8 @@ import { DiscoverComponent } from './discover/discover.component';
 const routes: Routes = [
   { path: '', redirectTo: '/trending', pathMatch: 'full' },
   { path: 'trending',  component: TrendingComponent },
-  { path: 'discover',  component: DiscoverComponent },
+  { path: 'discover', redirectTo: '/discover/movies', pathMatch: 'full' },
+  { path: 'discover/:category',  component: DiscoverComponent },
   { path: 'list-movies', redirectTo: '/list-movies/popular', pathMatch: 'full' },
   { path: 'list-movies/:category', component: ListMoviesComponent },
   { path: 'list-people', component: ListPeopleComponent },

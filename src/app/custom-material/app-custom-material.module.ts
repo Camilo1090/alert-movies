@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
 
 // Material components
-import { MatAutocompleteModule, MatListModule } from '@angular/material';
+import { MatListModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatIconRegistry } from '@angular/material';
 import { MatMenuModule } from '@angular/material';
@@ -52,7 +52,6 @@ import { CovalentChipsModule } from '@covalent/core';
     MatToolbarModule,
     MatGridListModule,
     MatSelectModule,
-    MatAutocompleteModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,
@@ -81,7 +80,6 @@ import { CovalentChipsModule } from '@covalent/core';
     MatToolbarModule,
     MatGridListModule,
     MatSelectModule,
-    MatAutocompleteModule,
     CovalentLayoutModule,
     CovalentMenuModule,
     CovalentSearchModule,

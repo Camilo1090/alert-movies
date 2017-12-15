@@ -2,7 +2,7 @@
 @import '~@covalent/core/theming/all-theme';
 
 // (optional) Additional themes
-@import '~@covalent/markdown/markdown-theme';
+//@import '~@covalent/markdown/markdown-theme';
 @import '~@covalent/highlight/highlight-theme';
 
 @include mat-core();
@@ -19,5 +19,5 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include covalent-theme($theme);
 
 // (optional) Additional themes
-@include covalent-markdown-theme($theme);
+//@include covalent-markdown-theme($theme);
 @include covalent-highlight-theme();

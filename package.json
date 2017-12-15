@@ -27,7 +27,6 @@
     "@covalent/dynamic-forms": "^1.0.0-beta.8-1",
     "@covalent/highlight": "^1.0.0-beta.8-1",
     "@covalent/http": "^1.0.0-beta.8-1",
-    "@covalent/markdown": "^1.0.0-beta.8-1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.6",
     "angular-modal-gallery": "^4.0.1",
     "bootstrap": "^4.0.0-beta.2",

@@ -60,7 +60,7 @@ export class SeriesRecommendationsComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.seriesService
       .getSeriesRecommendations(params['id'], page))
       .subscribe(response => {
-        this.recommendations = response['results'];
+        this.recommendations = response['results'].sort((a: any, b: any) => b['popularity'] - a['popularity']);
         this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
         this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
         this.resolveLoading();

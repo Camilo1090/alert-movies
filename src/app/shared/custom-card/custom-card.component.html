@@ -11,6 +11,7 @@
 <!--</div>-->
 
 <div [ngSwitch]="media">
+  <!-- movie card -->
   <mat-card *ngSwitchCase="'movie'" class="custom-card">
     <div class="hovereffect backdrop">
       <div class="card-image">
@@ -19,9 +20,14 @@
       <div class="overlay" layout="row" layout-align="center end">
         <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
           <div layout="row" layout-align="start center" flex="80">
-            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-              {{ title }}
-            </p>
+            <div layout="column">
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                {{ title }}
+              </p>
+              <p class="text-micro tc-grey-300 push-left-sm push-bottom-none" *ngIf="subText">
+                <i>{{ subText }}</i>
+              </p>
+            </div>
           </div>
           <div layout="row" layout-align="end center" flex="20">
             <div layout="row" layout-align="end center" class="media-rating">
@@ -38,6 +44,7 @@
       </div>
     </div>
   </mat-card>
+  <!-- tv series card -->
   <mat-card *ngSwitchCase="'series'" class="custom-card">
     <div class="hovereffect backdrop">
       <div class="card-image">
@@ -46,9 +53,14 @@
       <div class="overlay" layout="row" layout-align="center end">
         <div class="card-content pad-top-sm pad-bottom-sm pad-left-md pad-right-md" layout="row" flex>
           <div layout="row" layout-align="start center" flex="80">
-            <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
-              {{ title }}
-            </p>
+            <div layout="column">
+              <p class="mat-subhead tc-grey-200 push-top-none push-bottom-none">
+                {{ title }}
+              </p>
+              <p class="text-micro tc-grey-300 push-left-sm push-bottom-none" *ngIf="subText">
+                <i>{{ subText }}</i>
+              </p>
+            </div>
           </div>
           <div layout="row" layout-align="end center" flex="20">
             <div layout="row" layout-align="end center" class="media-rating">
@@ -65,6 +77,7 @@
       </div>
     </div>
   </mat-card>
+  <!-- person card -->
   <mat-card *ngSwitchCase="'person'" class="custom-card">
     <div class="hovereffect">
       <div class="card-image-person">
@@ -78,7 +91,7 @@
             </p>
           </div>
           <div layout="row" layout-align="start center" *ngIf="subText">
-            <p class="text-micro tc-grey-400 push-left-sm push-bottom-none">
+            <p class="text-micro tc-grey-300 push-left-sm push-bottom-none">
               <i>{{ subText }}</i>
             </p>
           </div>
@@ -86,6 +99,7 @@
       </div>
     </div>
   </mat-card>
+  <!-- backdrop image card -->
   <mat-card *ngSwitchCase="'backdrop'" class="custom-card pointer">
     <div class="hovereffect backdrop">
       <div class="card-image">
@@ -102,6 +116,7 @@
       </div>
     </div>
   </mat-card>
+  <!-- poster image card -->
   <mat-card *ngSwitchCase="'poster'" class="custom-card pointer">
     <div class="hovereffect">
       <div class="card-image-person">

@@ -56,13 +56,21 @@ export class PersonMoviesComponent implements OnInit, OnDestroy {
       .getPersonMovies(params['id']))
       .subscribe(response => {
         if (response['cast'].length >= response['crew'].length) {
-          this.movies = response['cast'].sort((a, b) => b['vote_average'] - a['vote_average']);
+          this.movies = response['cast'].sort((a, b) => b['popularity'] - a['popularity']);
         } else {
-          this.movies = response['crew'].sort((a, b) => b['vote_average'] - a['vote_average']);
+          this.movies = response['crew'].sort((a, b) => b['popularity'] - a['popularity']);
         }
         this.movies = this.movies.slice(0, 20);
         this.resolveLoading();
       });
+  }
+
+  getCharacter(result: any): string {
+    let character = '';
+    if (result['character']) {
+      character = 'as ' + result['character'];
+    }
+    return character;
   }
 
   ngOnDestroy(): void {

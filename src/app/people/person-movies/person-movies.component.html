@@ -12,7 +12,7 @@
           <mat-grid-tile *ngFor="let movie of movies" [colspan]="1" [rowspan]="1">
             <a [routerLink]="['/movie', movie['id']]">
               <app-custom-card [media]="'movie'" [img]="movie['backdrop_path']" [title]="movie['title']"
-                               [rating]="movie['vote_average']"></app-custom-card>
+                               [rating]="movie['vote_average']" [subText]="getCharacter(movie)"></app-custom-card>
             </a>
           </mat-grid-tile>
         </mat-grid-list>

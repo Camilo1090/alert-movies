@@ -51,7 +51,7 @@ export class SeriesCastComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.seriesService
       .getSeriesCredits(params['id']))
       .subscribe(response => {
-        this.seriesCast = response['cast'].sort((a, b) => b['popularity'] - a['popularity']).slice(0, 20);
+        this.seriesCast = response['cast'].slice(0, 20);
         this.resolveLoading();
       });
   }

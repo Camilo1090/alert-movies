@@ -91,7 +91,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   genres = [];
   genresModel = [];
   filteredGenres = [];
-  genresInputValue = '';
   genresInputPlaceholder = 'Filter by genres...';
 
   // Used for the pagination
@@ -237,7 +236,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   // updates available genres according to media category (movies, series)
-  updateGenres() {
+  updateGenres(): void {
     this.genres = [];
     switch (this.selectedCategory) {
       case 'movies': {
@@ -261,7 +260,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   // filters genres autocomplete according to user input
-  filterGenres(value: string) {
+  filterGenres(value: string): void {
     this.filteredGenres = this.genres.filter((obj: any) => {
       if (value) {
         return obj.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
@@ -273,19 +272,19 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     });
   }
 
-  showAllGenres() {
+  showAllGenres(): void {
     this.filteredGenres = this.genres.filter((filteredObj: any) => {
       return this.genresModel ? this.genresModel.indexOf(filteredObj) < 0 : true;
     });
   }
 
   // event handler for genres input changed
-  onGenresInputChanged(value: string) {
+  onGenresInputChanged(value: string): void {
     // this.updateGenresInputSize(value);
     this.filterGenres(value);
   }
 
-  onFocusIn() {
+  onFocusIn(): void {
     this.genresInputPlaceholder = '';
     // if (this.genresInputValue.length === 0) {
     //   this.updateGenresInputSize(this.genresInputPlaceholder);
@@ -294,7 +293,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     // }
   }
 
-  onFocusOut() {
+  onFocusOut(): void {
     if (this.genresModel.length === 0) {
       this.genresInputPlaceholder = 'Filter by genres...';
       // if (this.genresInputValue.length === 0) {
@@ -321,7 +320,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   // event handler for filter options
-  onFilterOptionsChanged() {
+  onFilterOptionsChanged(): void {
     this.updateParams();
     if (this.pagingBar) {
       this.updateResults();

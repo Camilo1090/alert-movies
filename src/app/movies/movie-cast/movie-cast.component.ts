@@ -52,7 +52,7 @@ export class MovieCastComponent implements OnInit, OnDestroy {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieCredits(params['id']))
       .subscribe(response => {
-        this.movieCast = response['cast'].sort((a, b) => b['popularity'] - a['popularity']).slice(0, 20);
+        this.movieCast = response['cast'].slice(0, 20);
         this.resolveLoading();
       });
   }

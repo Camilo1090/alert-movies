@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { AppRoutingModule } from '../app-routing.module';
@@ -20,6 +20,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
+
+import * as movies from '../testing/movies.json';
+import * as series from '../testing/series.json';
+import * as people from '../testing/people.json';
 
 import { TrendingComponent } from '../trending/trending.component';
 import { ListMoviesComponent } from '../movies/list-movies/list-movies.component';
@@ -50,10 +54,6 @@ import { CustomCardComponent } from '../shared/custom-card/custom-card.component
 import { LimitTextComponent } from '../shared/limit-text/limit-text.component';
 import { SearchService } from './shared/search.service';
 import { API } from '../shared/api/api';
-
-import * as movies from '../testing/movies.json';
-import * as series from '../testing/series.json';
-import * as people from '../testing/people.json';
 
 
 describe('Search component test', () => {

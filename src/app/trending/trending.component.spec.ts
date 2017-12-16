@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { AppRoutingModule } from '../app-routing.module';

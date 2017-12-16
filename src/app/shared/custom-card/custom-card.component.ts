@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { API } from '../api/api';
 
 @Component({
@@ -6,7 +6,7 @@ import { API } from '../api/api';
   templateUrl: './custom-card.component.html',
   styleUrls: ['./custom-card.component.css']
 })
-export class CustomCardComponent implements OnInit {
+export class CustomCardComponent {
 
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
@@ -57,8 +57,5 @@ export class CustomCardComponent implements OnInit {
   }
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 }

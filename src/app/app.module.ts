@@ -47,6 +47,7 @@ import { MoviesService } from './movies/shared/movies.service';
 import { SeriesService } from './series/shared/series.service';
 import { DiscoverService } from './discover/shared/discover.service';
 import { PeopleService } from './people/shared/people.service';
+import { TdMediaService } from '@covalent/core';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { PeopleService } from './people/shared/people.service';
     MoviesService,
     SeriesService,
     PeopleService,
-    SearchService
+    SearchService,
+    TdMediaService
   ],
   bootstrap: [AppComponent]
 })

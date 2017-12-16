@@ -20,14 +20,12 @@ import { SearchService } from './shared/search.service';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
-  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
-  isDesktop = false;
   columns: number;
   columnsPeople: number;
   private _querySubscription: Subscription;
@@ -54,8 +52,7 @@ export class SearchComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               public router: Router,
               public _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+              public _ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -63,18 +60,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.ready = false;
       if (params['media']) {
         this.media = params['media'];
-      } else {
-        this.media = 'movie';
       }
       if (params['query']) {
         this.query = params['query'];
-      } else {
-        this.query = '';
       }
       if (params['page']) {
         this.currentPage = params['page'];
-      } else {
-        this.currentPage = 1;
       }
       this.updateSearchResults();
     });
@@ -93,20 +84,13 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
             this.totalResults = this.totalMovies;
             this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-            // this.resolveLoading();
             this.ready = true;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
             this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
             this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
         }
           break;
@@ -116,20 +100,13 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
             this.totalResults = this.totalSeries;
             this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-            // this.resolveLoading();
             this.ready = true;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
             this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
             this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
         }
           break;
@@ -139,20 +116,13 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
             this.totalResults = this.totalPeople;
             this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-            // this.resolveLoading();
             this.ready = true;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
             this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
           this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
             this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          }, err => {
-            console.log(err);
           });
         }
       }
@@ -229,27 +199,22 @@ export class SearchComponent implements OnInit, OnDestroy {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
         this.columnsPeople = 2;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
         this.columnsPeople = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
         this.columnsPeople = 3;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
         this.columnsPeople = 4;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
         this.columnsPeople = 5;
-        this.isDesktop = true;
       }
     });
   }
@@ -259,64 +224,50 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   watchScreen(): void {
     // this.columns = 5;
-    this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        if (matches) {
-          this.columns = 1;
-          this.columnsPeople = 2;
-          this.isDesktop = false;
-        }
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.columns = 1;
+            this.columnsPeople = 2;
+          }
+        });
       });
-    });
-    this._querySubscription = this._mediaService.registerQuery('(max-width: 375px)').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        if (matches) {
-          this.columns = 1;
-          this.columnsPeople = 1;
-          this.isDesktop = false;
-        }
+    this._querySubscription = this._mediaService.registerQuery('(max-width: 375px)')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.columns = 1;
+            this.columnsPeople = 1;
+          }
+        });
       });
-    });
-    this._querySubscription = this._mediaService.registerQuery('gt-xs').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        if (matches) {
-          this.columns = 2;
-          this.columnsPeople = 3;
-          this.isDesktop = false;
-        }
+    this._querySubscription = this._mediaService.registerQuery('gt-xs')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.columns = 2;
+            this.columnsPeople = 3;
+          }
+        });
       });
-    });
-    this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        if (matches) {
-          this.columns = 3;
-          this.columnsPeople = 4;
-          this.isDesktop = true;
-        }
+    this._querySubscription = this._mediaService.registerQuery('gt-sm')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.columns = 3;
+            this.columnsPeople = 4;
+          }
+        });
       });
-    });
-    this._querySubscription = this._mediaService.registerQuery('gt-md').subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        if (matches) {
-          this.columns = 4;
-          this.columnsPeople = 5;
-          this.isDesktop = true;
-        }
+    this._querySubscription = this._mediaService.registerQuery('gt-md')
+      .subscribe((matches: boolean) => {
+        this._ngZone.run(() => {
+          if (matches) {
+            this.columns = 4;
+            this.columnsPeople = 5;
+          }
+        });
       });
-    });
   }
-
-  // Methods for the loading
-  registerLoading(): void {
-    this._loadingService.register('search');
-  }
-
-  resolveLoading(): void {
-    this._loadingService.resolve('search');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('search', value);
-  }
-
 }

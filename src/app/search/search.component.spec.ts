@@ -1,11 +1,28 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { ListMoviesComponent } from '../movies/list-movies/list-movies.component';
-import {APP_BASE_HREF, CommonModule} from '@angular/common';
-import {AppRoutingModule} from '../app-routing.module';
-import {BrowserModule} from '@angular/platform-browser';
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
+import { AppRoutingModule } from '../app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { Dir } from '@angular/cdk/bidi';
+import {
+  MatButtonModule, MatCardModule, MatDialogModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule,
+  MatMenuModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatTooltipModule
+} from '@angular/material';
+import {
+  CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
+  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
+  TdPagingBarComponent
+} from '@covalent/core';
+import { CovalentHttpModule } from '@covalent/http';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalGalleryModule } from 'angular-modal-gallery';
 
 import { TrendingComponent } from '../trending/trending.component';
+import { ListMoviesComponent } from '../movies/list-movies/list-movies.component';
 import { MovieDetailsComponent } from '../movies/movie-details/movie-details.component';
 import { ListPeopleComponent } from '../people/list-people/list-people.component';
 import { ListSeriesComponent } from '../series/list-series/list-series.component';
@@ -29,37 +46,21 @@ import { SearchComponent } from './search.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { DiscoverComponent } from '../discover/discover.component';
-import {Component, EventEmitter, Injectable, NgZone} from '@angular/core';
-import {
-  MatButtonModule, MatCardModule, MatDialogModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule,
-  MatMenuModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatTooltipModule
-} from '@angular/material';
-import {
-  CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
-  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
-  TdPagingBarComponent
-} from '@covalent/core';
-import {CovalentHttpModule} from '@covalent/http';
-import {FormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CustomCardComponent} from '../shared/custom-card/custom-card.component';
-import {ModalGalleryModule} from 'angular-modal-gallery';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {LimitTextComponent} from '../shared/limit-text/limit-text.component';
-import {SearchService} from "./shared/search.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {API} from "../shared/api/api";
+import { CustomCardComponent } from '../shared/custom-card/custom-card.component';
+import { LimitTextComponent } from '../shared/limit-text/limit-text.component';
+import { SearchService } from './shared/search.service';
+import { API } from '../shared/api/api';
 
 import * as movies from '../testing/movies.json';
 import * as series from '../testing/series.json';
 import * as people from '../testing/people.json';
-import {Dir} from "@angular/cdk/bidi";
 
 
 describe('Search component test', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
+
+  // Spy creation
 
   // Search
   const searchMoviesSpy = jasmine.createSpy('searchMovies')
@@ -68,9 +69,6 @@ describe('Search component test', () => {
     .and.returnValue(Observable.of(series));
   const searchPeopleSpy = jasmine.createSpy('searchPeople')
     .and.returnValue(Observable.of(people));
-
-  // NgZone
-  const ngZoneRunSpy = jasmine.createSpy('run').and.callFake(fn => fn());
 
   // TdMediaQuery
   const mediaQuerySpy = jasmine.createSpy('query')

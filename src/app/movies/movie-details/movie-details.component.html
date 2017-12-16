@@ -52,7 +52,9 @@
                 <b>{{movie['vote_average']}}</b>
                 <span aria-hidden="true" class="tc-amber-300">
                   <i *ngIf="movie['vote_average'] > 7" aria-hidden="true" class="fa fa-star star"></i>
-                  <i *ngIf="movie['vote_average'] <= 7" aria-hidden="true" class="fa fa-star-half-o star"></i>
+                  <i *ngIf="movie['vote_average'] <= 7 && movie['vote_average'] >= 3"
+                     aria-hidden="true" class="fa fa-star-half-o star"></i>
+                  <i *ngIf="movie['vote_average'] < 3" aria-hidden="true" class="fa fa-star-o star"></i>
                 </span>
               </h1>
             </div>

@@ -1,7 +1,8 @@
 {
   "results": [
     {
-      "title": "myMovie"
+      "title": "myMovie",
+      "backdrop": "/myBackdrop.jpg"
     }
   ],
   "total_results": 1,

@@ -1,19 +1,13 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { IPageChangeEvent } from '@covalent/core';
-
-// For pagination
-import { TdMediaService } from '@covalent/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, NgZone, OnInit } from '@angular/core';
 
 // Load shared
 import { TdLoadingService } from '@covalent/core';
 
 // carousel config
-import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 // api
-import { API} from '../shared/api/api';
-import { MOVIE_GENRES } from '../shared/api/genres';
+import { API } from '../shared/api/api';
 
 // services
 import { MoviesService } from '../movies/shared/movies.service';
@@ -25,23 +19,17 @@ import { SeriesService } from '../series/shared/series.service';
   styleUrls: ['./trending.component.css'],
   providers: [ NgbCarouselConfig ]
 })
-export class TrendingComponent implements OnInit, OnDestroy {
-  // Used for responsive services
-  isDesktop = false;
-  querySize = 'gt-xs';
-  private _querySubscription: Subscription;
+export class TrendingComponent implements OnInit {
 
-  response = [];
   movies = [];
   series = [];
   apiImg = API.apiImg + 'w1280';
 
-  constructor(private moviesService: MoviesService,
-              private seriesService: SeriesService,
+  constructor(public moviesService: MoviesService,
+              public seriesService: SeriesService,
               private carouselConfig: NgbCarouselConfig,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
     carouselConfig.interval = 3000;
   }
 
@@ -50,48 +38,21 @@ export class TrendingComponent implements OnInit, OnDestroy {
 
     this.updateMovies(1);
     this.updateSeries(1);
-
-    this.checkScreen();
-    this.watchScreen();
   }
 
+  // updates movie results for the carousel
   updateMovies(page: number): void {
-    this.moviesService.getPopularMovies(page).subscribe(movies => {
-      this.response = movies;
-      this.movies = movies['results'].slice(0, 10).filter(a => a['backdrop_path']);
+    this.moviesService.getPopularMovies(page).subscribe(response => {
+      this.movies = response['results'].slice(0, 10).filter(a => a['backdrop_path']);
       this.resolveMoviesLoading();
     });
   }
 
+  // updates tv series results for the carousel
   updateSeries(page: number): void {
-    this.seriesService.getPopularSeries(page).subscribe(series => {
-      this.response = series;
-      this.series = series['results'].slice(0, 10).filter(a => a['backdrop_path']);
+    this.seriesService.getPopularSeries(page).subscribe(response => {
+      this.series = response['results'].slice(0, 10).filter(a => a['backdrop_path']);
       this.resolveSeriesLoading();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
-  }
-
-  /**
-   * Check the size of the screen
-   */
-  checkScreen(): void {
-    this._ngZone.run(() => {
-      this.isDesktop = this._mediaService.query(this.querySize);
-    });
-  }
-
-  /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
-   */
-  watchScreen(): void {
-    this._querySubscription = this._mediaService.registerQuery(this.querySize).subscribe((matches: boolean) => {
-      this._ngZone.run(() => {
-        this.isDesktop = matches;
-      });
     });
   }
 
@@ -107,9 +68,5 @@ export class TrendingComponent implements OnInit, OnDestroy {
 
   resolveSeriesLoading(): void {
     this._loadingService.resolve('series');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movies', value);
   }
 }

@@ -21,7 +21,7 @@ import { MoviesService } from '../shared/movies.service';
   selector: 'app-movie-recommendations',
   templateUrl: './movie-recommendations.component.html',
   styleUrls: ['./movie-recommendations.component.css'],
-  providers: [ MoviesService, TdMediaService ],
+  providers: [ TdMediaService ],
   // encapsulation: ViewEncapsulation.None
 })
 export class MovieRecommendationsComponent implements OnInit, OnDestroy {
@@ -63,7 +63,7 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
       .getMovieRecommendations(params['id'], page))
       .subscribe(response => {
         this.recommendations = response['results'].sort((a: any, b: any) => b['popularity'] - a['popularity']);
-        console.log(this.recommendations);
+        // console.log(this.recommendations);
         this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
         this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
         this.resolveLoading();

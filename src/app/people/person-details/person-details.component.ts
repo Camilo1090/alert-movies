@@ -20,7 +20,7 @@ import { PeopleService } from '../shared/people.service';
   selector: 'app-person-details',
   templateUrl: './person-details.component.html',
   styleUrls: ['./person-details.component.css'],
-  providers: [ PeopleService, TdMediaService ]
+  providers: [ TdMediaService ]
 })
 export class PersonDetailsComponent implements OnInit, OnDestroy {
 

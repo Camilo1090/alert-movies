@@ -21,7 +21,7 @@ import {Observable} from "rxjs/Observable";
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.css'],
-  providers: [ MoviesService, TdMediaService ],
+  providers: [ TdMediaService ],
   // encapsulation: ViewEncapsulation.None
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {

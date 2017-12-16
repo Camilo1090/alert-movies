@@ -20,7 +20,7 @@ import { MoviesService } from '../shared/movies.service';
   selector: 'app-list-movies',
   templateUrl: './list-movies.component.html',
   styleUrls: ['./list-movies.component.css'],
-  providers: [ MoviesService, TdMediaService ],
+  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListMoviesComponent implements OnInit, OnDestroy {

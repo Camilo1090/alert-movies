@@ -23,7 +23,7 @@ import { SeriesService } from '../series/shared/series.service';
   selector: 'app-trending',
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css'],
-  providers: [ MoviesService, SeriesService, NgbCarouselConfig ]
+  providers: [ NgbCarouselConfig ]
 })
 export class TrendingComponent implements OnInit, OnDestroy {
   // Used for responsive services

@@ -41,39 +41,41 @@
           <span *ngSwitchCase="'person'">People Results</span>
         </h2>
       </div>
-      <div flex [ngSwitch]="media"
-           *tdLoading="'search'; mode:'indeterminate'; type:'circle'; strategy:'replace'; color:'accent'">
-        <div flex *ngSwitchCase="'movie'" >
-          <mat-grid-list *ngIf="totalMovies > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
-            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <a [routerLink]="['/movie', result['id']]">
-                <app-custom-card [media]="'movie'" [img]="result['backdrop_path']" [title]="result['title']"
-                                 [rating]="result['vote_average']"></app-custom-card>
-              </a>
-            </mat-grid-tile>
-          </mat-grid-list>
+      <ng-template tdLoading tdLoadingType="circular" tdLoadingStrategy="replace" tdLoadingColor="accent"
+                   [tdLoadingUntil]="ready">
+        <div flex [ngSwitch]="media">
+          <div flex *ngSwitchCase="'movie'" >
+            <mat-grid-list *ngIf="totalMovies > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
+              <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+                <a [routerLink]="['/movie', result['id']]">
+                  <app-custom-card [media]="'movie'" [img]="result['backdrop_path']" [title]="result['title']"
+                                   [rating]="result['vote_average']"></app-custom-card>
+                </a>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+          <div flex *ngSwitchCase="'series'">
+            <mat-grid-list *ngIf="totalSeries > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
+              <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+                <a [routerLink]="['/series', result['id']]">
+                  <app-custom-card [media]="'series'" [img]="result['backdrop_path']" [title]="result['name']"
+                                   [rating]="result['vote_average']"></app-custom-card>
+                </a>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+          <div flex *ngSwitchCase="'person'">
+            <mat-grid-list *ngIf="totalPeople > 0; else noResultsBlock" cols="{{columnsPeople}}" rowHeight="500:750">
+              <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
+                <a [routerLink]="['/person', result['id']]">
+                  <app-custom-card [media]="'person'" [img]="result['profile_path']" [title]="result['name']"
+                                   [subText]="getKnownFor(result)"></app-custom-card>
+                </a>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
         </div>
-        <div flex *ngSwitchCase="'series'">
-          <mat-grid-list *ngIf="totalSeries > 0; else noResultsBlock" cols="{{columns}}" rowHeight="6.5:4">
-            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <a [routerLink]="['/series', result['id']]">
-                <app-custom-card [media]="'series'" [img]="result['backdrop_path']" [title]="result['name']"
-                                 [rating]="result['vote_average']"></app-custom-card>
-              </a>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-        <div flex *ngSwitchCase="'person'">
-          <mat-grid-list *ngIf="totalPeople > 0; else noResultsBlock" cols="{{columnsPeople}}" rowHeight="500:750">
-            <mat-grid-tile *ngFor="let result of results" [colspan]="1" [rowspan]="1">
-              <a [routerLink]="['/person', result['id']]">
-                <app-custom-card [media]="'person'" [img]="result['profile_path']" [title]="result['name']"
-                                 [subText]="getKnownFor(result)"></app-custom-card>
-              </a>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-      </div>
+      </ng-template>
       <ng-template #elseBlock>
         <img mat-card-image src="assets/img/no-img.png" class="img-fluid" />
       </ng-template>

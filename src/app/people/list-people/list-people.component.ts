@@ -20,7 +20,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   selector: 'app-list-people',
   templateUrl: './list-people.component.html',
   styleUrls: ['./list-people.component.css'],
-  providers: [ PeopleService, TdMediaService ],
+  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListPeopleComponent implements OnInit, OnDestroy {

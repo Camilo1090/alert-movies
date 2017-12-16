@@ -23,7 +23,7 @@ import {API} from '../../shared/api/api';
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css'],
-  providers: [ SearchService ],
+  providers: [  ],
   encapsulation: ViewEncapsulation.None
 })
 export class SearchBarComponent implements OnInit {

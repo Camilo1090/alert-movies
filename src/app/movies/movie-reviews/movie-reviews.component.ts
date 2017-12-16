@@ -24,7 +24,7 @@ import { FormatStringPipe } from '../../shared/format-string/format-string.pipe'
   selector: 'app-movie-reviews',
   templateUrl: './movie-reviews.component.html',
   styleUrls: ['./movie-reviews.component.css'],
-  providers: [ MoviesService, TdMediaService ],
+  providers: [ TdMediaService ],
   // encapsulation: ViewEncapsulation.None
 })
 export class MovieReviewsComponent implements OnInit, OnDestroy {

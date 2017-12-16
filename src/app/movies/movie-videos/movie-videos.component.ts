@@ -21,7 +21,7 @@ import { MoviesService } from '../shared/movies.service';
   selector: 'app-movie-videos',
   templateUrl: './movie-videos.component.html',
   styleUrls: ['./movie-videos.component.css'],
-  providers: [ MoviesService, TdMediaService ]
+  providers: [ TdMediaService ]
 })
 export class MovieVideosComponent implements OnInit, OnDestroy {
 

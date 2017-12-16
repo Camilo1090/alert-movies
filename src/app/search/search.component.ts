@@ -20,7 +20,7 @@ import { SearchService } from './shared/search.service';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
-  providers: [ SearchService, TdMediaService ],
+  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit, OnDestroy {
@@ -31,6 +31,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   columns: number;
   columnsPeople: number;
   private _querySubscription: Subscription;
+  ready = false;
 
   // search
   media = 'movie';
@@ -40,33 +41,26 @@ export class SearchComponent implements OnInit, OnDestroy {
   firstLast = true;
   totalPages: number;
   totalResults: number;
-  totalMovies: number;
-  totalSeries: number;
-  totalPeople: number;
+  totalMovies = 0;
+  totalSeries = 0;
+  totalPeople = 0;
   currentPage = 1;
 
   results = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  constructor(private searchService: SearchService,
+  constructor(public searchService: SearchService,
               private route: ActivatedRoute,
-              private router: Router,
+              public router: Router,
               public _mediaService: TdMediaService,
               private _ngZone: NgZone,
               private _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
-    // this.router.events.subscribe((evt) => {
-    //   if (!(evt instanceof NavigationEnd)) {
-    //     return;
-    //   }
-    //   window.scrollTo(0, 0);
-    // });
-
     this.route.params.subscribe(params => {
-      this.registerLoading();
+      this.ready = false;
       if (params['media']) {
         this.media = params['media'];
       } else {
@@ -82,76 +76,94 @@ export class SearchComponent implements OnInit, OnDestroy {
       } else {
         this.currentPage = 1;
       }
-      if (this.query !== '') {
-        this.updateSearchResults();
-      } else {
-        this.results = [];
-        this.resolveLoading();
-      }
+      this.updateSearchResults();
     });
 
     this.checkScreen();
     this.watchScreen();
   }
 
+  // updates search results according to query term and media type
   updateSearchResults(): void {
-    switch (this.media) {
-      case 'movie': {
-        this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
-          this.results = response['results'];
-          this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          this.totalResults = this.totalMovies;
-          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
-            this.totalSeries = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+    if (this.query !== '') {
+      switch (this.media) {
+        case 'movie': {
+          this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
+            this.results = response['results'];
+            this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+            this.totalResults = this.totalMovies;
+            this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
+            // this.resolveLoading();
+            this.ready = true;
+          }, err => {
+            console.log(err);
           });
-          this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
-            this.totalPeople = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+          this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
+            this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
           });
-          this.resolveLoading();
-        }, err => {
-          console.log(err);
-        });
-      } break;
-      case 'series': {
-        this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
-          this.results = response['results'];
-          this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          this.totalResults = this.totalSeries;
-          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
-            this.totalMovies = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+          this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
+            this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
           });
-          this.searchService.searchPeople(this.query, this.currentPage).subscribe(r => {
-            this.totalPeople = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+        }
+          break;
+        case 'series': {
+          this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
+            this.results = response['results'];
+            this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+            this.totalResults = this.totalSeries;
+            this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
+            // this.resolveLoading();
+            this.ready = true;
+          }, err => {
+            console.log(err);
           });
-          this.resolveLoading();
-        }, err => {
-          console.log(err);
-        });
-      } break;
-      case 'person': {
-        this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
-          this.results = response['results'];
-          this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
-          this.totalResults = this.totalPeople;
-          this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
-          this.searchService.searchMovies(this.query, this.currentPage).subscribe(r => {
-            this.totalMovies = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+          this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
+            this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
           });
-          this.searchService.searchSeries(this.query, this.currentPage).subscribe(r => {
-            this.totalSeries = r['total_results'] <= 20000 ? r['total_results'] : 20000;
+          this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
+            this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
           });
-          this.resolveLoading();
-        }, err => {
-          console.log(err);
-        });
+        }
+          break;
+        case 'person': {
+          this.searchService.searchPeople(this.query, this.currentPage).subscribe(response => {
+            this.results = response['results'];
+            this.totalPeople = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+            this.totalResults = this.totalPeople;
+            this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
+            // this.resolveLoading();
+            this.ready = true;
+          }, err => {
+            console.log(err);
+          });
+          this.searchService.searchMovies(this.query, this.currentPage).subscribe(response => {
+            this.totalMovies = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
+          });
+          this.searchService.searchSeries(this.query, this.currentPage).subscribe(response => {
+            this.totalSeries = response['total_results'] <= 20000 ? response['total_results'] : 20000;
+          }, err => {
+            console.log(err);
+          });
+        }
       }
+    } else {
+      this.results = [];
+      this.ready = true;
     }
   }
 
   /**
-   * In charge to manage the behavior of the pagination
+   * manages the behavior of the pagination
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
@@ -161,6 +173,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this.updateSearchResults();
   }
 
+  // changes to movie media type when clicked
   onMoviesClick() {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
@@ -170,6 +183,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  // changes to series media type when clicked
   onSeriesClick() {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
@@ -179,6 +193,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  // changes to person media type when clicked
   onPeopleClick() {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
@@ -188,6 +203,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  // gets the first credit of a person to display in card
   getKnownFor(person: any): string {
     let result = '';
     if (person['known_for'] && person['known_for'].length > 0) {

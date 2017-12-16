@@ -21,7 +21,7 @@ import {Image, ImageModalEvent} from "angular-modal-gallery";
   selector: 'app-person-images',
   templateUrl: './person-images.component.html',
   styleUrls: ['./person-images.component.css'],
-  providers: [ PeopleService, TdMediaService ]
+  providers: [ TdMediaService ]
 })
 export class PersonImagesComponent implements OnInit, OnDestroy {
 

@@ -41,6 +41,13 @@ import { DiscoverComponent } from './discover/discover.component';
 import { CustomCardComponent } from './shared/custom-card/custom-card.component';
 import { LimitTextComponent } from './shared/limit-text/limit-text.component';
 
+// services
+import { SearchService } from './search/shared/search.service';
+import { MoviesService } from './movies/shared/movies.service';
+import { SeriesService } from './series/shared/series.service';
+import { DiscoverService } from './discover/shared/discover.service';
+import { PeopleService } from './people/shared/people.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +86,13 @@ import { LimitTextComponent } from './shared/limit-text/limit-text.component';
     AppRoutingModule,
     AppCustomMaterialModule
   ],
-  providers: [],
+  providers: [
+    DiscoverService,
+    MoviesService,
+    SeriesService,
+    PeopleService,
+    SearchService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

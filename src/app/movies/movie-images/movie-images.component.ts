@@ -21,7 +21,7 @@ import {Image, ImageModalEvent} from 'angular-modal-gallery';
   selector: 'app-movie-images',
   templateUrl: './movie-images.component.html',
   styleUrls: ['./movie-images.component.css'],
-  providers: [ MoviesService, TdMediaService ]
+  providers: [ TdMediaService ]
 })
 export class MovieImagesComponent implements OnInit, OnDestroy {
 

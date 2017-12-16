@@ -21,7 +21,7 @@ import { DiscoverService } from './shared/discover.service';
   selector: 'app-discover',
   templateUrl: './discover.component.html',
   styleUrls: ['./discover.component.css'],
-  providers: [ DiscoverService, TdMediaService ],
+  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class DiscoverComponent implements OnInit, OnDestroy {

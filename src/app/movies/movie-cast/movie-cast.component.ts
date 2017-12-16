@@ -20,7 +20,7 @@ import { MoviesService } from '../shared/movies.service';
   selector: 'app-movie-cast',
   templateUrl: './movie-cast.component.html',
   styleUrls: ['./movie-cast.component.css'],
-  providers: [ MoviesService, TdMediaService ]
+  providers: [ TdMediaService ]
 })
 export class MovieCastComponent implements OnInit, OnDestroy {
 

@@ -29,14 +29,15 @@ import { SearchComponent } from './search.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { DiscoverComponent } from '../discover/discover.component';
-import {Component, EventEmitter, Injectable} from '@angular/core';
+import {Component, EventEmitter, Injectable, NgZone} from '@angular/core';
 import {
   MatButtonModule, MatCardModule, MatDialogModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 import {
   CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
-  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdPagingBarComponent
+  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
+  TdPagingBarComponent
 } from '@covalent/core';
 import {CovalentHttpModule} from '@covalent/http';
 import {FormsModule} from '@angular/forms';
@@ -60,10 +61,6 @@ describe('Search component test', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
 
-  // Instantiation of spies
-  const checkScreenSpy = jasmine.createSpy('checkScreen').and.callThrough();
-  const watchScreenSpy = jasmine.createSpy('watchScreen').and.callThrough();
-
   // Search
   const searchMoviesSpy = jasmine.createSpy('searchMovies')
     .and.returnValue(Observable.of(movies));
@@ -71,6 +68,15 @@ describe('Search component test', () => {
     .and.returnValue(Observable.of(series));
   const searchPeopleSpy = jasmine.createSpy('searchPeople')
     .and.returnValue(Observable.of(people));
+
+  // NgZone
+  const ngZoneRunSpy = jasmine.createSpy('run').and.callFake(fn => fn());
+
+  // TdMediaQuery
+  const mediaQuerySpy = jasmine.createSpy('query')
+    .and.returnValue(false);
+  const mediaRegisterQuerySpy = jasmine.createSpy('registerQuery')
+    .and.returnValue(Observable.of(false));
 
   // Router
   const navigateSpy = jasmine.createSpy('navigate');
@@ -158,6 +164,12 @@ describe('Search component test', () => {
             navigate = navigateSpy;
           }
         },
+        {
+          provide: TdMediaService, useClass: class {
+            query = mediaQuerySpy;
+            registerQuery = mediaRegisterQuerySpy;
+          }
+        },
       ]
     })
       .compileComponents();
@@ -166,9 +178,6 @@ describe('Search component test', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
-    // component.searchService = searchService;
-    // component.checkScreen = checkScreenSpy;
-    // component.watchScreen = watchScreenSpy;
     // fixture.detectChanges();
   });
   describe('WHEN the component is created', () => {
@@ -177,8 +186,6 @@ describe('Search component test', () => {
         .toBeTruthy();
       expect(component.pagingBar)
         .toBeUndefined();
-      expect(component.isDesktop)
-        .toBe(false);
       expect(component.columns)
         .toBeUndefined();
       expect(component.columnsPeople)
@@ -478,6 +485,7 @@ describe('Search component test', () => {
         .toHaveBeenCalledTimes(0);
     });
   });
+
   describe('WHEN getKnownFor function is called', () => {
     let person;
     beforeEach(() => {
@@ -490,9 +498,165 @@ describe('Search component test', () => {
         ]
       };
     });
-    it('SHOULD return the title of the movie or series', () => {
+    it('SHOULD return the title of the movie when media is movie', () => {
       expect(component.getKnownFor(person))
         .toEqual(person.known_for[0].title);
+    });
+    it('SHOULD return the name of the series when media is series', () => {
+      person.known_for[0].media_type = 'series';
+      person.known_for[0].name = 'mySeries';
+      expect(component.getKnownFor(person))
+        .toEqual(person.known_for[0].name);
+    });
+    it('SHOULD return empty if no credit is available', () => {
+      person.known_for = undefined;
+      expect(component.getKnownFor(person))
+        .toEqual('');
+    });
+  });
+
+  describe('WHEN checkScreen function is called', () => {
+    beforeEach(() => {
+      spyOn<any>(component._ngZone, 'run').and.callFake(fn => fn());
+      mediaQuerySpy.calls.reset();
+    });
+    it('SHOULD call internal functions', () => {
+      component.checkScreen();
+
+      expect(component._ngZone.run)
+        .toHaveBeenCalledTimes(1);
+      expect(component._mediaService.query)
+        .toHaveBeenCalledTimes(5);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+      expect(component.columnsPeople)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 375px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+      expect(component.columnsPeople)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+      expect(component.columnsPeople)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-sm', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(3);
+      expect(component.columnsPeople)
+        .toEqual(4);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(4);
+      expect(component.columnsPeople)
+        .toEqual(5);
+    });
+  });
+
+  describe('WHEN watchScreen function is called', () => {
+    beforeEach(() => {
+      spyOn<any>(component._ngZone, 'run').and.callFake(fn => fn());
+      mediaRegisterQuerySpy.calls.reset();
+    });
+    it('SHOULD call internal functions', () => {
+      component.watchScreen();
+
+      expect(component._mediaService.registerQuery)
+        .toHaveBeenCalledTimes(5);
+      expect(component._ngZone.run)
+        .toHaveBeenCalledTimes(5);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 600px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+      expect(component.columnsPeople)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 375px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+      expect(component.columnsPeople)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-xs') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+      expect(component.columnsPeople)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-sm', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-sm') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(3);
+      expect(component.columnsPeople)
+        .toEqual(4);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-md') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(4);
+      expect(component.columnsPeople)
+        .toEqual(5);
     });
   });
 });

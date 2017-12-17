@@ -1,0 +1,39 @@
+{
+  "routes": [
+    {
+      "title": "Images",
+      "value": "1",
+      "icon": "image"
+    },
+    {
+      "title": "Videos",
+      "value": "2",
+      "icon": "video_library"
+    },
+    {
+      "title": "Cast",
+      "value": "3",
+      "icon": "people"
+    },
+    {
+      "title": "Reviews",
+      "value": "4",
+      "icon": "comment"
+    },
+    {
+      "title": "Recommendations",
+      "value": "5",
+      "icon": "movie"
+    }
+  ],
+  "movie": {
+    "title": "myMovie",
+    "runtime": 130
+  },
+  "crew": [
+    {
+      "name": "camilo",
+      "job": "director"
+    }
+  ]
+}

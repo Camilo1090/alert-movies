@@ -1,27 +1,26 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 // pagination
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
-import {Observable} from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
-  styleUrls: ['./movie-details.component.css'],
-  providers: [ TdMediaService ],
+  styleUrls: ['./movie-details.component.css']
   // encapsulation: ViewEncapsulation.None
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {
@@ -63,16 +62,16 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   currentTab = 1;
 
-  constructor(private moviesService: MoviesService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public moviesService: MoviesService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(() => {
       this.registerLoading();
       this.updateMovieDetails();
     });
@@ -81,6 +80,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates movie details
   updateMovieDetails(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieDetails(params['id']))
@@ -90,13 +90,13 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         if (err['status'] === 404) {
           this.router.navigate(['/404']);
-        } else {
-          console.log(err);
         }
+        console.log(err);
         this.resolveLoading();
       });
   }
 
+  // updates movie crew credits
   updateCredits(): void {
     this.creditsObservable = this.route.params
       .switchMap((params: Params) => this.moviesService
@@ -107,9 +107,11 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
         this.resolveLoading();
       }, err => {
         console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // changes tab number to display the corresponding component
   changeTab(tab: number): void {
     this.currentTab = tab;
   }
@@ -122,13 +124,10 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   getGenres(genres: Array<any>): string {
     let names = '';
     if (genres) {
-      for (const genre of genres) {
-        if (genre === genres[genres.length - 1]) {
-          names += genre['name'];
-        } else {
-          names += genre['name'] + ', ';
-        }
+      for (let i = 0; i < genres.length - 1; i++) {
+        names += genres[i]['name'] + ', ';
       }
+      names += genres[genres.length - 1]['name'];
     }
     return names;
   }
@@ -139,15 +138,18 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
    * @returns {string}: Time with the new format
    */
   convertTime(minutes: number): string {
-    let text = '';
+    let result = '';
     if (minutes) {
-      text += Math.floor(minutes / 60) + 'h ';
+      const hours = Math.floor(minutes / 60);
+      if (hours >= 1) {
+        result += hours + 'h ';
+      }
       if (minutes % 60 !== 0) {
-        text += (minutes % 60) + 'min';
+        result += (minutes % 60) + 'min';
       }
     }
 
-    return text;
+    return result;
   }
 
   ngOnDestroy(): void {
@@ -183,9 +185,5 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   resolveLoading(): void {
     this._loadingService.resolve('movie-details');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movie-details', value);
   }
 }

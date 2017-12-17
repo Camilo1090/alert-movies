@@ -2,7 +2,8 @@
   "results": [
     {
       "title": "myMovie",
-      "backdrop": "/myBackdrop.jpg"
+      "backdrop": "/myBackdrop.jpg",
+      "popularity": 30
     }
   ],
   "total_results": 1,

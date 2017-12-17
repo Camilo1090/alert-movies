@@ -9,7 +9,7 @@ import {
 } from '@angular/material';
 import {
   CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
-  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, TdMediaService,
+  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
 } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
 
-import * as movieDetails from '../../testing/movie-details.json';
+import * as movies from '../../testing/movies.json';
 
 import { TrendingComponent } from '../../trending/trending.component';
 import { ListMoviesComponent } from '../list-movies/list-movies.component';
@@ -27,11 +27,11 @@ import { MovieDetailsComponent } from '../movie-details/movie-details.component'
 import { ListPeopleComponent } from '../../people/list-people/list-people.component';
 import { ListSeriesComponent } from '../../series/list-series/list-series.component';
 import { FooterComponent } from '../../footer/footer.component';
-import { MovieImagesComponent } from './movie-images.component';
+import { MovieImagesComponent } from '../movie-images/movie-images.component';
 import { MovieVideosComponent } from '../movie-videos/movie-videos.component';
 import { MovieCastComponent } from '../movie-cast/movie-cast.component';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
-import { MovieRecommendationsComponent } from '../movie-recommendations/movie-recommendations.component';
+import { MovieRecommendationsComponent } from './movie-recommendations.component';
 import { SeriesDetailsComponent } from '../../series/series-details/series-details.component';
 import { SeriesImagesComponent } from '../../series/series-images/series-images.component';
 import { SeriesVideosComponent } from '../../series/series-videos/series-videos.component';
@@ -52,15 +52,15 @@ import { API } from '../../shared/api/api';
 import { MoviesService } from '../shared/movies.service';
 
 
-describe('MovieImages component test', () => {
-  let component: MovieImagesComponent;
-  let fixture: ComponentFixture<MovieImagesComponent>;
+describe('MovieRecommendations component test', () => {
+  let component: MovieRecommendationsComponent;
+  let fixture: ComponentFixture<MovieRecommendationsComponent>;
 
   // Spy creation
 
   // Movie service
-  const getMovieImagesSpy = jasmine.createSpy('getMovieImages')
-    .and.returnValue(Observable.of(movieDetails));
+  const getMovieRecommendationsSpy = jasmine.createSpy('getMovieRecommendations')
+    .and.returnValue(Observable.of(movies));
 
   // TdMediaQuery
   const mediaQuerySpy = jasmine.createSpy('query')
@@ -135,7 +135,7 @@ describe('MovieImages component test', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         {
           provide: MoviesService, useClass: class {
-            getMovieImages = getMovieImagesSpy;
+            getMovieRecommendations = getMovieRecommendationsSpy;
           }
         },
         {
@@ -156,7 +156,7 @@ describe('MovieImages component test', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieImagesComponent);
+    fixture = TestBed.createComponent(MovieRecommendationsComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -169,28 +169,26 @@ describe('MovieImages component test', () => {
       expect(component._querySubscription)
         .toBeUndefined();
 
-      expect(component.movieBackdrops)
-        .toEqual([]);
-      expect(component.moviePosters)
+      expect(component.currentPage)
+        .toEqual(1);
+      expect(component.firstLast)
+        .toBe(true);
+      expect(component.totalResults)
+        .toBeUndefined();
+      expect(component.totalPages)
+        .toBeUndefined();
+
+      expect(component.recommendations)
         .toEqual([]);
       expect(component.apiImg)
         .toEqual(API.apiImg + 'w500');
-      expect(component.apiImgOrig)
-        .toEqual(API.apiImg + 'original');
-
-      expect(component.images)
-        .toEqual([]);
-      expect(component.openModalWindow)
-        .toBe(false);
-      expect(component.imagePointer)
-        .toEqual(0);
     });
   });
 
   describe('WHEN ngOnInit function is called', () => {
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovieImages').calls.reset();
+      spyOn(component, 'updateMovieRecommendations').calls.reset();
       spyOn(component, 'checkScreen').calls.reset();
       spyOn(component, 'watchScreen').calls.reset();
     });
@@ -200,7 +198,7 @@ describe('MovieImages component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieImages)
+      expect(component.updateMovieRecommendations)
         .toHaveBeenCalledTimes(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
@@ -209,76 +207,73 @@ describe('MovieImages component test', () => {
     }));
   });
 
-  describe('WHEN updateMovieImages function is called', () => {
+  describe('WHEN updateMovieRecommendations function is called', () => {
+    let page: number;
     let id: number;
     beforeEach(() => {
-      getMovieImagesSpy.calls.reset();
-      spyOn(component, 'buildImagesArray').calls.reset();
+      getMovieRecommendationsSpy.calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
-      component.movieBackdrops = [];
-      component.moviePosters = [];
+      page = 1;
+      component.currentPage = page;
+      component.recommendations = [];
     });
     it('SHOULD call service', () => {
       id = 10;
       component.route.params = Observable.of({ id: id });
-      component.updateMovieImages();
+      component.updateMovieRecommendations(page);
 
-      expect(component.moviesService.getMovieImages)
+      expect(component.moviesService.getMovieRecommendations)
         .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getMovieImages)
-        .toHaveBeenCalledWith(id);
-      expect(component.buildImagesArray)
-        .toHaveBeenCalledTimes(1);
+      expect(component.moviesService.getMovieRecommendations)
+        .toHaveBeenCalledWith(id, page);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD set values', () => {
-      component.updateMovieImages();
+      component.updateMovieRecommendations(page);
 
-      expect(component.movieBackdrops)
-        .toEqual((<any>movieDetails).backdrops.slice(0, 12));
-      expect(component.moviePosters)
-        .toEqual((<any>movieDetails).posters.slice(0, 12));
+      expect(component.recommendations)
+        .toEqual((<any>movies).results);
+      expect(component.totalResults)
+        .toEqual((<any>movies).total_results);
+      expect(component.totalPages)
+        .toEqual((<any>movies).total_pages);
+    });
+    it('SHOULD call sort function', () => {
+      const a = {popularity: 1};
+      const b = {popularity: 2};
+      spyOn((<any>movies).results, 'sort').and.callFake(fn => fn(a, b));
+      component.updateMovieRecommendations(page);
+
+      expect((<any>movies).results.sort)
+        .toHaveBeenCalledTimes(1);
     });
     it('SHOULD handle error', () => {
-      getMovieImagesSpy.and.returnValue(Observable.throw('test error'));
-      component.updateMovieImages();
+      getMovieRecommendationsSpy.and.returnValue(Observable.throw('test error'));
+      component.updateMovieRecommendations(page);
 
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('WHEN buildImagesArray function is called', () => {
-    it('SHOULD build an array containing all images', () => {
-      component.movieBackdrops = (<any>movieDetails).backdrops;
-      component.moviePosters = (<any>movieDetails).posters;
-      component.buildImagesArray();
-
-      expect(component.images.length)
-        .toEqual((<any>movieDetails).backdrops.length + (<any>movieDetails).posters.length);
+  describe('WHEN changePage function is called', () => {
+    let event: IPageChangeEvent;
+    beforeEach(() => {
+      event = {
+        page: 1,
+        maxPage: 1,
+        pageSize: 20,
+        total: 1,
+        fromRow: 1,
+        toRow: 1
+      };
     });
-  });
+    it('SHOULD set internal values and call internal functions', () => {
+      component.changePage(event);
 
-  describe('WHEN openImageModal function is called', () => {
-    let index: number;
-    it('SHOULD set values', () => {
-      index = 3;
-      component.openImageModal(index);
-
-      expect(component.imagePointer)
-        .toEqual(index);
-      expect(component.openModalWindow)
-        .toBe(true);
-    });
-  });
-
-  describe('WHEN onCloseImageModal function is called', () => {
-    it('SHOULD set values', () => {
-      component.onCloseImageModal();
-
-      expect(component.openModalWindow)
-        .toBe(false);
+      expect(component.currentPage)
+        .toEqual(event.page);
     });
   });
 
@@ -397,7 +392,7 @@ describe('MovieImages component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('movie-images');
+        .toHaveBeenCalledWith('movie-recommendations');
     });
   });
 
@@ -410,7 +405,7 @@ describe('MovieImages component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('movie-images');
+        .toHaveBeenCalledWith('movie-recommendations');
     });
   });
 });

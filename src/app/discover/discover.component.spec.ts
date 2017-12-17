@@ -187,6 +187,8 @@ describe('Discover component test', () => {
         .toBeUndefined();
       expect(component.filter)
         .toBe(false);
+      expect(component._querySubscription)
+        .toBeUndefined();
 
       expect(component.selectedCategory)
         .toEqual('movies');

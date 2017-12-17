@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Used for responsive services
   columns: number;
   columnsPeople: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
   ready = false;
 
   // search
@@ -187,7 +187,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**

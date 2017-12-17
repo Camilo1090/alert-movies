@@ -1,12 +1,12 @@
 import { Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TdMediaService, TdPagingBarComponent } from '@covalent/core';
+import { Subscription } from 'rxjs/Subscription';
 
 // pagination
-import { Subscription } from 'rxjs/Subscription';
 import { IPageChangeEvent } from '@covalent/core';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
@@ -27,7 +27,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   // categories
   selectedCategory = 'popular';
@@ -167,7 +167,9 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**

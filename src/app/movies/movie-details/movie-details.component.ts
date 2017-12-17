@@ -27,7 +27,7 @@ import {Observable} from "rxjs/Observable";
 export class MovieDetailsComponent implements OnInit, OnDestroy {
   // Used for responsive services
   isDesktop = false;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   apiImgOrig = API.apiImg + 'original';
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
@@ -151,7 +151,9 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**

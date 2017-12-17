@@ -29,7 +29,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   // Used for responsive services
   columns: number;
   filter = false;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   // categories
   selectedCategory = 'movies';
@@ -344,7 +344,9 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**

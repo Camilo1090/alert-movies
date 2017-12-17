@@ -1,16 +1,14 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-
-// pagination
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
@@ -19,24 +17,22 @@ import { MoviesService } from '../shared/movies.service';
 @Component({
   selector: 'app-movie-cast',
   templateUrl: './movie-cast.component.html',
-  styleUrls: ['./movie-cast.component.css'],
-  providers: [ TdMediaService ]
+  styleUrls: ['./movie-cast.component.css']
 })
 export class MovieCastComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
-  isDesktop = false;
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   movieCast = [];
   apiImg = API.apiImg + 'w500';
 
-  constructor(private moviesService: MoviesService,
-              private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public moviesService: MoviesService,
+              public route: ActivatedRoute,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -66,7 +62,9 @@ export class MovieCastComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
@@ -77,23 +75,18 @@ export class MovieCastComponent implements OnInit, OnDestroy {
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 2;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 5;
-        this.isDesktop = true;
       }
     });
   }
@@ -107,7 +100,6 @@ export class MovieCastComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = false;
         }
       });
     });
@@ -115,7 +107,6 @@ export class MovieCastComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 1;
-          this.isDesktop = false;
         }
       });
     });
@@ -123,7 +114,6 @@ export class MovieCastComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -131,7 +121,6 @@ export class MovieCastComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -139,7 +128,6 @@ export class MovieCastComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 5;
-          this.isDesktop = true;
         }
       });
     });
@@ -153,9 +141,4 @@ export class MovieCastComponent implements OnInit, OnDestroy {
   resolveLoading(): void {
     this._loadingService.resolve('movie-cast');
   }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movieCast', value);
-  }
-
 }

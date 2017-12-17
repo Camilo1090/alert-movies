@@ -182,14 +182,18 @@ describe('Search component test', () => {
     it('SHOULD create the global variables', () => {
       expect(component)
         .toBeTruthy();
+
       expect(component.pagingBar)
         .toBeUndefined();
       expect(component.columns)
         .toBeUndefined();
       expect(component.columnsPeople)
         .toBeUndefined();
+      expect(component._querySubscription)
+        .toBeUndefined();
       expect(component.ready)
         .toBe(false);
+
       expect(component.media)
         .toEqual('movie');
       expect(component.query)

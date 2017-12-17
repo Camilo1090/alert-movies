@@ -1,6 +1,6 @@
-import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdMediaService, TdPagingBarComponent} from '@covalent/core';
+import { TdMediaService, TdPagingBarComponent } from '@covalent/core';
 
 // pagination
 import { Subscription } from 'rxjs/Subscription';
@@ -10,7 +10,7 @@ import { IPageChangeEvent } from '@covalent/core';
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
@@ -20,14 +20,12 @@ import { MoviesService } from '../shared/movies.service';
   selector: 'app-list-movies',
   templateUrl: './list-movies.component.html',
   styleUrls: ['./list-movies.component.css'],
-  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListMoviesComponent implements OnInit, OnDestroy {
   @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
-  isDesktop = true;
   columns: number;
   private _querySubscription: Subscription;
 
@@ -52,22 +50,23 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     },
   ];
 
-  // Used for the pagination
-  currentPage: number;
+  // Used for pagination
+  currentPage = 1;
   firstLast = true;
   totalResults: number;
   totalPages: number;
 
+  // results
   movies = [];
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  constructor(private moviesService: MoviesService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public moviesService: MoviesService,
+              public route: ActivatedRoute,
+              public router: Router,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -76,13 +75,9 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       // console.log(params);
       if (params['category']) {
         this.selectedCategory = params['category'];
-      } else {
-        this.selectedCategory = 'popular';
       }
       if (params['page']) {
         this.currentPage = params['page'];
-      } else {
-        this.currentPage = 1;
       }
       this.updateMovies();
     });
@@ -91,62 +86,59 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the results according to the selected category
   updateMovies(): void {
     switch (this.selectedCategory) {
       case 'popular': {
         this.moviesService.getPopularMovies(this.currentPage).subscribe(response => {
           if (response['results']) {
             this.movies = response['results'];
-          } else {
-            this.movies = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveLoading();
         }, err => {
           console.log(err);
+          this.resolveLoading();
         });
       } break;
       case 'now': {
         this.moviesService.getPlayingNowMovies(this.currentPage).subscribe(response => {
           if (response['results']) {
             this.movies = response['results'];
-          } else {
-            this.movies = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveLoading();
         }, err => {
           console.log(err);
+          this.resolveLoading();
         });
       } break;
       case 'upcoming': {
         this.moviesService.getUpcomingMovies(this.currentPage).subscribe(response => {
           if (response['results']) {
             this.movies = response['results'];
-          } else {
-            this.movies = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveLoading();
         }, err => {
           console.log(err);
+          this.resolveLoading();
         });
       } break;
       case 'top': {
         this.moviesService.getTopRatedMovies(this.currentPage).subscribe(response => {
           if (response['results']) {
             this.movies = response['results'];
-          } else {
-            this.movies = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
           this.resolveLoading();
         }, err => {
           console.log(err);
+          this.resolveLoading();
         });
       } break;
       default: {
@@ -156,6 +148,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
     }
   }
 
+  // navigates to page 1 when the category is changed (results are updated automatically)
   onCategoryChanged(): void {
     if (this.pagingBar) {
       this.pagingBar.navigateToPage(1);
@@ -165,7 +158,7 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * In charge to manage the behavior of the pagination
+   * manages the behavior of the pagination
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
@@ -178,32 +171,28 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
     // this.columns = 4;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
     });
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 4;
@@ -212,7 +201,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 1;
-          this.isDesktop = false;
         }
       });
     });
@@ -220,7 +208,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = false;
         }
       });
     });
@@ -228,7 +215,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -236,7 +222,6 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -249,9 +234,5 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
 
   resolveLoading(): void {
     this._loadingService.resolve('movies');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movies', value);
   }
 }

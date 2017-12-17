@@ -1,0 +1,46 @@
+{
+  "categories": [
+    {
+      "value": "movies",
+      "viewValue": "Movies"
+    },
+    {
+      "value": "series",
+      "viewValue": "TV Series"
+    }
+  ],
+  "sorts": [
+    {
+      "value": "popularity.desc",
+      "view": "Popularity Descending"
+    },
+    {
+      "value": "popularity.asc",
+      "view": "Popularity Ascending"
+    },
+    {
+      "value": "vote_average.desc",
+      "view": "Rating Descending"
+    },
+    {
+      "value": "vote_average.asc",
+      "view": "Rating Ascending"
+    },
+    {
+      "value": "release_date.desc",
+      "view": "Release Date Descending"
+    },
+    {
+      "value": "release_date.asc",
+      "view": "Release Date Ascending"
+    },
+    {
+      "value": "original_title.asc",
+      "view": "Title (A-Z)"
+    },
+    {
+      "value": "original_title.desc",
+      "view": "Title (Z-A)"
+    }
+  ]
+}

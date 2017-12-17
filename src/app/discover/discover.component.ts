@@ -21,14 +21,12 @@ import { DiscoverService } from './shared/discover.service';
   selector: 'app-discover',
   templateUrl: './discover.component.html',
   styleUrls: ['./discover.component.css'],
-  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
   @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
-  isDesktop = true;
   columns: number;
   filter = false;
   private _querySubscription: Subscription;
@@ -94,7 +92,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   genresInputPlaceholder = 'Filter by genres...';
 
   // Used for the pagination
-  currentPage: number;
+  currentPage = 1;
   firstLast = true;
   totalResults: number;
   totalPages: number;
@@ -104,12 +102,12 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  constructor(private discoverService: DiscoverService,
-              private route: ActivatedRoute,
-              private router: Router,
+  constructor(public discoverService: DiscoverService,
+              public route: ActivatedRoute,
+              public router: Router,
               public _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -129,8 +127,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         } else {
           this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
         }
-      } else {
-        this.currentPage = 1;
       }
       if (params['primary_release_year']) {
         this.selectedYear = +params['primary_release_year'];
@@ -139,8 +135,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       }
       if (params['sort_by']) {
         this.selectedSort = params['sort_by'];
-      } else {
-        this.selectedSort = 'popularity.desc';
       }
       // if (params['with_genres']) {
       //   this.genresModel = [];
@@ -174,8 +168,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         this.discoverService.getDiscoverMovies(this.currentPage, this.params).subscribe(response => {
           if (response['results']) {
             this.results = response['results'];
-          } else {
-            this.results = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
@@ -183,9 +175,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         }, err => {
           if (err['status'] === 500) {
             this.router.navigate(['/discover']);
-          } else {
-            console.log(err);
           }
+          console.log(err);
           this.resolveLoading();
         });
       } break;
@@ -193,8 +184,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         this.discoverService.getDiscoverSeries(this.currentPage, this.params).subscribe(response => {
           if (response['results']) {
             this.results = response['results'];
-          } else {
-            this.results = [];
           }
           this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
           this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
@@ -202,9 +191,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         }, err => {
           if (err['status'] === 500) {
             this.router.navigate(['/discover']);
-          } else {
-            console.log(err);
           }
+          console.log(err);
           this.resolveLoading();
         });
       } break;
@@ -219,11 +207,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   updateParams(): void {
     this.params = [];
     this.params.push({name: 'vote_count.gte', value: 0});
-    if (this.selectedCategory === 'movies') {
-      this.params.push({name: 'primary_release_year', value: this.selectedYear});
-    } else {
-      this.params.push({name: 'first_air_date_year', value: this.selectedYear});
-    }
     this.params.push({name: 'sort_by', value: this.selectedSort});
     if (this.genresModel.length > 0) {
       let values = '';
@@ -232,6 +215,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       }
       values += this.genresModel[this.genresModel.length - 1].id;
       this.params.push({name: 'with_genres', value: values});
+    }
+    if (this.selectedCategory === 'movies') {
+      this.params.push({name: 'primary_release_year', value: this.selectedYear});
+    } else {
+      this.params.push({name: 'first_air_date_year', value: this.selectedYear});
     }
   }
 
@@ -367,7 +355,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
-        this.isDesktop = false;
         this.filter = false;
       }
       if (this._mediaService.query('(max-width: 740px)')) {
@@ -378,15 +365,12 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
     });
   }
@@ -401,7 +385,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         this._ngZone.run(() => {
           if (matches) {
             this.columns = 1;
-            this.isDesktop = false;
             this.filter = false;
           }
         });
@@ -426,7 +409,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = false;
         }
       });
     });
@@ -434,7 +416,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -442,7 +423,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -455,9 +435,5 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   resolveLoading(): void {
     this._loadingService.resolve('discover');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('discover', value);
   }
 }

@@ -35,5 +35,15 @@
       "name": "camilo",
       "job": "director"
     }
+  ],
+  "backdrops": [
+    {
+      "file_path": "/link1.jpg"
+    }
+  ],
+  "posters": [
+    {
+      "file_path": "/link2.jpg"
+    }
   ]
 }

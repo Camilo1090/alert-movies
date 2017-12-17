@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -10,25 +10,23 @@ import { Subscription } from 'rxjs/Subscription';
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { MoviesService } from '../shared/movies.service';
-import {Image, ImageModalEvent} from 'angular-modal-gallery';
+import { Image, ImageModalEvent } from 'angular-modal-gallery';
 
 @Component({
   selector: 'app-movie-images',
   templateUrl: './movie-images.component.html',
-  styleUrls: ['./movie-images.component.css'],
-  providers: [ TdMediaService ]
+  styleUrls: ['./movie-images.component.css']
 })
 export class MovieImagesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
-  isDesktop = true;
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   movieBackdrops = [];
   moviePosters = [];
@@ -40,11 +38,11 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
   openModalWindow = false;
   imagePointer = 0;
 
-  constructor(private moviesService: MoviesService,
-              private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public moviesService: MoviesService,
+              public route: ActivatedRoute,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +54,7 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the images of the current movie
   updateMovieImages(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieImages(params['id']))
@@ -66,9 +65,11 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
         this.resolveLoading();
       }, err => {
         console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // builds an array of images for the modal gallery
   buildImagesArray() {
     for (let i = 0; i < this.movieBackdrops.length; i++) {
       const imgUrl = this.apiImgOrig + this.movieBackdrops[i]['file_path'];
@@ -82,46 +83,46 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
     }
   }
 
+  // opens the modal gallery at the clicked image
   openImageModal(index: number) {
     this.imagePointer = index;
     this.openModalWindow = true;
   }
 
-  onCloseImageModal(event: ImageModalEvent) {
+  // closes the modal gallery
+  onCloseImageModal() {
     this.openModalWindow = false;
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
     // this.columns = 4;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
     });
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 4;
@@ -130,7 +131,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
         this._ngZone.run(() => {
           if (matches) {
             this.columns = 1;
-            this.isDesktop = false;
           }
         });
       });
@@ -138,7 +138,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = true;
         }
       });
     });
@@ -146,7 +145,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -154,7 +152,6 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -167,9 +164,5 @@ export class MovieImagesComponent implements OnInit, OnDestroy {
 
   resolveLoading(): void {
     this._loadingService.resolve('movie-images');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movieImages', value);
   }
 }

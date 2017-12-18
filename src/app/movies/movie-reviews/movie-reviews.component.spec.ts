@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
 
-import * as movies from '../../testing/movies.json';
+import * as movieDetails from '../../testing/movie-details.json';
 
 import { TrendingComponent } from '../../trending/trending.component';
 import { ListMoviesComponent } from '../list-movies/list-movies.component';
@@ -30,8 +30,8 @@ import { FooterComponent } from '../../footer/footer.component';
 import { MovieImagesComponent } from '../movie-images/movie-images.component';
 import { MovieVideosComponent } from '../movie-videos/movie-videos.component';
 import { MovieCastComponent } from '../movie-cast/movie-cast.component';
-import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
-import { MovieRecommendationsComponent } from './movie-recommendations.component';
+import { MovieReviewsComponent } from './movie-reviews.component';
+import { MovieRecommendationsComponent } from '../movie-recommendations/movie-recommendations.component';
 import { SeriesDetailsComponent } from '../../series/series-details/series-details.component';
 import { SeriesImagesComponent } from '../../series/series-images/series-images.component';
 import { SeriesVideosComponent } from '../../series/series-videos/series-videos.component';
@@ -52,15 +52,15 @@ import { API } from '../../shared/api/api';
 import { MoviesService } from '../shared/movies.service';
 
 
-describe('MovieRecommendations component test', () => {
-  let component: MovieRecommendationsComponent;
-  let fixture: ComponentFixture<MovieRecommendationsComponent>;
+fdescribe('MovieRecommendations component test', () => {
+  let component: MovieReviewsComponent;
+  let fixture: ComponentFixture<MovieReviewsComponent>;
 
   // Spy creation
 
   // Movie service
-  const getMovieRecommendationsSpy = jasmine.createSpy('getMovieRecommendations')
-    .and.returnValue(Observable.of(movies));
+  const getMovieReviewsSpy = jasmine.createSpy('getMovieReviews')
+    .and.returnValue(Observable.of(movieDetails['reviews']));
 
   // TdMediaQuery
   const mediaQuerySpy = jasmine.createSpy('query')
@@ -135,7 +135,7 @@ describe('MovieRecommendations component test', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         {
           provide: MoviesService, useClass: class {
-            getMovieRecommendations = getMovieRecommendationsSpy;
+            getMovieReviews = getMovieReviewsSpy;
           }
         },
         {
@@ -156,7 +156,7 @@ describe('MovieRecommendations component test', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieRecommendationsComponent);
+    fixture = TestBed.createComponent(MovieReviewsComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -178,17 +178,15 @@ describe('MovieRecommendations component test', () => {
       expect(component.totalPages)
         .toBeUndefined();
 
-      expect(component.recommendations)
+      expect(component.reviews)
         .toEqual([]);
-      expect(component.apiImg)
-        .toEqual(API.apiImg + 'w500');
     });
   });
 
   describe('WHEN ngOnInit function is called', () => {
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovieRecommendations').calls.reset();
+      spyOn(component, 'updateMovieReviews').calls.reset();
       spyOn(component, 'checkScreen').calls.reset();
       spyOn(component, 'watchScreen').calls.reset();
     });
@@ -198,9 +196,9 @@ describe('MovieRecommendations component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieRecommendations)
+      expect(component.updateMovieReviews)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieRecommendations)
+      expect(component.updateMovieReviews)
         .toHaveBeenCalledWith(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
@@ -213,46 +211,37 @@ describe('MovieRecommendations component test', () => {
     let page: number;
     let id: number;
     beforeEach(() => {
-      getMovieRecommendationsSpy.calls.reset();
+      getMovieReviewsSpy.calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
       page = 1;
       component.currentPage = page;
-      component.recommendations = [];
+      component.reviews = [];
     });
     it('SHOULD call service', () => {
       id = 10;
       component.route.params = Observable.of({ id: id });
-      component.updateMovieRecommendations(page);
+      component.updateMovieReviews(page);
 
-      expect(component.moviesService.getMovieRecommendations)
+      expect(component.moviesService.getMovieReviews)
         .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getMovieRecommendations)
+      expect(component.moviesService.getMovieReviews)
         .toHaveBeenCalledWith(id, page);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD set values', () => {
-      component.updateMovieRecommendations(page);
+      component.updateMovieReviews(page);
 
-      expect(component.recommendations)
-        .toEqual((<any>movies).results);
+      expect(component.reviews)
+        .toEqual((<any>movieDetails).reviews.results);
       expect(component.totalResults)
-        .toEqual((<any>movies).total_results);
+        .toEqual((<any>movieDetails).reviews.total_results);
       expect(component.totalPages)
-        .toEqual((<any>movies).total_pages);
-    });
-    it('SHOULD call sort function', () => {
-      const a = {popularity: 1};
-      const b = {popularity: 2};
-      spyOn((<any>movies).results, 'sort').and.callFake(fn => fn(a, b));
-      component.updateMovieRecommendations(page);
-
-      expect((<any>movies).results.sort)
-        .toHaveBeenCalledTimes(1);
+        .toEqual((<any>movieDetails).reviews.total_pages);
     });
     it('SHOULD handle error', () => {
-      getMovieRecommendationsSpy.and.returnValue(Observable.throw('test error'));
-      component.updateMovieRecommendations(page);
+      getMovieReviewsSpy.and.returnValue(Observable.throw('test error'));
+      component.updateMovieReviews(page);
 
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
@@ -271,7 +260,7 @@ describe('MovieRecommendations component test', () => {
         toRow: 1
       };
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovieRecommendations').calls.reset();
+      spyOn(component, 'updateMovieReviews').calls.reset();
     });
     it('SHOULD set internal values and call internal functions', () => {
       component.changePage(event);
@@ -280,9 +269,9 @@ describe('MovieRecommendations component test', () => {
         .toEqual(event.page);
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieRecommendations)
+      expect(component.updateMovieReviews)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieRecommendations)
+      expect(component.updateMovieReviews)
         .toHaveBeenCalledWith(event.page);
     });
   });
@@ -402,7 +391,7 @@ describe('MovieRecommendations component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('movie-recommendations');
+        .toHaveBeenCalledWith('movie-reviews');
     });
   });
 
@@ -415,7 +404,7 @@ describe('MovieRecommendations component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('movie-recommendations');
+        .toHaveBeenCalledWith('movie-reviews');
     });
   });
 });

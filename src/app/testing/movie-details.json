@@ -45,5 +45,15 @@
     {
       "file_path": "/link2.jpg"
     }
-  ]
+  ],
+  "reviews": {
+    "results": [
+      {
+        "author": "me",
+        "content": "bla bla bla..."
+      }
+    ],
+    "total_pages": 1,
+    "total_results": 1
+  }
 }

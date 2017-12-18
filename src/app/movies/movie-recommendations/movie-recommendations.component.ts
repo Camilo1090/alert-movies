@@ -75,6 +75,8 @@ export class MovieRecommendationsComponent implements OnInit, OnDestroy {
    */
   changePage(event: IPageChangeEvent): void {
     this.currentPage = event.page;
+    this.registerLoading();
+    this.updateMovieRecommendations(event.page);
   }
 
   ngOnDestroy(): void {

@@ -1,33 +1,30 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
-
-// pagination
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { SERIES_GENRES } from '../../shared/api/genres';
 
 // services
 import { SeriesService } from '../shared/series.service';
-import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-series-details',
   templateUrl: './series-details.component.html',
-  styleUrls: ['./series-details.component.css'],
-  providers: [ SeriesService, TdMediaService ]
+  styleUrls: ['./series-details.component.css']
 })
 export class SeriesDetailsComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = false;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   apiImgOrig = API.apiImg + 'original';
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
@@ -60,12 +57,12 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
 
   currentTab = 1;
 
-  constructor(private seriesService: SeriesService,
-              private router: Router,
-              private route: ActivatedRoute,
+  constructor(public seriesService: SeriesService,
+              public router: Router,
+              public route: ActivatedRoute,
               public _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit() {
@@ -78,6 +75,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the details of a given tv series
   updateSeriesDetails(): void {
     this.route.params.switchMap((params: Params) => this.seriesService
       .getSeriesDetails(params['id']))
@@ -89,13 +87,13 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         if (err['status'] === 404) {
           this.router.navigate(['/404']);
-        } else {
-          console.log(err);
         }
+        console.log(err);
         this.resolveLoading();
       });
   }
 
+  // gets the featured crew of a given series
   updateSeriesCredits(): void {
     this.creditsObservable = this.route.params
       .switchMap((params: Params) => this.seriesService
@@ -104,9 +102,13 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.crew = response['crew'];
         this.resolveLoading();
+      }, err => {
+        console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // changes tab
   changeTab(tab: number): void {
     this.currentTab = tab;
   }
@@ -119,13 +121,10 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   getGenres(genres: Array<any>): string {
     let names = '';
     if (genres) {
-      for (const genre of genres) {
-        if (genre === genres[genres.length - 1]) {
-          names += genre['name'];
-        } else {
-          names += genre['name'] + ', ';
-        }
+      for (let i = 0; i < genres.length - 1; i++) {
+        names += genres[i]['name'] + ', ';
       }
+      names += genres[genres.length - 1]['name'];
     }
     return names;
   }
@@ -136,22 +135,23 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
    * @returns {string}: Time with the new format
    */
   convertTime(minutes: number): string {
-    let text = '';
-    let hourTime = 0;
+    let result = '';
     if (minutes) {
-      if ((hourTime = Math.floor(minutes / 60)) > 0) {
-        text += hourTime + 'h ';
+      const hours = Math.floor(minutes / 60);
+      if (hours >= 1) {
+        result += hours + 'h ';
       }
       if (minutes % 60 !== 0) {
-        text += (minutes % 60) + 'min';
+        result += (minutes % 60) + 'min';
       }
     }
-
-    return text;
+    return result;
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
@@ -164,7 +164,7 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
@@ -182,9 +182,4 @@ export class SeriesDetailsComponent implements OnInit, OnDestroy {
   resolveLoading(): void {
     this._loadingService.resolve('series-details');
   }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('seriesDetails', value);
-  }
-
 }

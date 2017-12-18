@@ -1,8 +1,40 @@
 {
+  "routes": [
+    {
+      "title": "Images",
+      "value": "1",
+      "icon": "image"
+    },
+    {
+      "title": "Videos",
+      "value": "2",
+      "icon": "video_library"
+    },
+    {
+      "title": "Cast",
+      "value": "3",
+      "icon": "people"
+    },
+    {
+      "title": "Recommendations",
+      "value": "4",
+      "icon": "tv"
+    }
+  ],
+  "series": {
+    "name": "simpsons",
+    "episode_runtime": 24
+  },
   "cast": [
     {
       "name": "camilo",
       "character": "john"
+    }
+  ],
+  "crew": [
+    {
+      "name": "camilo",
+      "job": "director"
     }
   ]
 }

@@ -198,7 +198,7 @@ describe('SeriesCast component test', () => {
     }));
   });
 
-  describe('WHEN updateMovieCast function is called', () => {
+  describe('WHEN updateSeriesCast function is called', () => {
     let id: number;
     beforeEach(() => {
       getSeriesCreditsSpy.calls.reset();

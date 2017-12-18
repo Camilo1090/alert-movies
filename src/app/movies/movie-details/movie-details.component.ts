@@ -148,7 +148,6 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
         result += (minutes % 60) + 'min';
       }
     }
-
     return result;
   }
 

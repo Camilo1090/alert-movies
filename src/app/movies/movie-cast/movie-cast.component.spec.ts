@@ -235,7 +235,7 @@ describe('MovieCast component test', () => {
   describe('WHEN getCharacter function is called', () => {
     let person: Object;
     it('SHOULD return character of person', () => {
-      person = { character: 'Mac Taylor'};
+      person = { character: 'Mac Taylor' };
 
       expect(component.getCharacter(person))
         .toEqual('as Mac Taylor');

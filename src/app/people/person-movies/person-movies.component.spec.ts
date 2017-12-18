@@ -52,7 +52,7 @@ import { API } from '../../shared/api/api';
 import { PeopleService } from '../shared/people.service';
 
 
-fdescribe('PersonMovies component test', () => {
+describe('PersonMovies component test', () => {
   let component: PersonMoviesComponent;
   let fixture: ComponentFixture<PersonMoviesComponent>;
 
@@ -60,7 +60,7 @@ fdescribe('PersonMovies component test', () => {
 
   // service
   const getPersonMoviesSpy = jasmine.createSpy('getPersonMovies')
-    .and.returnValue(Observable.of(personDetails));
+    .and.returnValue(Observable.of(personDetails['movies']));
 
   // TdMediaQuery
   const mediaQuerySpy = jasmine.createSpy('query')
@@ -191,8 +191,6 @@ fdescribe('PersonMovies component test', () => {
         .toHaveBeenCalledTimes(1);
       expect(component.updatePersonMovies)
         .toHaveBeenCalledTimes(1);
-      expect(component.updatePersonMovies)
-        .toHaveBeenCalledWith(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
       expect(component.watchScreen)
@@ -223,15 +221,24 @@ fdescribe('PersonMovies component test', () => {
       component.updatePersonMovies();
 
       expect(component.movies)
-        .toEqual((<any>personDetails).cast);
+        .toEqual((<any>personDetails).movies.cast.slice(0, 20));
+    });
+    it('SHOULD set values', () => {
+      const obj = {cast: [], crew: [{job: 'director'}]};
+      getPersonMoviesSpy.and.returnValue(Observable.of(obj));
+      component.updatePersonMovies();
+
+      expect(component.movies)
+        .toEqual(obj.crew.slice(0, 20));
     });
     it('SHOULD call sort function', () => {
       const a = {popularity: 1};
       const b = {popularity: 2};
-      spyOn((<any>personDetails).movies.cast, 'sort').and.callFake(fn => fn(a, b));
+      getPersonMoviesSpy.and.returnValue(Observable.of(personDetails['movies']));
+      spyOn(personDetails['movies']['cast'], 'sort').and.callFake(fn => { fn(a, b); return []; });
       component.updatePersonMovies();
 
-      expect((<any>personDetails).movies.cast.sort)
+      expect(personDetails['movies']['cast'].sort)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD handle error', () => {
@@ -243,163 +250,157 @@ fdescribe('PersonMovies component test', () => {
     });
   });
 
-  // describe('WHEN changePage function is called', () => {
-  //   let event: IPageChangeEvent;
-  //   beforeEach(() => {
-  //     event = {
-  //       page: 1,
-  //       maxPage: 1,
-  //       pageSize: 20,
-  //       total: 1,
-  //       fromRow: 1,
-  //       toRow: 1
-  //     };
-  //     spyOn(component, 'registerLoading').calls.reset();
-  //     spyOn(component, 'updateMovieRecommendations').calls.reset();
-  //   });
-  //   it('SHOULD set internal values and call internal functions', () => {
-  //     component.changePage(event);
-  //
-  //     expect(component.currentPage)
-  //       .toEqual(event.page);
-  //     expect(component.registerLoading)
-  //       .toHaveBeenCalledTimes(1);
-  //     expect(component.updateMovieRecommendations)
-  //       .toHaveBeenCalledTimes(1);
-  //     expect(component.updateMovieRecommendations)
-  //       .toHaveBeenCalledWith(event.page);
-  //   });
-  // });
-  //
-  // describe('WHEN checkScreen function is called', () => {
-  //   beforeEach(() => {
-  //     spyOn(component._ngZone, 'run').and.callFake(fn => fn());
-  //     mediaQuerySpy.calls.reset();
-  //   });
-  //   it('SHOULD call internal functions', () => {
-  //     component.checkScreen();
-  //
-  //     expect(component._ngZone.run)
-  //       .toHaveBeenCalledTimes(1);
-  //     expect(component._mediaService.query)
-  //       .toHaveBeenCalledTimes(4);
-  //   });
-  //   it('SHOULD set internal values when query is (max-width: 600px)', () => {
-  //     mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
-  //     component.checkScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(1);
-  //   });
-  //   it('SHOULD set internal values when query is gt-xs', () => {
-  //     mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
-  //     component.checkScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(2);
-  //   });
-  //   it('SHOULD set internal values when query is gt-sm', () => {
-  //     mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
-  //     component.checkScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(3);
-  //   });
-  //   it('SHOULD set internal values when query is gt-md', () => {
-  //     mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
-  //     component.checkScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(4);
-  //   });
-  // });
-  //
-  // describe('WHEN watchScreen function is called', () => {
-  //   beforeEach(() => {
-  //     spyOn(component._ngZone, 'run').and.callFake(fn => fn());
-  //     mediaRegisterQuerySpy.calls.reset();
-  //   });
-  //   it('SHOULD call internal functions', () => {
-  //     component.watchScreen();
-  //
-  //     expect(component._mediaService.registerQuery)
-  //       .toHaveBeenCalledTimes(4);
-  //     expect(component._ngZone.run)
-  //       .toHaveBeenCalledTimes(4);
-  //   });
-  //   it('SHOULD set internal values when query is (max-width: 600px)', () => {
-  //     mediaRegisterQuerySpy.and.callFake((query: string) => {
-  //       if (query === '(max-width: 600px)') {
-  //         return Observable.of(true);
-  //       }
-  //       return Observable.of(false);
-  //     });
-  //     component.watchScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(1);
-  //   });
-  //   it('SHOULD set internal values when query is gt-xs', () => {
-  //     mediaRegisterQuerySpy.and.callFake((query: string) => {
-  //       if (query === 'gt-xs') {
-  //         return Observable.of(true);
-  //       }
-  //       return Observable.of(false);
-  //     });
-  //     component.watchScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(2);
-  //   });
-  //   it('SHOULD set internal values when query is gt-sm', () => {
-  //     mediaRegisterQuerySpy.and.callFake((query: string) => {
-  //       if (query === 'gt-sm') {
-  //         return Observable.of(true);
-  //       }
-  //       return Observable.of(false);
-  //     });
-  //     component.watchScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(3);
-  //   });
-  //   it('SHOULD set internal values when query is gt-md', () => {
-  //     mediaRegisterQuerySpy.and.callFake((query: string) => {
-  //       if (query === 'gt-md') {
-  //         return Observable.of(true);
-  //       }
-  //       return Observable.of(false);
-  //     });
-  //     component.watchScreen();
-  //
-  //     expect(component.columns)
-  //       .toEqual(4);
-  //   });
-  // });
-  //
-  // describe('WHEN registerLoading function is called', () => {
-  //   beforeEach(() => {
-  //     spyOn(component._loadingService, 'register');
-  //     component.registerLoading();
-  //   });
-  //   it('SHOULD call functions', () => {
-  //     expect(component._loadingService.register)
-  //       .toHaveBeenCalledTimes(1);
-  //     expect(component._loadingService.register)
-  //       .toHaveBeenCalledWith('movie-recommendations');
-  //   });
-  // });
-  //
-  // describe('WHEN resolveMoviesLoading function is called', () => {
-  //   beforeEach(() => {
-  //     spyOn(component._loadingService, 'resolve');
-  //     component.resolveLoading();
-  //   });
-  //   it('SHOULD call functions', () => {
-  //     expect(component._loadingService.resolve)
-  //       .toHaveBeenCalledTimes(1);
-  //     expect(component._loadingService.resolve)
-  //       .toHaveBeenCalledWith('movie-recommendations');
-  //   });
-  // });
+  describe('WHEN getCharacter function is called', () => {
+    let person: Object;
+    it('SHOULD return character of person', () => {
+      person = { character: 'Mac Taylor' };
+
+      expect(component.getCharacter(person))
+        .toEqual('as Mac Taylor');
+    });
+    it('SHOULD return job of person', () => {
+      person = { job: 'Director' };
+
+      expect(component.getCharacter(person))
+        .toEqual('as Director');
+    });
+    it('SHOULD return empty if no character available', () => {
+      person = {};
+
+      expect(component.getCharacter(person))
+        .toEqual('');
+    });
+  });
+
+  describe('WHEN checkScreen function is called', () => {
+    beforeEach(() => {
+      spyOn(component._ngZone, 'run').and.callFake(fn => fn());
+      mediaQuerySpy.calls.reset();
+    });
+    it('SHOULD call internal functions', () => {
+      component.checkScreen();
+
+      expect(component._ngZone.run)
+        .toHaveBeenCalledTimes(1);
+      expect(component._mediaService.query)
+        .toHaveBeenCalledTimes(4);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is gt-sm', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(4);
+    });
+  });
+
+  describe('WHEN watchScreen function is called', () => {
+    beforeEach(() => {
+      spyOn(component._ngZone, 'run').and.callFake(fn => fn());
+      mediaRegisterQuerySpy.calls.reset();
+    });
+    it('SHOULD call internal functions', () => {
+      component.watchScreen();
+
+      expect(component._mediaService.registerQuery)
+        .toHaveBeenCalledTimes(4);
+      expect(component._ngZone.run)
+        .toHaveBeenCalledTimes(4);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 600px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-xs') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is gt-sm', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-sm') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-md') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(4);
+    });
+  });
+
+  describe('WHEN registerLoading function is called', () => {
+    beforeEach(() => {
+      spyOn(component._loadingService, 'register');
+      component.registerLoading();
+    });
+    it('SHOULD call functions', () => {
+      expect(component._loadingService.register)
+        .toHaveBeenCalledTimes(1);
+      expect(component._loadingService.register)
+        .toHaveBeenCalledWith('person-movies');
+    });
+  });
+
+  describe('WHEN resolveMoviesLoading function is called', () => {
+    beforeEach(() => {
+      spyOn(component._loadingService, 'resolve');
+      component.resolveLoading();
+    });
+    it('SHOULD call functions', () => {
+      expect(component._loadingService.resolve)
+        .toHaveBeenCalledTimes(1);
+      expect(component._loadingService.resolve)
+        .toHaveBeenCalledWith('person-movies');
+    });
+  });
 });

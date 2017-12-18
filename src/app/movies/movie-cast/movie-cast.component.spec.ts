@@ -223,6 +223,13 @@ describe('MovieCast component test', () => {
       expect(component.movieCast)
         .toEqual((<any>movieCast).cast.slice(0, 20));
     });
+    it('SHOULD handle error', () => {
+      getMovieCreditsSpy.and.returnValue(Observable.throw('test error'));
+      component.updateMovieCast();
+
+      expect(component.resolveLoading)
+        .toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('WHEN getCharacter function is called', () => {
@@ -379,7 +386,7 @@ describe('MovieCast component test', () => {
     });
   });
 
-  describe('WHEN resolveMoviesLoading function is called', () => {
+  describe('WHEN resolveLoading function is called', () => {
     beforeEach(() => {
       spyOn(component._loadingService, 'resolve');
       component.resolveLoading();

@@ -44,15 +44,20 @@ export class MovieCastComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the cast of a given movie
   updateMovieCast(): void {
     this.route.params.switchMap((params: Params) => this.moviesService
       .getMovieCredits(params['id']))
       .subscribe(response => {
         this.movieCast = response['cast'].slice(0, 20);
         this.resolveLoading();
+      }, err => {
+        console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // gets the character of the passed person
   getCharacter(person: any): string {
     let character = '';
     if (person['character']) {
@@ -68,7 +73,7 @@ export class MovieCastComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
     // this.columns = 5;
@@ -92,7 +97,7 @@ export class MovieCastComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 5;

@@ -46,7 +46,7 @@ import { CustomCardComponent } from '../custom-card/custom-card.component';
 import { LimitTextComponent } from './limit-text.component';
 
 
-fdescribe('CustomCard component test', () => {
+describe('CustomCard component test', () => {
   let component: LimitTextComponent;
   let fixture: ComponentFixture<LimitTextComponent>;
 

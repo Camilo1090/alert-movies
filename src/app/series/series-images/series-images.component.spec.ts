@@ -14,7 +14,7 @@ import {
 import { CovalentHttpModule } from '@covalent/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
@@ -32,8 +32,8 @@ import { MovieVideosComponent } from '../../movies/movie-videos/movie-videos.com
 import { MovieCastComponent } from '../../movies/movie-cast/movie-cast.component';
 import { MovieReviewsComponent } from '../../movies/movie-reviews/movie-reviews.component';
 import { MovieRecommendationsComponent } from '../../movies/movie-recommendations/movie-recommendations.component';
-import { SeriesDetailsComponent } from './series-details.component';
-import { SeriesImagesComponent } from '../series-images/series-images.component';
+import { SeriesDetailsComponent } from '../series-details/series-details.component';
+import { SeriesImagesComponent } from './series-images.component';
 import { SeriesVideosComponent } from '../series-videos/series-videos.component';
 import { FormatStringPipe } from '../../shared/format-string/format-string.pipe';
 import { SeriesCastComponent } from '../series-cast/series-cast.component';
@@ -52,16 +52,14 @@ import { API } from '../../shared/api/api';
 import { SeriesService } from '../shared/series.service';
 
 
-describe('SeriesDetails component test', () => {
-  let component: SeriesDetailsComponent;
-  let fixture: ComponentFixture<SeriesDetailsComponent>;
+describe('SeriesImages component test', () => {
+  let component: SeriesImagesComponent;
+  let fixture: ComponentFixture<SeriesImagesComponent>;
 
   // Spy creation
 
-  // Series service
-  const getSeriesDetailsSpy = jasmine.createSpy('getSeriesDetails')
-    .and.returnValue(Observable.of((<any>seriesDetails).series));
-  const getSeriesCreditsSpy = jasmine.createSpy('getSeriesCredits')
+  // Movie service
+  const getSeriesImagesSpy = jasmine.createSpy('getSeriesImages')
     .and.returnValue(Observable.of(seriesDetails));
 
   // TdMediaQuery
@@ -69,9 +67,6 @@ describe('SeriesDetails component test', () => {
     .and.returnValue(false);
   const mediaRegisterQuerySpy = jasmine.createSpy('registerQuery')
     .and.returnValue(Observable.of(false));
-
-  // Router
-  const navigateSpy = jasmine.createSpy('navigate');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -140,8 +135,7 @@ describe('SeriesDetails component test', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         {
           provide: SeriesService, useClass: class {
-            getSeriesDetails = getSeriesDetailsSpy;
-            getSeriesCredits = getSeriesCreditsSpy;
+            getSeriesImages = getSeriesImagesSpy;
           }
         },
         {
@@ -156,18 +150,13 @@ describe('SeriesDetails component test', () => {
             registerQuery = mediaRegisterQuerySpy;
           }
         },
-        {
-          provide: Router, useClass: class {
-            navigate = navigateSpy;
-          }
-        },
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeriesDetailsComponent);
+    fixture = TestBed.createComponent(SeriesImagesComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -175,36 +164,33 @@ describe('SeriesDetails component test', () => {
     it('SHOULD create the global variables', () => {
       expect(component)
         .toBeTruthy();
-      expect(component.isDesktop)
-        .toBe(false);
+      expect(component.columns)
+        .toBeUndefined();
       expect(component._querySubscription)
         .toBeUndefined();
 
+      expect(component.seriesBackdrops)
+        .toEqual([]);
+      expect(component.seriesPosters)
+        .toEqual([]);
+      expect(component.apiImg)
+        .toEqual(API.apiImg + 'w500');
       expect(component.apiImgOrig)
         .toEqual(API.apiImg + 'original');
-      expect(component.apiImgBack)
-        .toEqual(API.apiImg + 'w1400_and_h450_bestv2');
-      expect(component.series)
+
+      expect(component.images)
         .toEqual([]);
-      expect(component.crew)
-        .toEqual([]);
-      expect(component.creditsObservable)
-        .toBeUndefined();
-      expect(component.networks)
-        .toEqual([]);
-      expect(component.companies)
-        .toEqual([]);
-      expect(component.routes)
-        .toEqual((<any>seriesDetails).routes);
-      expect(component.currentTab)
-        .toEqual(1);
+      expect(component.openModalWindow)
+        .toBe(false);
+      expect(component.imagePointer)
+        .toEqual(0);
     });
   });
 
   describe('WHEN ngOnInit function is called', () => {
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateSeriesDetails').calls.reset();
+      spyOn(component, 'updateSeriesImages').calls.reset();
       spyOn(component, 'checkScreen').calls.reset();
       spyOn(component, 'watchScreen').calls.reset();
     });
@@ -214,7 +200,7 @@ describe('SeriesDetails component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateSeriesDetails)
+      expect(component.updateSeriesImages)
         .toHaveBeenCalledTimes(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
@@ -223,119 +209,76 @@ describe('SeriesDetails component test', () => {
     }));
   });
 
-  describe('WHEN updateSeriesDetails function is called', () => {
+  describe('WHEN updateSeriesImages function is called', () => {
     let id: number;
     beforeEach(() => {
-      getSeriesDetailsSpy.calls.reset();
-      getSeriesCreditsSpy.calls.reset();
+      getSeriesImagesSpy.calls.reset();
+      spyOn(component, 'buildImagesArray').calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
-      component.series = [];
+      component.seriesBackdrops = [];
+      component.seriesPosters = [];
     });
-    it('SHOULD call functions', () => {
+    it('SHOULD call service', () => {
       id = 10;
       component.route.params = Observable.of({ id: id });
-      component.updateSeriesDetails();
+      component.updateSeriesImages();
 
-      expect(component.seriesService.getSeriesDetails)
+      expect(component.seriesService.getSeriesImages)
         .toHaveBeenCalledTimes(1);
-      expect(component.seriesService.getSeriesDetails)
+      expect(component.seriesService.getSeriesImages)
         .toHaveBeenCalledWith(id);
-      expect(component.seriesService.getSeriesCredits)
+      expect(component.buildImagesArray)
         .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD set values', () => {
-      component.updateSeriesDetails();
-
-      expect(component.series)
-        .toEqual((<any>seriesDetails).series);
-    });
-    it('SHOULD route navigate if error', () => {
-      getSeriesDetailsSpy.and.returnValue(Observable.throw({ status: 404 }));
-      component.updateSeriesDetails();
-
-      expect(component.router.navigate)
-        .toHaveBeenCalledTimes(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledWith(['/404']);
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('WHEN updateSeriesCredits function is called', () => {
-    let id: number;
-    beforeEach(() => {
-      getSeriesCreditsSpy.calls.reset();
-      spyOn(component, 'resolveLoading').calls.reset();
-      component.crew = [];
-    });
-    it('SHOULD call functions', () => {
-      id = 10;
-      component.route.params = Observable.of({ id: id });
-      component.updateSeriesCredits();
-
-      expect(component.seriesService.getSeriesCredits)
-        .toHaveBeenCalledTimes(1);
-      expect(component.seriesService.getSeriesCredits)
-        .toHaveBeenCalledWith(id);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD set values', () => {
-      component.updateSeriesCredits();
+      component.updateSeriesImages();
 
-      expect(component.crew)
-        .toEqual((<any>seriesDetails).crew);
+      expect(component.seriesBackdrops)
+        .toEqual((<any>seriesDetails).backdrops.slice(0, 12));
+      expect(component.seriesPosters)
+        .toEqual((<any>seriesDetails).posters.slice(0, 12));
     });
     it('SHOULD handle error', () => {
-      getSeriesCreditsSpy.and.returnValue(Observable.throw('test error'));
-      component.updateSeriesCredits();
+      getSeriesImagesSpy.and.returnValue(Observable.throw('test error'));
+      component.updateSeriesImages();
 
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('WHEN getGenres function is called', () => {
-    let genres: any[];
-    it('SHOULD return genres separated by commas', () => {
-      genres = [{ name: 'first' }, { name: 'second' }];
+  describe('WHEN buildImagesArray function is called', () => {
+    it('SHOULD build an array containing all images', () => {
+      component.seriesBackdrops = (<any>seriesDetails).backdrops;
+      component.seriesPosters = (<any>seriesDetails).posters;
+      component.buildImagesArray();
 
-      expect(component.getGenres(genres))
-        .toEqual('first, second');
-    });
-    it('SHOULD return empty if param is undefined', () => {
-      genres = undefined;
-
-      expect(component.getGenres(genres))
-        .toEqual('');
+      expect(component.images.length)
+        .toEqual((<any>seriesDetails).backdrops.length + (<any>seriesDetails).posters.length);
     });
   });
 
-  describe('WHEN convertTime function is called', () => {
-    let minutes: number;
-    it('SHOULD return time in h:min format', () => {
-      minutes = 110;
+  describe('WHEN openImageModal function is called', () => {
+    let index: number;
+    it('SHOULD set values', () => {
+      index = 3;
+      component.openImageModal(index);
 
-      expect(component.convertTime(minutes))
-        .toEqual('1h 50min');
-    });
-    it('SHOULD return empty if param is undefined', () => {
-      minutes = undefined;
-
-      expect(component.convertTime(minutes))
-        .toEqual('');
+      expect(component.imagePointer)
+        .toEqual(index);
+      expect(component.openModalWindow)
+        .toBe(true);
     });
   });
 
-  describe('WHEN changeTab function is called', () => {
-    let tab: number;
-    it('SHOULD set new value', () => {
-      tab = 3;
-      component.changeTab(tab);
+  describe('WHEN onCloseImageModal function is called', () => {
+    it('SHOULD set values', () => {
+      component.onCloseImageModal();
 
-      expect(component.currentTab)
-        .toEqual(tab);
+      expect(component.openModalWindow)
+        .toBe(false);
     });
   });
 
@@ -350,14 +293,35 @@ describe('SeriesDetails component test', () => {
       expect(component._ngZone.run)
         .toHaveBeenCalledTimes(1);
       expect(component._mediaService.query)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(4);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(2);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
       component.checkScreen();
 
-      expect(component.isDesktop)
-        .toBe(true);
+      expect(component.columns)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(4);
     });
   });
 
@@ -370,9 +334,33 @@ describe('SeriesDetails component test', () => {
       component.watchScreen();
 
       expect(component._mediaService.registerQuery)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(4);
       expect(component._ngZone.run)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(4);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 600px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-xs') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(2);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaRegisterQuerySpy.and.callFake((query: string) => {
@@ -383,8 +371,20 @@ describe('SeriesDetails component test', () => {
       });
       component.watchScreen();
 
-      expect(component.isDesktop)
-        .toBe(true);
+      expect(component.columns)
+        .toEqual(3);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-md') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(4);
     });
   });
 
@@ -397,11 +397,11 @@ describe('SeriesDetails component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('series-details');
+        .toHaveBeenCalledWith('series-images');
     });
   });
 
-  describe('WHEN resolveLoading function is called', () => {
+  describe('WHEN resolveMoviesLoading function is called', () => {
     beforeEach(() => {
       spyOn(component._loadingService, 'resolve');
       component.resolveLoading();
@@ -410,7 +410,7 @@ describe('SeriesDetails component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('series-details');
+        .toHaveBeenCalledWith('series-images');
     });
   });
 });

@@ -1,0 +1,29 @@
+{
+  "routes": [
+    {
+      "title": "Movies",
+      "value": "1",
+      "icon": "movie"
+    },
+    {
+      "title": "Series",
+      "value": "2",
+      "icon": "tv"
+    },
+    {
+      "title": "Images",
+      "value": "3",
+      "icon": "image"
+    }
+  ],
+  "person": {
+    "name": "camilo",
+    "birthday": "1995-09-01"
+  },
+  "cast": [
+    {
+      "name": "titanic",
+      "character": "mario"
+    }
+  ]
+}

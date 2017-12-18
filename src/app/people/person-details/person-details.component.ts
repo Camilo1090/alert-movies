@@ -1,16 +1,14 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-
-// pagination
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
@@ -19,14 +17,13 @@ import { PeopleService } from '../shared/people.service';
 @Component({
   selector: 'app-person-details',
   templateUrl: './person-details.component.html',
-  styleUrls: ['./person-details.component.css'],
-  providers: [ TdMediaService ]
+  styleUrls: ['./person-details.component.css']
 })
 export class PersonDetailsComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
   isDesktop = false;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   apiImgOrig = API.apiImg + 'original';
   apiImgBack = API.apiImg + 'w1400_and_h450_bestv2';
@@ -53,12 +50,12 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
 
   currentTab = 1;
 
-  constructor(private peopleService: PeopleService,
-              private router: Router,
-              private route: ActivatedRoute,
+  constructor(public peopleService: PeopleService,
+              public router: Router,
+              public route: ActivatedRoute,
               public _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit() {
@@ -70,6 +67,7 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the details of a given person
   updatePersonDetails(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonDetails(params['id']))
@@ -78,21 +76,23 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
         this.gender = '-';
         if (response['gender'] === 1) {
           this.gender = 'Female';
-        }
-        if (response['gender'] === 2) {
+        } else if (response['gender'] === 2) {
           this.gender = 'Male';
+        } else {
+          this.gender = '';
         }
         this.updateFeaturedCredit();
       }, err => {
         if (err['status'] === 404) {
           this.router.navigate(['/404']);
-        } else {
-          console.log(err);
         }
+        console.log(err);
+        this.person = [];
         this.resolveLoading();
       });
   }
 
+  // updates the featured credit for a given person
   updateFeaturedCredit(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonCombinedCredits(params['id']))
@@ -101,28 +101,31 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
         this.resolveLoading();
       }, err => {
         console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // gets the age of person according to their birthday
   getAge(dateString: string): number {
-    const date1 = new Date(dateString);
-    const date2 = new Date(Date.now());
-    const years = date2.getFullYear() - date1.getFullYear();
-    if (date2.getMonth() > date1.getMonth()) {
-      return years;
-    } else if (date2.getMonth() === date1.getMonth()) {
-      if (date2.getDay() >= date1.getDay()) {
-        return years;
-      } else {
-        return years - 1;
-      }
+    const date1 = Date.parse(dateString);
+    const date2 = Date.now();
+    const millis = date2 - date1;
+    if (millis > 0) {
+      return Math.trunc(millis / (1000 * 60 * 60 * 24 * 365));
     } else {
-      return years - 1;
+      return 0;
     }
   }
 
+  // changes tab
+  changeTab(tab: number): void {
+    this.currentTab = tab;
+  }
+
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
@@ -135,7 +138,7 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * subscribes the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     this._querySubscription = this._mediaService.registerQuery('gt-sm').subscribe((matches: boolean) => {
@@ -143,10 +146,6 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
         this.isDesktop = matches;
       });
     });
-  }
-
-  changeTab(tab: number): void {
-    this.currentTab = tab;
   }
 
   // Methods for the loading
@@ -157,9 +156,4 @@ export class PersonDetailsComponent implements OnInit, OnDestroy {
   resolveLoading(): void {
     this._loadingService.resolve('person-details');
   }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('personDetails', value);
-  }
-
 }

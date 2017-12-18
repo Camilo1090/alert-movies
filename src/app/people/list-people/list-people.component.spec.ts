@@ -3,15 +3,13 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { AppRoutingModule } from '../../app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { Dir } from '@angular/cdk/bidi';
 import {
   MatButtonModule, MatCardModule, MatDialogModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatSelectModule, MatSidenavModule, MatTabsModule, MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 import {
   CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
-  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
-  TdPagingBarComponent
+  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService
 } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
 import { FormsModule } from '@angular/forms';
@@ -21,30 +19,29 @@ import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
 
-import * as movies from '../../testing/movies.json';
-import * as categories from '../../testing/list-movies.json';
+import * as people from '../../testing/people.json';
 
 import { TrendingComponent } from '../../trending/trending.component';
-import { ListMoviesComponent } from './list-movies.component';
-import { MovieDetailsComponent } from '../movie-details/movie-details.component';
-import { ListPeopleComponent } from '../../people/list-people/list-people.component';
+import { ListMoviesComponent } from '../../movies/list-movies/list-movies.component';
+import { MovieDetailsComponent } from '../../movies/movie-details/movie-details.component';
+import { ListPeopleComponent } from './list-people.component';
 import { ListSeriesComponent } from '../../series/list-series/list-series.component';
 import { FooterComponent } from '../../footer/footer.component';
-import { MovieImagesComponent } from '../movie-images/movie-images.component';
-import { MovieVideosComponent } from '../movie-videos/movie-videos.component';
-import { MovieCastComponent } from '../movie-cast/movie-cast.component';
-import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
-import { MovieRecommendationsComponent } from '../movie-recommendations/movie-recommendations.component';
+import { MovieImagesComponent } from '../../movies/movie-images/movie-images.component';
+import { MovieVideosComponent } from '../../movies/movie-videos/movie-videos.component';
+import { MovieCastComponent } from '../../movies/movie-cast/movie-cast.component';
+import { MovieReviewsComponent } from '../../movies/movie-reviews/movie-reviews.component';
+import { MovieRecommendationsComponent } from '../../movies/movie-recommendations/movie-recommendations.component';
 import { SeriesDetailsComponent } from '../../series/series-details/series-details.component';
 import { SeriesImagesComponent } from '../../series/series-images/series-images.component';
 import { SeriesVideosComponent } from '../../series/series-videos/series-videos.component';
 import { FormatStringPipe } from '../../shared/format-string/format-string.pipe';
 import { SeriesCastComponent } from '../../series/series-cast/series-cast.component';
 import { SeriesRecommendationsComponent } from '../../series/series-recommendations/series-recommendations.component';
-import { PersonDetailsComponent } from '../../people/person-details/person-details.component';
-import { PersonMoviesComponent } from '../../people/person-movies/person-movies.component';
-import { PersonSeriesComponent } from '../../people/person-series/person-series.component';
-import { PersonImagesComponent } from '../../people/person-images/person-images.component';
+import { PersonDetailsComponent } from '../person-details/person-details.component';
+import { PersonMoviesComponent } from '../person-movies/person-movies.component';
+import { PersonSeriesComponent } from '../person-series/person-series.component';
+import { PersonImagesComponent } from '../person-images/person-images.component';
 import { SearchComponent } from '../../search/search.component';
 import { SearchBarComponent } from '../../search/search-bar/search-bar.component';
 import { NotFoundComponent } from '../../shared/not-found/not-found.component';
@@ -52,24 +49,18 @@ import { DiscoverComponent } from '../../discover/discover.component';
 import { CustomCardComponent } from '../../shared/custom-card/custom-card.component';
 import { LimitTextComponent } from '../../shared/limit-text/limit-text.component';
 import { API } from '../../shared/api/api';
-import { MoviesService } from '../shared/movies.service';
+import { PeopleService } from '../shared/people.service';
 
 
-describe('ListMovies component test', () => {
-  let component: ListMoviesComponent;
-  let fixture: ComponentFixture<ListMoviesComponent>;
+describe('ListPeople component test', () => {
+  let component: ListPeopleComponent;
+  let fixture: ComponentFixture<ListPeopleComponent>;
 
   // Spy creation
 
   // Service
-  const getPopularMoviesSpy = jasmine.createSpy('getPopularMovies')
-    .and.returnValue(Observable.of(movies));
-  const getPlayingNowMoviesSpy = jasmine.createSpy('getPlayingNowMovies')
-    .and.returnValue(Observable.of(movies));
-  const getUpcomingMoviesSpy = jasmine.createSpy('getUpcomingMovies')
-    .and.returnValue(Observable.of(movies));
-  const getTopRatedMoviesSpy = jasmine.createSpy('getTopRatedMovies')
-    .and.returnValue(Observable.of(movies));
+  const getPopularPeopleSpy = jasmine.createSpy('getPopularPeople')
+    .and.returnValue(Observable.of(people));
 
   // TdMediaQuery
   const mediaQuerySpy = jasmine.createSpy('query')
@@ -146,11 +137,8 @@ describe('ListMovies component test', () => {
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         {
-          provide: MoviesService, useClass: class {
-            getPopularMovies = getPopularMoviesSpy;
-            getPlayingNowMovies = getPlayingNowMoviesSpy;
-            getUpcomingMovies = getUpcomingMoviesSpy;
-            getTopRatedMovies = getTopRatedMoviesSpy;
+          provide: PeopleService, useClass: class {
+            getPopularPeople = getPopularPeopleSpy;
           }
         },
         {
@@ -176,7 +164,7 @@ describe('ListMovies component test', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListMoviesComponent);
+    fixture = TestBed.createComponent(ListPeopleComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -191,11 +179,6 @@ describe('ListMovies component test', () => {
       expect(component._querySubscription)
         .toBeUndefined();
 
-      expect(component.selectedCategory)
-        .toEqual('popular');
-      expect(component.categories)
-        .toEqual(categories['categories']);
-
       expect(component.currentPage)
         .toEqual(1);
       expect(component.firstLast)
@@ -205,7 +188,7 @@ describe('ListMovies component test', () => {
       expect(component.totalPages)
         .toBeUndefined();
 
-      expect(component.movies)
+      expect(component.people)
         .toEqual([]);
       expect(component.apiImg)
         .toEqual(API.apiImg + 'w500');
@@ -215,11 +198,10 @@ describe('ListMovies component test', () => {
   });
 
   describe('WHEN ngOnInit function is called', () => {
-    let category: string;
     let page: number;
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovies').calls.reset();
+      spyOn(component, 'updatePeople').calls.reset();
       spyOn(component, 'checkScreen').calls.reset();
       spyOn(component, 'watchScreen').calls.reset();
     });
@@ -228,8 +210,6 @@ describe('ListMovies component test', () => {
       component.ngOnInit();
       tick();
 
-      expect(component.selectedCategory)
-        .toEqual('popular');
       expect(component.currentPage)
         .toEqual(1);
     }));
@@ -239,7 +219,7 @@ describe('ListMovies component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovies)
+      expect(component.updatePeople)
         .toHaveBeenCalledTimes(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
@@ -247,195 +227,53 @@ describe('ListMovies component test', () => {
         .toHaveBeenCalledTimes(1);
     }));
     it('SHOULD read param values', fakeAsync(() => {
-      category = 'upcoming';
       page = 2;
-      component.route.params = Observable.of({ category: category, page: page });
+      component.route.params = Observable.of({ page: page });
       component.ngOnInit();
       tick();
 
-      expect(component.selectedCategory)
-        .toEqual(category);
       expect(component.currentPage)
         .toEqual(page);
     }));
   });
 
-  describe('WHEN updateMovies function is called', () => {
+  describe('WHEN updatePeople function is called', () => {
     let page: number;
     beforeEach(() => {
-      getPopularMoviesSpy.calls.reset();
-      getPlayingNowMoviesSpy.calls.reset();
-      getUpcomingMoviesSpy.calls.reset();
-      getTopRatedMoviesSpy.calls.reset();
+      getPopularPeopleSpy.calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
-      component.movies = [];
+      component.people = [];
     });
-    it('SHOULD call service when category is popular', () => {
+    it('SHOULD call service', () => {
       page = 2;
       component.currentPage = page;
-      component.selectedCategory = 'popular';
-      component.updateMovies();
+      component.updatePeople();
 
-      expect(component.moviesService.getPopularMovies)
+      expect(component.peopleService.getPopularPeople)
         .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getPopularMovies)
+      expect(component.peopleService.getPopularPeople)
         .toHaveBeenCalledWith(page);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
-    it('SHOULD set values when category is popular', () => {
-      component.selectedCategory = 'popular';
-      component.updateMovies();
+    it('SHOULD set values', () => {
+      component.updatePeople();
 
-      expect(component.movies)
-        .toEqual((<any>movies).results);
+      expect(component.people)
+        .toEqual((<any>people).results);
       expect(component.totalResults)
-        .toEqual((<any>movies).total_results);
+        .toEqual((<any>people).total_results);
       expect(component.totalPages)
-        .toEqual((<any>movies).total_pages);
+        .toEqual((<any>people).total_pages);
     });
     it('SHOULD handle error', () => {
-      getPopularMoviesSpy.and.returnValue(Observable.throw('test error'));
-      component.selectedCategory = 'popular';
-      component.updateMovies();
+      getPopularPeopleSpy.and.returnValue(Observable.throw('test error'));
+      component.updatePeople();
 
+      expect(component.people)
+        .toEqual([]);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD call service when category is playing now', () => {
-      page = 1;
-      component.currentPage = page;
-      component.selectedCategory = 'now';
-      component.updateMovies();
-
-      expect(component.moviesService.getPlayingNowMovies)
-        .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getPlayingNowMovies)
-        .toHaveBeenCalledWith(page);
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD set values when category is playing now', () => {
-      component.selectedCategory = 'now';
-      component.updateMovies();
-
-      expect(component.movies)
-        .toEqual((<any>movies).results);
-      expect(component.totalResults)
-        .toEqual((<any>movies).total_results);
-      expect(component.totalPages)
-        .toEqual((<any>movies).total_pages);
-    });
-    it('SHOULD handle error', () => {
-      getPlayingNowMoviesSpy.and.returnValue(Observable.throw('test error'));
-      component.selectedCategory = 'now';
-      component.updateMovies();
-
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD call service when category is upcoming', () => {
-      page = 2;
-      component.currentPage = page;
-      component.selectedCategory = 'upcoming';
-      component.updateMovies();
-
-      expect(component.moviesService.getUpcomingMovies)
-        .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getUpcomingMovies)
-        .toHaveBeenCalledWith(page);
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD set values when category is upcoming', () => {
-      component.selectedCategory = 'upcoming';
-      component.updateMovies();
-
-      expect(component.movies)
-        .toEqual((<any>movies).results);
-      expect(component.totalResults)
-        .toEqual((<any>movies).total_results);
-      expect(component.totalPages)
-        .toEqual((<any>movies).total_pages);
-    });
-    it('SHOULD handle error', () => {
-      getUpcomingMoviesSpy.and.returnValue(Observable.throw('test error'));
-      component.selectedCategory = 'upcoming';
-      component.updateMovies();
-
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD call service when category is top rated', () => {
-      page = 3;
-      component.currentPage = page;
-      component.selectedCategory = 'top';
-      component.updateMovies();
-
-      expect(component.moviesService.getTopRatedMovies)
-        .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getTopRatedMovies)
-        .toHaveBeenCalledWith(page);
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD set values when category is top rated', () => {
-      component.selectedCategory = 'top';
-      component.updateMovies();
-
-      expect(component.movies)
-        .toEqual((<any>movies).results);
-      expect(component.totalResults)
-        .toEqual((<any>movies).total_results);
-      expect(component.totalPages)
-        .toEqual((<any>movies).total_pages);
-    });
-    it('SHOULD handle error', () => {
-      getTopRatedMoviesSpy.and.returnValue(Observable.throw('test error'));
-      component.selectedCategory = 'top';
-      component.updateMovies();
-
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD navigate to 404 if in invalid category', () => {
-      navigateSpy.calls.reset();
-      component.selectedCategory = 'invalid-category';
-      component.updateMovies();
-
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledTimes(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledWith(['/404']);
-    });
-  });
-
-  describe('WHEN onCategoryChanged function is called', () => {
-    beforeEach(() => {
-      navigateSpy.calls.reset();
-    });
-    it('SHOULD navigate to page 1 if there is a paging bar', () => {
-      component.pagingBar = new TdPagingBarComponent(new Dir());
-      spyOn(component.pagingBar, 'navigateToPage');
-      component.onCategoryChanged();
-
-      expect(component.pagingBar.navigateToPage)
-        .toHaveBeenCalledTimes(1);
-      expect(component.pagingBar.navigateToPage)
-        .toHaveBeenCalledWith(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledTimes(0);
-    });
-    it('SHOULD route navigate if there is no paging bar', () => {
-      component.pagingBar = undefined;
-      component.onCategoryChanged();
-
-      expect(component.router.navigate)
-        .toHaveBeenCalledTimes(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledWith(['/list-movies', component.selectedCategory, { 'page': 1 }]);
     });
   });
 
@@ -460,7 +298,33 @@ describe('ListMovies component test', () => {
       expect(component.router.navigate)
         .toHaveBeenCalledTimes(1);
       expect(component.router.navigate)
-        .toHaveBeenCalledWith(['/list-movies', component.selectedCategory, { 'page': event.page }]);
+        .toHaveBeenCalledWith(['/list-people', { 'page': event.page }]);
+    });
+  });
+
+  describe('WHEN getKnownFor function is called', () => {
+    let person: Object;
+    it('SHOULD return title of the movie if movie', () => {
+      person = {
+        known_for: [{media_type: 'movie', title: 'myMovie'}],
+      };
+
+      expect(component.getKnownFor(person))
+        .toEqual('myMovie');
+    });
+    it('SHOULD return name of the series if series', () => {
+      person = {
+        known_for: [{media_type: 'series', name: 'mySeries'}],
+      };
+
+      expect(component.getKnownFor(person))
+        .toEqual('mySeries');
+    });
+    it('SHOULD return empty if there are no movies nor series', () => {
+      person = {};
+
+      expect(component.getKnownFor(person))
+        .toEqual('');
     });
   });
 
@@ -475,10 +339,17 @@ describe('ListMovies component test', () => {
       expect(component._ngZone.run)
         .toHaveBeenCalledTimes(1);
       expect(component._mediaService.query)
-        .toHaveBeenCalledTimes(4);
+        .toHaveBeenCalledTimes(5);
     });
     it('SHOULD set internal values when query is (max-width: 600px)', () => {
       mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 375px)');
       component.checkScreen();
 
       expect(component.columns)
@@ -489,21 +360,21 @@ describe('ListMovies component test', () => {
       component.checkScreen();
 
       expect(component.columns)
-        .toEqual(2);
+        .toEqual(3);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
       component.checkScreen();
 
       expect(component.columns)
-        .toEqual(3);
+        .toEqual(4);
     });
     it('SHOULD set internal values when query is gt-md', () => {
       mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
       component.checkScreen();
 
       expect(component.columns)
-        .toEqual(4);
+        .toEqual(5);
     });
   });
 
@@ -516,13 +387,25 @@ describe('ListMovies component test', () => {
       component.watchScreen();
 
       expect(component._mediaService.registerQuery)
-        .toHaveBeenCalledTimes(4);
+        .toHaveBeenCalledTimes(5);
       expect(component._ngZone.run)
-        .toHaveBeenCalledTimes(4);
+        .toHaveBeenCalledTimes(5);
     });
     it('SHOULD set internal values when query is (max-width: 600px)', () => {
       mediaRegisterQuerySpy.and.callFake((query: string) => {
         if (query === '(max-width: 600px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 375px)') {
           return Observable.of(true);
         }
         return Observable.of(false);
@@ -542,7 +425,7 @@ describe('ListMovies component test', () => {
       component.watchScreen();
 
       expect(component.columns)
-        .toEqual(2);
+        .toEqual(3);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaRegisterQuerySpy.and.callFake((query: string) => {
@@ -554,7 +437,7 @@ describe('ListMovies component test', () => {
       component.watchScreen();
 
       expect(component.columns)
-        .toEqual(3);
+        .toEqual(4);
     });
     it('SHOULD set internal values when query is gt-md', () => {
       mediaRegisterQuerySpy.and.callFake((query: string) => {
@@ -566,7 +449,7 @@ describe('ListMovies component test', () => {
       component.watchScreen();
 
       expect(component.columns)
-        .toEqual(4);
+        .toEqual(5);
     });
   });
 
@@ -579,7 +462,7 @@ describe('ListMovies component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('movies');
+        .toHaveBeenCalledWith('people');
     });
   });
 
@@ -592,7 +475,7 @@ describe('ListMovies component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('movies');
+        .toHaveBeenCalledWith('people');
     });
   });
 });

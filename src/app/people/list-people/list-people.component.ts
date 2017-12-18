@@ -1,41 +1,37 @@
-import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {IPageChangeEvent, TdPagingBarComponent} from '@covalent/core';
-
-// pagination
+import { Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// Load shared
+// pagination
+import { IPageChangeEvent, TdPagingBarComponent } from '@covalent/core';
+
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { PeopleService } from '../shared/people.service';
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-people',
   templateUrl: './list-people.component.html',
   styleUrls: ['./list-people.component.css'],
-  providers: [ TdMediaService ],
   encapsulation: ViewEncapsulation.None
 })
 export class ListPeopleComponent implements OnInit, OnDestroy {
   @ViewChild('pagingBar') pagingBar: TdPagingBarComponent;
 
   // Used for responsive services
-  isDesktop = false;
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   // Used for the pagination
   currentPage = 1;
   firstLast = true;
-  pageSizeAll = false;
-  pageLinkCount = 5;
   totalResults: number;
   totalPages: number;
 
@@ -43,18 +39,17 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   apiImg = API.apiImg + 'w500';
   apiImgOrig = API.apiImg + 'original';
 
-  constructor(private peopleService: PeopleService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public peopleService: PeopleService,
+              public route: ActivatedRoute,
+              public router: Router,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.registerLoading();
-      // console.log(params);
       if (params['page']) {
         this.currentPage = params['page'];
       } else {
@@ -67,23 +62,24 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the list of people
   updatePeople(): void {
     this.peopleService.getPopularPeople(this.currentPage).subscribe(response => {
       if (response['results']) {
         this.people = response['results'];
-      } else {
-        this.people = [];
       }
       this.totalResults = response['total_results'] <= 20000 ? response['total_results'] : 20000;
       this.totalPages = response['total_pages'] <= 1000 ? response['total_pages'] : 1000;
       this.resolveLoading();
     }, err => {
       console.log(err);
+      this.people = [];
+      this.resolveLoading();
     });
   }
 
   /**
-   * In charge to manage the behavior of the pagination
+   * manages the behavior of the pagination
    * @param event: Event of change the page
    */
   changePage(event: IPageChangeEvent): void {
@@ -91,6 +87,7 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
     this.router.navigate(['/list-people', {'page': this.currentPage}]);
   }
 
+  // gets the title of the first movie or tv series of a given person
   getKnownFor(person: any): string {
     let result = '';
     if (person['known_for'] && person['known_for'].length > 0) {
@@ -104,54 +101,42 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
-    // this.columns = 5;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 2;
-        this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
-        this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
-        this.isDesktop = false;
-        this.pageLinkCount = 1;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
-        this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 5;
-        this.isDesktop = true;
-        this.pageLinkCount = 5;
       }
     });
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    // this.columns = 5;
     this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)').subscribe((matches: boolean) => {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -159,8 +144,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 1;
-          this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -168,8 +151,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = false;
-          this.pageLinkCount = 1;
         }
       });
     });
@@ -177,8 +158,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -186,8 +165,6 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 5;
-          this.isDesktop = true;
-          this.pageLinkCount = 5;
         }
       });
     });
@@ -200,9 +177,5 @@ export class ListPeopleComponent implements OnInit, OnDestroy {
 
   resolveLoading(): void {
     this._loadingService.resolve('people');
-  }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('movies', value);
   }
 }

@@ -14,7 +14,7 @@ import {
 import { CovalentHttpModule } from '@covalent/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalGalleryModule } from 'angular-modal-gallery';
@@ -38,10 +38,10 @@ import { SeriesVideosComponent } from '../../series/series-videos/series-videos.
 import { FormatStringPipe } from '../../shared/format-string/format-string.pipe';
 import { SeriesCastComponent } from '../../series/series-cast/series-cast.component';
 import { SeriesRecommendationsComponent } from '../../series/series-recommendations/series-recommendations.component';
-import { PersonDetailsComponent } from './person-details.component';
+import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { PersonMoviesComponent } from '../person-movies/person-movies.component';
 import { PersonSeriesComponent } from '../person-series/person-series.component';
-import { PersonImagesComponent } from '../person-images/person-images.component';
+import { PersonImagesComponent } from './person-images.component';
 import { SearchComponent } from '../../search/search.component';
 import { SearchBarComponent } from '../../search/search-bar/search-bar.component';
 import { NotFoundComponent } from '../../shared/not-found/not-found.component';
@@ -52,16 +52,14 @@ import { API } from '../../shared/api/api';
 import { PeopleService } from '../shared/people.service';
 
 
-describe('PersonDetails component test', () => {
-  let component: PersonDetailsComponent;
-  let fixture: ComponentFixture<PersonDetailsComponent>;
+describe('PersonImages component test', () => {
+  let component: PersonImagesComponent;
+  let fixture: ComponentFixture<PersonImagesComponent>;
 
   // Spy creation
 
   // service
-  const getPersonDetailsSpy = jasmine.createSpy('getPersonDetails')
-    .and.returnValue(Observable.of((<any>personDetails).person));
-  const getPersonCreditsSpy = jasmine.createSpy('getPersonCredits')
+  const getPersonImagesSpy = jasmine.createSpy('getPersonImages')
     .and.returnValue(Observable.of(personDetails));
 
   // TdMediaQuery
@@ -69,9 +67,6 @@ describe('PersonDetails component test', () => {
     .and.returnValue(false);
   const mediaRegisterQuerySpy = jasmine.createSpy('registerQuery')
     .and.returnValue(Observable.of(false));
-
-  // Router
-  const navigateSpy = jasmine.createSpy('navigate');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -140,8 +135,7 @@ describe('PersonDetails component test', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         {
           provide: PeopleService, useClass: class {
-            getPersonDetails = getPersonDetailsSpy;
-            getPersonCombinedCredits = getPersonCreditsSpy;
+            getPersonImages = getPersonImagesSpy;
           }
         },
         {
@@ -156,18 +150,13 @@ describe('PersonDetails component test', () => {
             registerQuery = mediaRegisterQuerySpy;
           }
         },
-        {
-          provide: Router, useClass: class {
-            navigate = navigateSpy;
-          }
-        },
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PersonDetailsComponent);
+    fixture = TestBed.createComponent(PersonImagesComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -175,32 +164,31 @@ describe('PersonDetails component test', () => {
     it('SHOULD create the global variables', () => {
       expect(component)
         .toBeTruthy();
-      expect(component.isDesktop)
-        .toBe(false);
+      expect(component.columns)
+        .toBeUndefined();
       expect(component._querySubscription)
         .toBeUndefined();
 
+      expect(component.personImages)
+        .toEqual([]);
+      expect(component.apiImg)
+        .toEqual(API.apiImg + 'w500');
       expect(component.apiImgOrig)
         .toEqual(API.apiImg + 'original');
-      expect(component.apiImgBack)
-        .toEqual(API.apiImg + 'w1400_and_h450_bestv2');
-      expect(component.person)
+
+      expect(component.images)
         .toEqual([]);
-      expect(component.gender)
-        .toBeUndefined();
-      expect(component.featuredCredit)
-        .toBeUndefined();
-      expect(component.routes)
-        .toEqual((<any>personDetails).routes);
-      expect(component.currentTab)
-        .toEqual(1);
+      expect(component.openModalWindow)
+        .toBe(false);
+      expect(component.imagePointer)
+        .toEqual(0);
     });
   });
 
   describe('WHEN ngOnInit function is called', () => {
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updatePersonDetails').calls.reset();
+      spyOn(component, 'updatePersonImages').calls.reset();
       spyOn(component, 'checkScreen').calls.reset();
       spyOn(component, 'watchScreen').calls.reset();
     });
@@ -210,7 +198,7 @@ describe('PersonDetails component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updatePersonDetails)
+      expect(component.updatePersonImages)
         .toHaveBeenCalledTimes(1);
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
@@ -219,126 +207,72 @@ describe('PersonDetails component test', () => {
     }));
   });
 
-  describe('WHEN updatePersonDetails function is called', () => {
+  describe('WHEN updatePersonImages function is called', () => {
     let id: number;
     beforeEach(() => {
-      getPersonDetailsSpy.calls.reset();
-      getPersonCreditsSpy.calls.reset();
+      getPersonImagesSpy.calls.reset();
+      spyOn(component, 'buildImagesArray').calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
-      component.person = [];
+      component.personImages = [];
     });
-    it('SHOULD call functions', () => {
+    it('SHOULD call service', () => {
       id = 10;
       component.route.params = Observable.of({ id: id });
-      component.updatePersonDetails();
+      component.updatePersonImages();
 
-      expect(component.peopleService.getPersonDetails)
+      expect(component.peopleService.getPersonImages)
         .toHaveBeenCalledTimes(1);
-      expect(component.peopleService.getPersonDetails)
+      expect(component.peopleService.getPersonImages)
         .toHaveBeenCalledWith(id);
-      expect(component.peopleService.getPersonCombinedCredits)
+      expect(component.buildImagesArray)
         .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD set values', () => {
-      component.updatePersonDetails();
-
-      expect(component.person)
-        .toEqual((<any>personDetails).person);
-
-      getPersonDetailsSpy.and.returnValue(Observable.of({}));
-      component.updatePersonDetails();
-      expect(component.gender)
-        .toEqual('');
-
-      getPersonDetailsSpy.and.returnValue(Observable.of({gender: 1}));
-      component.updatePersonDetails();
-      expect(component.gender)
-        .toEqual('Female');
-
-      getPersonDetailsSpy.and.returnValue(Observable.of({gender: 2}));
-      component.updatePersonDetails();
-      expect(component.gender)
-        .toEqual('Male');
-    });
-    it('SHOULD route navigate if error', () => {
-      getPersonDetailsSpy.and.returnValue(Observable.throw({ status: 404 }));
-      component.updatePersonDetails();
-
-      expect(component.router.navigate)
-        .toHaveBeenCalledTimes(1);
-      expect(component.router.navigate)
-        .toHaveBeenCalledWith(['/404']);
-      expect(component.resolveLoading)
-        .toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('WHEN updateFeaturedCredit function is called', () => {
-    let id: number;
-    beforeEach(() => {
-      getPersonCreditsSpy.calls.reset();
-      spyOn(component, 'resolveLoading').calls.reset();
-      component.featuredCredit = {};
-    });
-    it('SHOULD call functions', () => {
-      id = 10;
-      component.route.params = Observable.of({ id: id });
-      component.updateFeaturedCredit();
-
-      expect(component.peopleService.getPersonCombinedCredits)
-        .toHaveBeenCalledTimes(1);
-      expect(component.peopleService.getPersonCombinedCredits)
-        .toHaveBeenCalledWith(id);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD set values', () => {
-      component.updateFeaturedCredit();
+      component.updatePersonImages();
 
-      expect(component.featuredCredit)
-        .toEqual((<any>personDetails).cast[0]);
-    });
-    it('SHOULD call sort', () => {
-      spyOn(personDetails['cast'], 'sort').and.callFake(fn => fn({popularity: 1}, {popularity: 2}));
-      component.updateFeaturedCredit();
-
-      expect(personDetails['cast'].sort)
-        .toHaveBeenCalledTimes(1);
+      expect(component.personImages)
+        .toEqual((<any>personDetails).profiles.slice(0, 12));
     });
     it('SHOULD handle error', () => {
-      getPersonCreditsSpy.and.returnValue(Observable.throw('test error'));
-      component.updateFeaturedCredit();
+      getPersonImagesSpy.and.returnValue(Observable.throw('test error'));
+      component.updatePersonImages();
 
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('WHEN getAge function is called', () => {
-    let date1: Date;
-    beforeEach(() => {
-      date1 = new Date(Date.now());
-    });
-    it('SHOULD return age', () => {
-      date1.setFullYear(date1.getFullYear() - 1);
-      expect(component.getAge(date1.toDateString()))
-        .toEqual(1);
-    });
-    it('SHOULD return age', () => {
-      date1.setFullYear(date1.getFullYear() + 1);
-      expect(component.getAge(date1.toDateString()))
-        .toEqual(0);
+  describe('WHEN buildImagesArray function is called', () => {
+    it('SHOULD build an array containing all images', () => {
+      component.personImages = (<any>personDetails).profiles;
+      component.buildImagesArray();
+
+      expect(component.images.length)
+        .toEqual((<any>personDetails).profiles.length);
     });
   });
 
-  describe('WHEN changeTab function is called', () => {
-    let tab: number;
-    it('SHOULD set new value', () => {
-      tab = 3;
-      component.changeTab(tab);
+  describe('WHEN openImageModal function is called', () => {
+    let index: number;
+    it('SHOULD set values', () => {
+      index = 3;
+      component.openImageModal(index);
 
-      expect(component.currentTab)
-        .toEqual(tab);
+      expect(component.imagePointer)
+        .toEqual(index);
+      expect(component.openModalWindow)
+        .toBe(true);
+    });
+  });
+
+  describe('WHEN onCloseImageModal function is called', () => {
+    it('SHOULD set values', () => {
+      component.onCloseImageModal();
+
+      expect(component.openModalWindow)
+        .toBe(false);
     });
   });
 
@@ -353,14 +287,42 @@ describe('PersonDetails component test', () => {
       expect(component._ngZone.run)
         .toHaveBeenCalledTimes(1);
       expect(component._mediaService.query)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(5);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 375px)');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(3);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
       component.checkScreen();
 
-      expect(component.isDesktop)
-        .toBe(true);
+      expect(component.columns)
+        .toEqual(4);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
+      component.checkScreen();
+
+      expect(component.columns)
+        .toEqual(5);
     });
   });
 
@@ -373,9 +335,45 @@ describe('PersonDetails component test', () => {
       component.watchScreen();
 
       expect(component._mediaService.registerQuery)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(5);
       expect(component._ngZone.run)
-        .toHaveBeenCalledTimes(1);
+        .toHaveBeenCalledTimes(5);
+    });
+    it('SHOULD set internal values when query is (max-width: 600px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 600px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(2);
+    });
+    it('SHOULD set internal values when query is (max-width: 375px)', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === '(max-width: 375px)') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(1);
+    });
+    it('SHOULD set internal values when query is gt-xs', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-xs') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(3);
     });
     it('SHOULD set internal values when query is gt-sm', () => {
       mediaRegisterQuerySpy.and.callFake((query: string) => {
@@ -386,8 +384,20 @@ describe('PersonDetails component test', () => {
       });
       component.watchScreen();
 
-      expect(component.isDesktop)
-        .toBe(true);
+      expect(component.columns)
+        .toEqual(4);
+    });
+    it('SHOULD set internal values when query is gt-md', () => {
+      mediaRegisterQuerySpy.and.callFake((query: string) => {
+        if (query === 'gt-md') {
+          return Observable.of(true);
+        }
+        return Observable.of(false);
+      });
+      component.watchScreen();
+
+      expect(component.columns)
+        .toEqual(5);
     });
   });
 
@@ -400,11 +410,11 @@ describe('PersonDetails component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('person-details');
+        .toHaveBeenCalledWith('person-images');
     });
   });
 
-  describe('WHEN resolveLoading function is called', () => {
+  describe('WHEN resolveMoviesLoading function is called', () => {
     beforeEach(() => {
       spyOn(component._loadingService, 'resolve');
       component.resolveLoading();
@@ -413,7 +423,7 @@ describe('PersonDetails component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('person-details');
+        .toHaveBeenCalledWith('person-images');
     });
   });
 });

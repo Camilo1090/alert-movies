@@ -1,34 +1,32 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-
-// pagination
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
 import { PeopleService } from '../shared/people.service';
-import {Image, ImageModalEvent} from "angular-modal-gallery";
+
+// modal gallery
+import { Image } from 'angular-modal-gallery';
 
 @Component({
   selector: 'app-person-images',
   templateUrl: './person-images.component.html',
-  styleUrls: ['./person-images.component.css'],
-  providers: [ TdMediaService ]
+  styleUrls: ['./person-images.component.css']
 })
 export class PersonImagesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
-  isDesktop = true;
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
   personImages = [];
   apiImg = API.apiImg + 'w500';
@@ -39,11 +37,11 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
   openModalWindow = false;
   imagePointer = 0;
 
-  constructor(private peopleService: PeopleService,
-              private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public peopleService: PeopleService,
+              public route: ActivatedRoute,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -55,6 +53,7 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the images of a given person
   updatePersonImages(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonImages(params['id']))
@@ -62,9 +61,13 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
         this.personImages = response['profiles'].slice(0, 12);
         this.buildImagesArray();
         this.resolveLoading();
+      }, err => {
+        console.log(err);
+        this.resolveLoading();
       });
   }
 
+  // builds an array with all the images for the gallery
   buildImagesArray() {
     for (let i = 0; i < this.personImages.length; i++) {
       const imgUrl = this.apiImgOrig + this.personImages[i]['file_path'];
@@ -73,50 +76,48 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
     }
   }
 
+  // opens the gallery at the selected image
   openImageModal(index: number) {
     this.imagePointer = index;
     this.openModalWindow = true;
   }
 
-  onCloseImageModal(event: ImageModalEvent) {
+  // closes the modal gallery
+  onCloseImageModal() {
     this.openModalWindow = false;
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
-    // this.columns = 4;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 2;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('(max-width: 375px)')) {
         this.columns = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 5;
-        this.isDesktop = true;
       }
     });
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
     // this.columns = 4;
@@ -124,7 +125,6 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = false;
         }
       });
     });
@@ -132,7 +132,6 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 1;
-          this.isDesktop = false;
         }
       });
     });
@@ -140,7 +139,6 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -148,7 +146,6 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -156,7 +153,6 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 5;
-          this.isDesktop = true;
         }
       });
     });
@@ -170,9 +166,4 @@ export class PersonImagesComponent implements OnInit, OnDestroy {
   resolveLoading(): void {
     this._loadingService.resolve('person-images');
   }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('personImages', value);
-  }
-
 }

@@ -25,5 +25,10 @@
       "name": "titanic",
       "character": "mario"
     }
+  ],
+  "profiles": [
+    {
+      "file_path": "/link1.jpg"
+    }
   ]
 }

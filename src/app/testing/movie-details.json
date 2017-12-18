@@ -30,6 +30,12 @@
     "title": "myMovie",
     "runtime": 130
   },
+  "cast": [
+    {
+      "name": "camilo",
+      "character": "main role"
+    }
+  ],
   "crew": [
     {
       "name": "camilo",

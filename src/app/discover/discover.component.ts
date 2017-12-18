@@ -1,12 +1,12 @@
-import {Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdChipsComponent, TdMediaService, TdPagingBarComponent} from '@covalent/core';
+import { TdMediaService, TdPagingBarComponent} from '@covalent/core';
+import { Subscription } from 'rxjs/Subscription';
 
 // pagination
-import { Subscription } from 'rxjs/Subscription';
 import { IPageChangeEvent } from '@covalent/core';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
@@ -120,6 +120,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
           this.updateGenres();
           this.filterGenres('');
         }
+      } else {
+        this.selectedCategory = 'movies';
       }
       if (params['page']) {
         if (params['page'] <= 1000) {
@@ -127,14 +129,20 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         } else {
           this.router.navigate(['/discover', this.selectedCategory, {'page': 1}]);
         }
+      } else {
+        this.currentPage = 1;
       }
       if (params['primary_release_year']) {
         this.selectedYear = +params['primary_release_year'];
       } else if (params['first_air_date_year']) {
         this.selectedYear = +params['first_air_date_year'];
+      } else {
+        this.selectedYear = 0;
       }
       if (params['sort_by']) {
         this.selectedSort = params['sort_by'];
+      } else {
+        this.selectedSort = 'popularity.desc';
       }
       // if (params['with_genres']) {
       //   this.genresModel = [];

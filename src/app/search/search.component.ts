@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   apiImgOrig = API.apiImg + 'original';
 
   constructor(public searchService: SearchService,
-              private route: ActivatedRoute,
+              public route: ActivatedRoute,
               public router: Router,
               public _mediaService: TdMediaService,
               public _ngZone: NgZone) {
@@ -60,12 +60,18 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.ready = false;
       if (params['media']) {
         this.media = params['media'];
+      } else {
+        this.media = 'movie';
       }
       if (params['query']) {
         this.query = params['query'];
+      } else {
+        this.query = '';
       }
       if (params['page']) {
         this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
       }
       this.updateSearchResults();
     });

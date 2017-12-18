@@ -311,6 +311,20 @@ describe('Discover component test', () => {
       expect(component.selectedYear)
         .toEqual(year);
     }));
+    it('SHOULD set default values if no params', fakeAsync(() => {
+      component.route.params = Observable.of({});
+      component.ngOnInit();
+      tick();
+
+      expect(component.selectedCategory)
+        .toEqual('movies');
+      expect(component.currentPage)
+        .toEqual(1);
+      expect(component.selectedYear)
+        .toEqual(0);
+      expect(component.selectedSort)
+        .toEqual('popularity.desc');
+    }));
   });
 
   describe('WHEN updateResults function is called', () => {

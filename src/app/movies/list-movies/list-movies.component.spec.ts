@@ -61,7 +61,7 @@ describe('ListMovies component test', () => {
 
   // Spy creation
 
-  // Search
+  // Service
   const getPopularMoviesSpy = jasmine.createSpy('getPopularMovies')
     .and.returnValue(Observable.of(movies));
   const getPlayingNowMoviesSpy = jasmine.createSpy('getPlayingNowMovies')

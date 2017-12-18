@@ -75,9 +75,13 @@ export class ListMoviesComponent implements OnInit, OnDestroy {
       // console.log(params);
       if (params['category']) {
         this.selectedCategory = params['category'];
+      } else {
+        this.selectedCategory = 'popular';
       }
       if (params['page']) {
         this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
       }
       this.updateMovies();
     });

@@ -224,33 +224,45 @@ describe('Search component test', () => {
   });
 
   describe('WHEN ngOnInit function is called', () => {
-    beforeEach(fakeAsync(() => {
-      spyOn<any>(component, 'updateSearchResults');
-      spyOn<any>(component, 'checkScreen');
-      spyOn<any>(component, 'watchScreen');
+    beforeEach(() => {
+      spyOn(component, 'updateSearchResults').calls.reset();
+      spyOn(component, 'checkScreen').calls.reset();
+      spyOn(component, 'watchScreen').calls.reset();
+    });
+    it('SHOULD read param values', fakeAsync(() => {
       component.ngOnInit();
       tick();
-    }));
-    it('SHOULD read param values', () => {
+
       expect(component.media)
         .toEqual('person');
       expect(component.query)
         .toEqual('efren');
       expect(component.currentPage)
         .toEqual(2);
-    });
-    it('SHOULD call updateSearchResults', () => {
+    }));
+    it('SHOULD set default values if no params', fakeAsync(() => {
+      component.route.params = Observable.of({});
+      component.ngOnInit();
+      tick();
+
+      expect(component.media)
+        .toEqual('movie');
+      expect(component.query)
+        .toEqual('');
+      expect(component.currentPage)
+        .toEqual(1);
+    }));
+    it('SHOULD call functions', fakeAsync(() => {
+      component.ngOnInit();
+      tick();
+
       expect(component.updateSearchResults)
         .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD call checkScreen', () => {
       expect(component.checkScreen)
         .toHaveBeenCalledTimes(1);
-    });
-    it('SHOULD call watchScreen', () => {
       expect(component.watchScreen)
         .toHaveBeenCalledTimes(1);
-    });
+    }));
   });
 
   describe('WHEN updateSearchResults function is called', () => {

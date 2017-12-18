@@ -73,9 +73,13 @@ export class ListSeriesComponent implements OnInit, OnDestroy {
       this.registerLoading();
       if (params['category']) {
         this.selectedCategory = params['category'];
+      } else {
+        this.selectedCategory = 'popular';
       }
       if (params['page']) {
         this.currentPage = params['page'];
+      } else {
+        this.currentPage = 1;
       }
       this.updateSeries();
     });

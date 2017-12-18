@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-limit-text',
@@ -18,7 +18,7 @@ export class LimitTextComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.text) {
+    if (this.text && this.text.length > 0) {
       this.limitText();
     }
   }
@@ -34,5 +34,4 @@ export class LimitTextComponent implements OnInit {
   toggle() {
     this.isToggled = !this.isToggled;
   }
-
 }

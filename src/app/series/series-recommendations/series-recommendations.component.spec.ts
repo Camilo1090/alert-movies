@@ -52,7 +52,7 @@ import { API } from '../../shared/api/api';
 import { SeriesService } from '../shared/series.service';
 
 
-fdescribe('SeriesRecommendations component test', () => {
+describe('SeriesRecommendations component test', () => {
   let component: SeriesRecommendationsComponent;
   let fixture: ComponentFixture<SeriesRecommendationsComponent>;
 

@@ -9,7 +9,7 @@ import {
 } from '@angular/material';
 import {
   CovalentChipsModule, CovalentLayoutModule, CovalentLoadingModule, CovalentMediaModule, CovalentMenuModule,
-  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule, IPageChangeEvent, TdMediaService,
+  CovalentNotificationsModule, CovalentPagingModule, CovalentSearchModule
 } from '@covalent/core';
 import { CovalentHttpModule } from '@covalent/http';
 import { FormsModule } from '@angular/forms';
@@ -28,9 +28,9 @@ import { ListPeopleComponent } from '../../people/list-people/list-people.compon
 import { ListSeriesComponent } from '../../series/list-series/list-series.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { MovieImagesComponent } from '../movie-images/movie-images.component';
-import { MovieVideosComponent } from '../movie-videos/movie-videos.component';
+import { MovieVideosComponent } from './movie-videos.component';
 import { MovieCastComponent } from '../movie-cast/movie-cast.component';
-import { MovieReviewsComponent } from './movie-reviews.component';
+import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
 import { MovieRecommendationsComponent } from '../movie-recommendations/movie-recommendations.component';
 import { SeriesDetailsComponent } from '../../series/series-details/series-details.component';
 import { SeriesImagesComponent } from '../../series/series-images/series-images.component';
@@ -49,23 +49,18 @@ import { DiscoverComponent } from '../../discover/discover.component';
 import { CustomCardComponent } from '../../shared/custom-card/custom-card.component';
 import { LimitTextComponent } from '../../shared/limit-text/limit-text.component';
 import { MoviesService } from '../shared/movies.service';
+import { API } from '../../shared/api/api';
 
 
-describe('MovieReviews component test', () => {
-  let component: MovieReviewsComponent;
-  let fixture: ComponentFixture<MovieReviewsComponent>;
+describe('MovieVideos component test', () => {
+  let component: MovieVideosComponent;
+  let fixture: ComponentFixture<MovieVideosComponent>;
 
   // Spy creation
 
   // Movie service
-  const getMovieReviewsSpy = jasmine.createSpy('getMovieReviews')
-    .and.returnValue(Observable.of(movieDetails['reviews']));
-
-  // TdMediaQuery
-  const mediaQuerySpy = jasmine.createSpy('query')
-    .and.returnValue(false);
-  const mediaRegisterQuerySpy = jasmine.createSpy('registerQuery')
-    .and.returnValue(Observable.of(false));
+  const getMovieVideosSpy = jasmine.createSpy('getMovieVideos')
+    .and.returnValue(Observable.of(movieDetails['videos']));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -134,7 +129,7 @@ describe('MovieReviews component test', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         {
           provide: MoviesService, useClass: class {
-            getMovieReviews = getMovieReviewsSpy;
+            getMovieVideos = getMovieVideosSpy;
           }
         },
         {
@@ -142,20 +137,14 @@ describe('MovieReviews component test', () => {
           useValue: {
             params: Observable.of({})
           }
-        },
-        {
-          provide: TdMediaService, useClass: class {
-            query = mediaQuerySpy;
-            registerQuery = mediaRegisterQuerySpy;
-          }
-        },
+        }
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieReviewsComponent);
+    fixture = TestBed.createComponent(MovieVideosComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -163,31 +152,18 @@ describe('MovieReviews component test', () => {
     it('SHOULD create the global variables', () => {
       expect(component)
         .toBeTruthy();
-      expect(component.columns)
-        .toBeUndefined();
-      expect(component._querySubscription)
-        .toBeUndefined();
 
-      expect(component.currentPage)
-        .toEqual(1);
-      expect(component.firstLast)
-        .toBe(true);
-      expect(component.totalResults)
-        .toBeUndefined();
-      expect(component.totalPages)
-        .toBeUndefined();
-
-      expect(component.reviews)
+      expect(component.movieVideos)
         .toEqual([]);
+      expect(component.apiVideo)
+        .toEqual(API.apiVideo);
     });
   });
 
   describe('WHEN ngOnInit function is called', () => {
     beforeEach(() => {
       spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovieReviews').calls.reset();
-      spyOn(component, 'checkScreen').calls.reset();
-      spyOn(component, 'watchScreen').calls.reset();
+      spyOn(component, 'updateMovieVideos').calls.reset();
     });
     it('SHOULD call functions', fakeAsync(() => {
       component.ngOnInit();
@@ -195,189 +171,57 @@ describe('MovieReviews component test', () => {
 
       expect(component.registerLoading)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieReviews)
-        .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieReviews)
-        .toHaveBeenCalledWith(1);
-      expect(component.checkScreen)
-        .toHaveBeenCalledTimes(1);
-      expect(component.watchScreen)
+      expect(component.updateMovieVideos)
         .toHaveBeenCalledTimes(1);
     }));
   });
 
-  describe('WHEN updateMovieRecommendations function is called', () => {
-    let page: number;
+  describe('WHEN updateMovieVideos function is called', () => {
     let id: number;
     beforeEach(() => {
-      getMovieReviewsSpy.calls.reset();
+      getMovieVideosSpy.calls.reset();
       spyOn(component, 'resolveLoading').calls.reset();
-      page = 1;
-      component.currentPage = page;
-      component.reviews = [];
+      component.movieVideos = [];
     });
     it('SHOULD call service', () => {
       id = 10;
       component.route.params = Observable.of({ id: id });
-      component.updateMovieReviews(page);
+      component.updateMovieVideos();
 
-      expect(component.moviesService.getMovieReviews)
+      expect(component.moviesService.getMovieVideos)
         .toHaveBeenCalledTimes(1);
-      expect(component.moviesService.getMovieReviews)
-        .toHaveBeenCalledWith(id, page);
+      expect(component.moviesService.getMovieVideos)
+        .toHaveBeenCalledWith(id);
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
     it('SHOULD set values', () => {
-      component.updateMovieReviews(page);
+      component.updateMovieVideos();
 
-      expect(component.reviews)
-        .toEqual((<any>movieDetails).reviews.results);
-      expect(component.totalResults)
-        .toEqual((<any>movieDetails).reviews.total_results);
-      expect(component.totalPages)
-        .toEqual((<any>movieDetails).reviews.total_pages);
+      expect(component.movieVideos)
+        .toEqual((<any>movieDetails).videos.results.slice(0, 12));
     });
     it('SHOULD handle error', () => {
-      getMovieReviewsSpy.and.returnValue(Observable.throw('test error'));
-      component.updateMovieReviews(page);
+      getMovieVideosSpy.and.returnValue(Observable.throw('test error'));
+      component.updateMovieVideos();
 
       expect(component.resolveLoading)
         .toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('WHEN changePage function is called', () => {
-    let event: IPageChangeEvent;
+  describe('WHEN getUrl function is called', () => {
+    let key: string;
     beforeEach(() => {
-      event = {
-        page: 1,
-        maxPage: 1,
-        pageSize: 20,
-        total: 1,
-        fromRow: 1,
-        toRow: 1
-      };
-      spyOn(component, 'registerLoading').calls.reset();
-      spyOn(component, 'updateMovieReviews').calls.reset();
+      key = 'some-url';
+      spyOn(component.sanitizer, 'bypassSecurityTrustResourceUrl');
     });
-    it('SHOULD set internal values and call internal functions', () => {
-      component.changePage(event);
-
-      expect(component.currentPage)
-        .toEqual(event.page);
-      expect(component.registerLoading)
+    it('SHOULD call the sanitizer', () => {
+      component.getUrl(key);
+      expect(component.sanitizer.bypassSecurityTrustResourceUrl)
         .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieReviews)
-        .toHaveBeenCalledTimes(1);
-      expect(component.updateMovieReviews)
-        .toHaveBeenCalledWith(event.page);
-    });
-  });
-
-  describe('WHEN checkScreen function is called', () => {
-    beforeEach(() => {
-      spyOn(component._ngZone, 'run').and.callFake(fn => fn());
-      mediaQuerySpy.calls.reset();
-    });
-    it('SHOULD call internal functions', () => {
-      component.checkScreen();
-
-      expect(component._ngZone.run)
-        .toHaveBeenCalledTimes(1);
-      expect(component._mediaService.query)
-        .toHaveBeenCalledTimes(4);
-    });
-    it('SHOULD set internal values when query is (max-width: 600px)', () => {
-      mediaQuerySpy.and.callFake((query: string) => query === '(max-width: 600px)');
-      component.checkScreen();
-
-      expect(component.columns)
-        .toEqual(1);
-    });
-    it('SHOULD set internal values when query is gt-xs', () => {
-      mediaQuerySpy.and.callFake((query: string) => query === 'gt-xs');
-      component.checkScreen();
-
-      expect(component.columns)
-        .toEqual(2);
-    });
-    it('SHOULD set internal values when query is gt-sm', () => {
-      mediaQuerySpy.and.callFake((query: string) => query === 'gt-sm');
-      component.checkScreen();
-
-      expect(component.columns)
-        .toEqual(3);
-    });
-    it('SHOULD set internal values when query is gt-md', () => {
-      mediaQuerySpy.and.callFake((query: string) => query === 'gt-md');
-      component.checkScreen();
-
-      expect(component.columns)
-        .toEqual(4);
-    });
-  });
-
-  describe('WHEN watchScreen function is called', () => {
-    beforeEach(() => {
-      spyOn(component._ngZone, 'run').and.callFake(fn => fn());
-      mediaRegisterQuerySpy.calls.reset();
-    });
-    it('SHOULD call internal functions', () => {
-      component.watchScreen();
-
-      expect(component._mediaService.registerQuery)
-        .toHaveBeenCalledTimes(4);
-      expect(component._ngZone.run)
-        .toHaveBeenCalledTimes(4);
-    });
-    it('SHOULD set internal values when query is (max-width: 600px)', () => {
-      mediaRegisterQuerySpy.and.callFake((query: string) => {
-        if (query === '(max-width: 600px)') {
-          return Observable.of(true);
-        }
-        return Observable.of(false);
-      });
-      component.watchScreen();
-
-      expect(component.columns)
-        .toEqual(1);
-    });
-    it('SHOULD set internal values when query is gt-xs', () => {
-      mediaRegisterQuerySpy.and.callFake((query: string) => {
-        if (query === 'gt-xs') {
-          return Observable.of(true);
-        }
-        return Observable.of(false);
-      });
-      component.watchScreen();
-
-      expect(component.columns)
-        .toEqual(2);
-    });
-    it('SHOULD set internal values when query is gt-sm', () => {
-      mediaRegisterQuerySpy.and.callFake((query: string) => {
-        if (query === 'gt-sm') {
-          return Observable.of(true);
-        }
-        return Observable.of(false);
-      });
-      component.watchScreen();
-
-      expect(component.columns)
-        .toEqual(3);
-    });
-    it('SHOULD set internal values when query is gt-md', () => {
-      mediaRegisterQuerySpy.and.callFake((query: string) => {
-        if (query === 'gt-md') {
-          return Observable.of(true);
-        }
-        return Observable.of(false);
-      });
-      component.watchScreen();
-
-      expect(component.columns)
-        .toEqual(4);
+      expect(component.sanitizer.bypassSecurityTrustResourceUrl)
+        .toHaveBeenCalledWith(API.apiVideo + key);
     });
   });
 
@@ -390,7 +234,7 @@ describe('MovieReviews component test', () => {
       expect(component._loadingService.register)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.register)
-        .toHaveBeenCalledWith('movie-reviews');
+        .toHaveBeenCalledWith('movie-videos');
     });
   });
 
@@ -403,7 +247,7 @@ describe('MovieReviews component test', () => {
       expect(component._loadingService.resolve)
         .toHaveBeenCalledTimes(1);
       expect(component._loadingService.resolve)
-        .toHaveBeenCalledWith('movie-reviews');
+        .toHaveBeenCalledWith('movie-videos');
     });
   });
 });

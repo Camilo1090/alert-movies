@@ -55,5 +55,13 @@
     ],
     "total_pages": 1,
     "total_results": 1
+  },
+  "videos": {
+    "results": [
+      {
+        "name": "trailer 1",
+        "key": "youtube.com"
+      }
+    ]
   }
 }

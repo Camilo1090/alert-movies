@@ -1,0 +1,20 @@
+{
+  "categories": [
+    {
+      "value": "popular",
+      "viewValue": "Popular"
+    },
+    {
+      "value": "now",
+      "viewValue": "Playing Now"
+    },
+    {
+      "value": "upcoming",
+      "viewValue": "Upcoming"
+    },
+    {
+      "value": "top",
+      "viewValue": "Top Rated"
+    }
+  ]
+}

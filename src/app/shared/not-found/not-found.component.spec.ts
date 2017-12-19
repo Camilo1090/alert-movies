@@ -40,15 +40,15 @@ import { PersonSeriesComponent } from '../../people/person-series/person-series.
 import { PersonImagesComponent } from '../../people/person-images/person-images.component';
 import { SearchComponent } from '../../search/search.component';
 import { SearchBarComponent } from '../../search/search-bar/search-bar.component';
-import { NotFoundComponent } from '../not-found/not-found.component';
+import { NotFoundComponent } from './not-found.component';
 import { DiscoverComponent } from '../../discover/discover.component';
 import { CustomCardComponent } from '../custom-card/custom-card.component';
-import { LimitTextComponent } from './limit-text.component';
+import { LimitTextComponent } from '../limit-text/limit-text.component';
 
 
-describe('LimitText component test', () => {
-  let component: LimitTextComponent;
-  let fixture: ComponentFixture<LimitTextComponent>;
+describe('NotFound component test', () => {
+  let component: NotFoundComponent;
+  let fixture: ComponentFixture<NotFoundComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -121,7 +121,7 @@ describe('LimitText component test', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LimitTextComponent);
+    fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -129,79 +129,6 @@ describe('LimitText component test', () => {
     it('SHOULD create the global variables', () => {
       expect(component)
         .toBeTruthy();
-
-      expect(component.text)
-        .toBeUndefined();
-      expect(component.limit)
-        .toEqual(140);
-      expect(component.toggleNeeded)
-        .toBe(false);
-      expect(component.originalText)
-        .toBeUndefined();
-      expect(component.isToggled)
-        .toBe(false);
-      expect(component.threshold)
-        .toEqual(60);
-    });
-  });
-
-  describe('WHEN ngOnInit function is called', () => {
-    beforeEach(() => {
-      spyOn(component, 'limitText').calls.reset();
-    });
-    it('SHOULD call function if text', fakeAsync(() => {
-      component.text = 'some text';
-      component.ngOnInit();
-      tick();
-
-      expect(component.limitText)
-        .toHaveBeenCalledTimes(1);
-    }));
-    it('SHOULD not call function if no text', fakeAsync(() => {
-      component.text = undefined;
-      component.ngOnInit();
-      tick();
-
-      expect(component.limitText)
-        .toHaveBeenCalledTimes(0);
-    }));
-    it('SHOULD not call function if empty text', fakeAsync(() => {
-      component.text = '';
-      component.ngOnInit();
-      tick();
-
-      expect(component.limitText)
-        .toHaveBeenCalledTimes(0);
-    }));
-  });
-
-  describe('WHEN limitText function is called', () => {
-    let text: string;
-    it('SHOULD set values', () => {
-      text = 'some text';
-      component.text = text;
-      component.limit = 4;
-      component.threshold = 0;
-      component.limitText();
-
-      expect(component.originalText)
-        .toEqual(text);
-      expect(component.toggleNeeded)
-        .toBe(true);
-      expect(component.text)
-        .toEqual('some...');
-    });
-  });
-
-  describe('WHEN toggle function is called', () => {
-    let t: boolean;
-    it('SHOULD set values', () => {
-      t = true;
-      component.isToggled = t;
-      component.toggle();
-
-      expect(component.isToggled)
-        .toBe(!t);
     });
   });
 });

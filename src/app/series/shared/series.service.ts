@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {sendRequest} from 'selenium-webdriver/http';
 
 // api
 import { API } from '../../shared/api/api';
@@ -11,10 +10,11 @@ import { API } from '../../shared/api/api';
 
 @Injectable()
 export class SeriesService {
-  seriesUrl = API.apiUrl + '/3/tv';
+  seriesUrl = API.apiUrl + '3/tv';
 
   constructor(private http: Http) {  }
 
+  // sends request to API backend
   sendRequest(url: string, args= ''): Observable<any> {
     url += ('?api_key=' + API.apiKey + args);
     return this.http.get(url).map(response => response.json());
@@ -25,7 +25,7 @@ export class SeriesService {
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
-  getOnTheAirSeries(page: number): Observable<Array<any>> {
+  getOnTheAirSeries(page: number): Observable<any> {
     const url = this.seriesUrl + '/on_the_air';
     const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
@@ -36,7 +36,7 @@ export class SeriesService {
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
-  getPopularSeries(page: number): Observable<Array<any>> {
+  getPopularSeries(page: number): Observable<any> {
     const url = this.seriesUrl + '/popular';
     const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
@@ -47,7 +47,7 @@ export class SeriesService {
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
-  getTopRatedSeries(page: number): Observable<Array<any>> {
+  getTopRatedSeries(page: number): Observable<any> {
     const url = this.seriesUrl + '/top_rated';
     const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
@@ -58,7 +58,7 @@ export class SeriesService {
    * @param page: This specified the number of the page for the search
    * @returns {Observable<any>}
    */
-  getLatestSeries(page: number): Observable<Array<any>> {
+  getLatestSeries(page: number): Observable<any> {
     const url = this.seriesUrl + '/latest';
     const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);
@@ -69,7 +69,7 @@ export class SeriesService {
    * @param id: id of the series
    * @returns {Observable<any>}
    */
-  getSeriesDetails(id: number): Observable<Array<any>> {
+  getSeriesDetails(id: number): Observable<any> {
     const url = this.seriesUrl + '/' + id;
     const args = '&language=en-US';
     return this.sendRequest(url, args);
@@ -80,7 +80,7 @@ export class SeriesService {
    * @param id: id of the series
    * @returns {Observable<any>}
    */
-  getSeriesCredits(id: number): Observable<Array<any>> {
+  getSeriesCredits(id: number): Observable<any> {
     const url = this.seriesUrl + '/' + id + '/credits';
     const args = '&language=en-US';
     return this.sendRequest(url, args);
@@ -92,7 +92,7 @@ export class SeriesService {
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
-  getSeriesVideos(id: number): Observable<Array<any>> {
+  getSeriesVideos(id: number): Observable<any> {
     const url = this.seriesUrl + '/' + id + '/videos';
     return this.sendRequest(url);
   }
@@ -103,7 +103,7 @@ export class SeriesService {
    * @param id: This is the ID of the movie
    * @returns {Observable<any>}: Results with the credits of a specific movie
    */
-  getSeriesImages(id: number): Observable<Array<any>> {
+  getSeriesImages(id: number): Observable<any> {
     const url = this.seriesUrl + '/' + id + '/images';
     return this.sendRequest(url);
   }
@@ -115,7 +115,7 @@ export class SeriesService {
    * @param page: page for the query
    * @returns {Observable<any>}: Results with the recommendations of a specific movie
    */
-  getSeriesRecommendations(id: number, page: number): Observable<Array<any>> {
+  getSeriesRecommendations(id: number, page: number): Observable<any> {
     const url = this.seriesUrl + '/' + id + '/recommendations';
     const args = '&page=' + page + '&language=en-US';
     return this.sendRequest(url, args);

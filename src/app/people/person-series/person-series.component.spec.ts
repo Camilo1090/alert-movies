@@ -52,7 +52,7 @@ import { API } from '../../shared/api/api';
 import { PeopleService } from '../shared/people.service';
 
 
-fdescribe('PersonSeries component test', () => {
+describe('PersonSeries component test', () => {
   let component: PersonSeriesComponent;
   let fixture: ComponentFixture<PersonSeriesComponent>;
 

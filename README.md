@@ -65,6 +65,10 @@ This project is an implementation of
 - **Font-Awesome version:** 4.7.0
 - **Deploy:**  [https://camilo1090.github.io/alert-movies](https://camilo1090.github.io/alert-movies)
 
+### Tests
+**100% function and line coverage** through unit tests.
+Run `ng test --code-coverage` to create the folder `./coverage` and open `index.html` inside it to see the details of the coverage
+
 ## External modules
 
 ### Teradata Covalent

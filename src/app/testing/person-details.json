@@ -34,12 +34,24 @@
   "movies": {
     "cast": [
       {
-        "title": "tikilan"
+        "character": "mario"
       }
     ],
     "crew": [
       {
-        "title": "poli"
+        "job": "director"
+      }
+    ]
+  },
+  "series": {
+    "cast": [
+      {
+        "character": "mario"
+      }
+    ],
+    "crew": [
+      {
+        "job": "director"
       }
     ]
   }

@@ -1,17 +1,14 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-import { IPageChangeEvent } from '@covalent/core';
-
-// pagination
 import { TdMediaService } from '@covalent/core';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
 
-// Load shared
+// Loading service
 import { TdLoadingService } from '@covalent/core';
 
 // api
-import { API} from '../../shared/api/api';
+import { API } from '../../shared/api/api';
 import { MOVIE_GENRES } from '../../shared/api/genres';
 
 // services
@@ -20,26 +17,23 @@ import { PeopleService } from '../shared/people.service';
 @Component({
   selector: 'app-person-series',
   templateUrl: './person-series.component.html',
-  styleUrls: ['./person-series.component.css'],
-  providers: [ TdMediaService ]
+  styleUrls: ['./person-series.component.css']
 })
 export class PersonSeriesComponent implements OnInit, OnDestroy {
 
   // Used for responsive services
-  isDesktop = true;
   columns: number;
-  private _querySubscription: Subscription;
+  _querySubscription: Subscription;
 
-  response = [];
   series = [];
 
   apiImg = API.apiImg + 'w500';
 
-  constructor(private peopleService: PeopleService,
-              private route: ActivatedRoute,
-              private _mediaService: TdMediaService,
-              private _ngZone: NgZone,
-              private _loadingService: TdLoadingService) {
+  constructor(public peopleService: PeopleService,
+              public route: ActivatedRoute,
+              public _mediaService: TdMediaService,
+              public _ngZone: NgZone,
+              public _loadingService: TdLoadingService) {
   }
 
   ngOnInit(): void {
@@ -51,68 +45,70 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
     this.watchScreen();
   }
 
+  // updates the tv series of a person
   updatePersonSeries(): void {
     this.route.params.switchMap((params: Params) => this.peopleService
       .getPersonSeries(params['id']))
       .subscribe(response => {
         if (response['cast'].length >= response['crew'].length) {
-          this.series = response['cast'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.series = response['cast'];
         } else {
-          this.series = response['crew'].sort((a, b) => b['popularity'] - a['popularity']);
+          this.series = response['crew'];
         }
-        this.series = this.series.slice(0, 20);
+        this.series = this.series.sort((a, b) => b['popularity'] - a['popularity']).slice(0, 20);
+        this.resolveLoading();
+      }, err => {
+        console.log(err);
         this.resolveLoading();
       });
   }
 
+  // gets the character of the person in the tv series
   getCharacter(result: any): string {
     let character = '';
     if (result['character']) {
       character = 'as ' + result['character'];
+    } else if (result['job']) {
+      character = 'as ' + result['job'];
     }
     return character;
   }
 
   ngOnDestroy(): void {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   /**
-   * Check the size of the screen
+   * Checks the size of the screen
    */
   checkScreen(): void {
-    // this.columns = 4;
     this._ngZone.run(() => {
       if (this._mediaService.query('(max-width: 600px)')) {
         this.columns = 1;
-        this.isDesktop = false;
       }
       if (this._mediaService.query('gt-xs')) {
         this.columns = 2;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-sm')) {
         this.columns = 3;
-        this.isDesktop = true;
       }
       if (this._mediaService.query('gt-md')) {
         this.columns = 4;
-        this.isDesktop = true;
       }
     });
   }
 
   /**
-   * This method subscribes with the shared 'TdMediaService' to detect changes on the size of the screen
+   * subscribes to the shared 'TdMediaService' to detect changes on the size of the screen
    */
   watchScreen(): void {
-    // this.columns = 4;
     this._querySubscription = this._mediaService.registerQuery('(max-width: 600px)')
       .subscribe((matches: boolean) => {
         this._ngZone.run(() => {
           if (matches) {
             this.columns = 1;
-            this.isDesktop = false;
           }
         });
       });
@@ -120,7 +116,6 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 2;
-          this.isDesktop = true;
         }
       });
     });
@@ -128,7 +123,6 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 3;
-          this.isDesktop = true;
         }
       });
     });
@@ -136,7 +130,6 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
       this._ngZone.run(() => {
         if (matches) {
           this.columns = 4;
-          this.isDesktop = true;
         }
       });
     });
@@ -150,9 +143,4 @@ export class PersonSeriesComponent implements OnInit, OnDestroy {
   resolveLoading(): void {
     this._loadingService.resolve('person-series');
   }
-
-  changeValue(value: number): void { // Usage only enabled on [LoadingMode.Determinate] mode.
-    this._loadingService.setValue('personSeries', value);
-  }
-
 }

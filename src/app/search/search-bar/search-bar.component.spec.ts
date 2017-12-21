@@ -263,9 +263,10 @@ describe('SearchBar component test', () => {
   });
 
   describe('WHEN onEnter function is called', () => {
-    it('SHOULD call functions', () => {
+    it('SHOULD call functions if query', () => {
       navigateSpy.calls.reset();
-      spyOn(component, 'clear');
+      spyOn(component, 'clear').calls.reset();
+      component.searchBar.value = 'term';
       component.onEnter();
 
       expect(component.clear)
@@ -274,6 +275,28 @@ describe('SearchBar component test', () => {
         .toHaveBeenCalledTimes(1);
       expect(component.router.navigate)
         .toHaveBeenCalledWith(['/search', 'movie', {'query': component.searchBar.value, 'page': 1}]);
+    });
+    it('SHOULD not call functions if undefined query', () => {
+      navigateSpy.calls.reset();
+      spyOn(component, 'clear').calls.reset();
+      component.searchBar.value = undefined;
+      component.onEnter();
+
+      expect(component.clear)
+        .toHaveBeenCalledTimes(0);
+      expect(component.router.navigate)
+        .toHaveBeenCalledTimes(0);
+    });
+    it('SHOULD not call functions if empty query', () => {
+      navigateSpy.calls.reset();
+      spyOn(component, 'clear').calls.reset();
+      component.searchBar.value = '';
+      component.onEnter();
+
+      expect(component.clear)
+        .toHaveBeenCalledTimes(0);
+      expect(component.router.navigate)
+        .toHaveBeenCalledTimes(0);
     });
   });
 

@@ -67,8 +67,10 @@ export class SearchBarComponent implements OnInit {
 
   onEnter() {
     const query = this.searchBar.value;
-    this.clear();
-    this.router.navigate(['/search', 'movie', {'query': query, 'page': 1}]);
+    if (query && query.length > 0) {
+      this.clear();
+      this.router.navigate(['/search', 'movie', {'query': query, 'page': 1}]);
+    }
   }
 
   onFocusOut() {
